@@ -1,53 +1,59 @@
 # Codebase Architecture Overview
 
-This document provides a high-level architecture overview of the `aihub` repository. It is intended to help other AI agents, tools, and developers quickly understand the project's purpose, structure, and operational requirements.
+This document provides a high-level architecture overview of the `aihub` repository. It is designed to help AI agents, code editors, and developers quickly understand the project's purpose, structure, and synchronization mechanics.
 
 ## 1. Project Overview
 
-The `aihub` project is a centralized knowledge repository designed to store, manage, and facilitate the reuse of AI tools, Prompts, and Agent Skills.
+The `aihub` project is not a traditional software application but a centralized knowledge and asset repository. Its primary purpose is to store, manage, and facilitate the reuse of AI tools, Prompts, and Agent Skills across different LLMs and Agent workflows.
 
-The architecture is divided into three primary domains:
-*   **External Submodules (`/external/`)**: Contains third-party Git repositories managed via `git submodule`. This allows the project to track upstream dependencies.
-*   **Skills (`/skills/`)**: Contains executable scripts and tooling extensions that augment an AI Agent's capabilities. Specific skills from the `/external/` directory are selectively copied here for local use.
-*   **Prompts (`/prompts/`)**: Contains Markdown-based templates, system prompts, and dialog structures meant to be directly injected into LLM context windows or application code.
+The architecture is strictly divided into three modular domains:
+*   **External Submodules (`/external/`)**: Contains third-party Git repositories managed via `git submodule`. This allows the repository to track upstream dependencies without modifying original source codes.
+*   **Skills (`/skills/`)**: The core deliverable folder. Contains executable scripts and tooling extensions that augment an AI Agent's capabilities. Sub-folders here are synced from `/external/` using bash scripts.
+*   **Prompts (`/prompts/`)**: Contains pure Markdown-based templates, system prompts, and dialog structures meant for direct LLM ingestion.
 
-## 2. Build & Commands
+## 2. Dependency Management & Syncing
 
-**Syncing & Updating Skills**:
-Instead of manual copying, the repository uses a configuration file and a bash script to fetch and sync specific skills from external submodules.
-1.  **Configure Needs**: Add the relative path of the desired skill (from the `external` root) to `external/needed_skills.txt` (e.g., `01coder-agent-skills/skills/china-stock-analysis`).
-2.  **Run Sync**: Execute the update script. This script updates the `git submodule` to the latest remote commit and copies the directories listed in `needed_skills.txt` into the `/skills/` directory.
-    ```bash
-    bash skills/update.sh
-    ```
+Instead of manually copying code, the repository uses a script-driven approach to extract specific capabilities from large external submodules.
 
-**Installing Agent Skills**:
-Some skills may require environment-specific installation.
-```bash
-bash skills/install.sh
-```
+**Developer Workflow (Syncing)**:
+1.  **Configure Source Paths**: Add the relative path of the desired skill (starting from the `external/` root) to `external/needed_skills.txt` (e.g., `01coder-agent-skills/skills/china-stock-analysis`).
+2.  **Run Sync Script**: Execute `bash skills/update.sh`. This script will:
+    *   Update all `git submodules` to their latest remote commits.
+    *   Iterate through `external/needed_skills.txt`.
+    *   Copy the target directories from `/external/` directly into `/skills/`.
+    *   Automatically generate the `skills/skills_list.txt` based on the newly synced folders.
 
-## 3. Code Style
+## 3. Remote Installation Mechanics
 
-*   **Bash Scripts**: 
-    *   Must include `set -e` to ensure the script exits immediately upon encountering an error.
-    *   Use clear `echo` statements to indicate progress.
+To facilitate easy distribution to end-users, the repository provides one-click remote installation scripts for multiple platforms.
+
+*   **Linux/Mac/WSL**: `skills/install.sh`
+*   **Windows**: `skills/install.ps1`
+
+**How it works**:
+These scripts are designed to be executed via `curl` or `Invoke-RestMethod` directly from raw GitHub URLs. When executed, they remotely fetch `skills/skills_list.txt` from the `main` branch to determine which skills to install, and then sequentially execute `npx skills@latest add <repo> --skill <name>` for silent installation.
+
+## 4. Code Style & Standards
+
+*   **Bash Scripts (`.sh`)**: 
+    *   Must include `set -e` to exit immediately on error.
+    *   Must be compatible with standard UNIX environments and Windows WSL.
+*   **PowerShell Scripts (`.ps1`)**:
+    *   Use `$ErrorActionPreference = "Stop"`.
+    *   Must be compatible with default Windows PowerShell execution policies via `iex`.
 *   **Prompts**:
     *   Written in standard Markdown (`.md`).
-    *   Keep it modular with clear instructions for the AI model.
+    *   Must remain modular and self-contained.
 
-## 4. Testing
+## 5. Security Considerations
 
-There is no global automated testing framework configured.
-*   **Prompts**: Verified manually through direct testing with target LLMs.
-*   **Skills & Scripts**: Tested locally by executing the shell scripts (`update.sh`, `install.sh`) to ensure file operations and submodules behave as expected.
+*   **Upstream Code Execution**: The `update.sh` script blindly copies code from external submodules, and the `install.sh` / `install.ps1` scripts execute them via `npx`. Maintainers MUST verify the trustworthiness of any third-party repositories added to `.gitmodules` before adding them to `needed_skills.txt`.
+*   **Data Protection**: Ensure no sensitive data, API keys, or personally identifiable information (PII) are accidentally committed in any prompt templates or local skill configurations.
 
-## 5. Security
+## 6. Configuration & Environment
 
-*   **Submodule Security**: `skills/update.sh` pulls the latest code from third-party repositories via `git submodule update --remote`. Ensure you trust the upstream repositories registered in `.gitmodules`.
-*   **Data Protection**: Ensure no sensitive data (PII or secrets) are hardcoded in prompts or accidentally pushed via external skills.
-
-## 6. Configuration
-
-*   **Prerequisites**: A Unix-like shell (macOS/Linux terminal, Windows WSL, or Git Bash) is required to execute the `.sh` setup scripts. Node.js may be required depending on the specific skills being executed by `install.sh`.
-*   **Dependency Management File**: `external/needed_skills.txt` is the sole source of truth for which external skills are synced to the local `/skills/` folder.
+*   **Prerequisites for Users**: Users only need `Node.js` (`npx`) to consume the agent skills.
+*   **Prerequisites for Devs**: A Unix-like shell (macOS/Linux terminal, WSL, or Git Bash) is required to execute the synchronization script `update.sh`.
+*   **Sources of Truth**:
+    *   `external/needed_skills.txt`: Controls what gets copied from submodules to local storage.
+    *   `skills/skills_list.txt`: Controls what gets installed when a user runs the one-click remote install scripts. (Auto-generated by `update.sh`).

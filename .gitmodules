@@ -13,3 +13,18 @@
 [submodule "external/stock-analysis"]
 	path = external/stock-analysis
 	url = https://github.com/patharanordev/stock-analysis.git
+[submodule "external/agent-browser"]
+	path = external/agent-browser
+	url = https://github.com/vercel-labs/agent-browser.git
+[submodule "external/superpowers"]
+	path = external/superpowers
+	url = https://github.com/obra/superpowers.git
+[submodule "external/antigravity-awesome-skills"]
+	path = external/antigravity-awesome-skills
+	url = https://github.com/sickn33/antigravity-awesome-skills.git
+[submodule "external/impeccable"]
+	path = external/impeccable
+	url = https://github.com/pbakaus/impeccable.git
+[submodule "external/json-render"]
+	path = external/json-render
+	url = https://github.com/vercel-labs/json-render.git

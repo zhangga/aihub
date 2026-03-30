@@ -6,20 +6,20 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 
 ## 📂 仓库结构
 
-- **[`/external`](./external/)**: 用于存放通过 Git Submodule 引入的第三方仓库源。
-- **[`/skills`](./skills/)**: 智能体扩展技能库。包含经过筛选从 `external/` 同步过来的核心技能，能够极大地提升 Agent 的行动能力。
-  - *请进入 [skills 目录](./skills/README.md) 查看详细的技能列表与使用指南。*
-- **[`/prompts`](./prompts/)**: 高质量提示词模板库。沉淀了经过实际验证的、适用于不同场景的系统提示词。
+- **[`/skills`](./skills/)**: 智能体扩展技能库。这里集中了从外部优秀的开源仓库中筛选和同步过来的核心 Agent 技能。包含金融数据分析、代码 Review、前端设计、网页浏览等多种能力。
+  - *详细技能列表和配置见 [skills 目录](./skills/README.md)。*
+- **[`/prompts`](./prompts/)**: 高质量提示词模板库。沉淀了经过实际验证的、适用于不同场景的系统提示词，可直接应用于大模型的上下文。
+- **[`/external`](./external/)**: 存放通过 Git Submodule 引入的第三方开源技能仓库源。我们通过自动化脚本将其中的精华部分抽取至 `/skills` 中。
 
 ## 🚀 核心特性
 
-1. **依赖管理**: 通过 Git Submodule 和 `update.sh` 脚本统一管理外部技能依赖，避免手动复制带来的代码陈旧问题。
-2. **场景丰富**: 涵盖金融分析（如 A 股股票分析）、安全扫描、文档处理等多个领域。
-3. **开箱即用**: 支持一键远程安装，轻松将精选技能部署到你的 Agent 运行环境中。
+1. **开箱即用**: 提供跨平台（Mac/Linux/Windows）的一键远程安装脚本，轻松将十余种精选技能一键部署到你的 Agent 运行环境中。
+2. **场景丰富**: 涵盖股票投资分析、数据抓取、头脑风暴、代码审计、音视频渲染等多个实用领域。
+3. **自动化依赖管理**: 通过 Git Submodule 和内置的 `update.sh` 脚本统一管理上游外部技能更新，确保本地沉淀的技能代码永远保持最新。
 
 ## 💡 如何使用
 
-### 1. 一键安装 Skills (智能体技能)
+### 1. 一键安装全部 Agent Skills
 如果你想直接将本仓库中提供的所有精选技能安装到你的 Agent 环境中（需已安装 Node.js 和 npm），请根据你的操作系统在终端中执行以下命令：
 
 **Mac / Linux / Windows WSL**:
@@ -32,16 +32,19 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-> **注意**: 该操作会自动批量静默安装所有的核心技能。详细的已安装技能列表请参考 [Skills 说明](./skills/README.md)。
+> **注意**: 该操作会自动读取 `skills/skills_list.txt`，批量静默安装所有的核心技能。更详细的技能说明请参考 [Skills 文档](./skills/README.md)。
 
-### 2. 更新和同步本地仓库 Skills 
-如果你是本仓库的维护者或将其克隆到了本地，可以通过配置 `external/needed_skills.txt` 并执行更新脚本来同步最新的第三方代码：
-```bash
-bash skills/update.sh
-```
+### 2. 使用 Prompts
+直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的 System Prompt 或直接输入。
 
-### 3. 使用 Prompts (提示词)
-你可以直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的输入参数。
+### 3. (仅限开发者) 更新与同步上游代码 
+如果你 fork 了本仓库并想要更新上游技能：
+1. 编辑 `external/needed_skills.txt` 配置你需要的外部模块路径。
+2. 在根目录执行脚本：
+   ```bash
+   bash skills/update.sh
+   ```
+   这会自动拉取 submodule，将指定技能目录提取到 `skills/` 下，并重新生成 `skills_list.txt`。
 
 ## 📄 许可证
 

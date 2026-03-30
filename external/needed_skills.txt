@@ -4,3 +4,8 @@ claude-trading-skills/skills/institutional-flow-tracker
 trading_skills/.claude/skills/news-sentiment
 stock-sdk-mcp/skills/stock-analyst
 stock-analysis/skills/stock-metrics
+agent-browser/skills/agent-browser
+superpowers/skills/brainstorming
+antigravity-awesome-skills/skills/codex-review
+impeccable/.claude/skills/frontend-design
+json-render/skills/remotion

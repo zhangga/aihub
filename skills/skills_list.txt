@@ -1,7 +1,12 @@
+agent-browser
+brainstorming
 china-stock-analysis
+codex-review
 finviz-screener
+frontend-design
 institutional-flow-tracker
 news-sentiment
+remotion
 stock-analyst
 stock-metrics
 xai-stock-sentiment
