@@ -4,15 +4,21 @@
 
 为了保持技能的最新状态，我们通过 Git Submodule 管理外部依赖，并提供了一键同步的脚本。
 
-## ⚙️ 技能的同步与更新
+## 🚀 一键安装指南
 
-本目录下的技能是从 `external/` 目录中的子模块自动拷贝过来的。
+如果你需要将本仓库提供的所有精选技能安装到你的 Agent 环境中（前置依赖需要安装 Node.js 和 npm），请根据你的操作系统在终端中执行以下命令：
 
-1. **配置依赖**: 在根目录的 `external/needed_skills.txt` 文件中按行写入你需要的技能路径（例如 `01coder-agent-skills/skills/china-stock-analysis`）。
-2. **执行更新**: 运行以下脚本。该脚本会自动拉取子模块的最新代码，并将 `needed_skills.txt` 中列出的技能拷贝到本目录下。
-   ```bash
-   bash skills/update.sh
-   ```
+**Mac / Linux / Windows WSL**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash
+```
+
+**Windows (PowerShell)**:
+```powershell
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
+
+> 这将自动下载并静默安装（`-y`）下方列出的所有现有技能。
 
 ## 📦 现有技能列表
 
@@ -25,12 +31,12 @@
 - **`stock-analyst`**: 专业的股票数据分析辅助工具。
 - **`stock-metrics`**: 核心股票指标抓取与计算技能。
 
-## 🚀 安装指南
+## ⚙️ 技能的同步与更新 (仅限本地开发)
 
-如果你需要将本目录下的技能安装到你的 Agent 环境中（部分技能可能需要 Node.js），可以使用：
+本目录下的技能是从 `external/` 目录中的第三方仓库子模块自动拷贝过来的。
 
-```bash
-# 赋予执行权限并运行安装脚本
-chmod +x skills/install.sh
-./skills/install.sh
-```
+1. **配置依赖**: 在根目录的 `external/needed_skills.txt` 文件中按行写入你需要的技能路径（例如 `01coder-agent-skills/skills/china-stock-analysis`）。
+2. **执行更新**: 运行以下脚本。该脚本会自动拉取子模块的最新代码，并将 `needed_skills.txt` 中列出的技能拷贝到本目录下。
+   ```bash
+   bash skills/update.sh
+   ```

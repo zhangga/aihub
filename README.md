@@ -15,18 +15,32 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 
 1. **依赖管理**: 通过 Git Submodule 和 `update.sh` 脚本统一管理外部技能依赖，避免手动复制带来的代码陈旧问题。
 2. **场景丰富**: 涵盖金融分析（如 A 股股票分析）、安全扫描、文档处理等多个领域。
-3. **开箱即用**: 提供 `install.sh` 脚本，将本地管理的技能一键部署到你的 Agent 运行环境中。
+3. **开箱即用**: 支持一键远程安装，轻松将精选技能部署到你的 Agent 运行环境中。
 
 ## 💡 如何使用
 
-### 1. 更新和同步 Skills 
-配置 `external/needed_skills.txt` 文件后，在根目录执行：
+### 1. 一键安装 Skills (智能体技能)
+如果你想直接将本仓库中提供的所有精选技能安装到你的 Agent 环境中（需已安装 Node.js 和 npm），请根据你的操作系统在终端中执行以下命令：
+
+**Mac / Linux / Windows WSL**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash
+```
+
+**Windows (PowerShell)**:
+```powershell
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
+
+> **注意**: 该操作会自动批量静默安装所有的核心技能。详细的已安装技能列表请参考 [Skills 说明](./skills/README.md)。
+
+### 2. 更新和同步本地仓库 Skills 
+如果你是本仓库的维护者或将其克隆到了本地，可以通过配置 `external/needed_skills.txt` 并执行更新脚本来同步最新的第三方代码：
 ```bash
 bash skills/update.sh
 ```
-> 详见: [Skills 使用说明](./skills/README.md)
 
-### 2. 使用 Prompts (提示词)
+### 3. 使用 Prompts (提示词)
 你可以直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的输入参数。
 
 ## 📄 许可证

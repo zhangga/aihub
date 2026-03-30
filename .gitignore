@@ -29,3 +29,9 @@
 
 /bin
 logs
+
+# agent
+.agents/
+.claude/
+.trae/
+skills-lock.json
