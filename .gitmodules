@@ -1,0 +1,15 @@
+[submodule "external/01coder-agent-skills"]
+	path = external/01coder-agent-skills
+	url = https://github.com/sugarforever/01coder-agent-skills.git
+[submodule "external/claude-trading-skills"]
+	path = external/claude-trading-skills
+	url = https://github.com/tradermonty/claude-trading-skills.git
+[submodule "external/trading_skills"]
+	path = external/trading_skills
+	url = https://github.com/staskh/trading_skills.git
+[submodule "external/stock-sdk-mcp"]
+	path = external/stock-sdk-mcp
+	url = https://github.com/chengzuopeng/stock-sdk-mcp.git
+[submodule "external/stock-analysis"]
+	path = external/stock-analysis
+	url = https://github.com/patharanordev/stock-analysis.git

@@ -1,0 +1,6 @@
+01coder-agent-skills/skills/china-stock-analysis
+claude-trading-skills/skills/finviz-screener
+claude-trading-skills/skills/institutional-flow-tracker
+trading_skills/.claude/skills/news-sentiment
+stock-sdk-mcp/skills/stock-analyst
+stock-analysis/skills/stock-metrics
