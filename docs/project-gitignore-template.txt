@@ -8,3 +8,4 @@
 .crush/
 .junie/
 .trae/
+.codex/

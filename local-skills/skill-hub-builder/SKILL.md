@@ -111,16 +111,26 @@ stock-analyst	submodule	stock-sdk-mcp/skills/stock-analyst
 When the user asks to add a first-party skill:
 
 1. Create or inspect `local-skills/<skill-name>/`.
-2. Ensure the skill has its own `SKILL.md`.
-3. Add a `local` row to `skills/registry.tsv`.
-4. Add the skill to a bundle only if it is generally useful.
-5. Run validation and sync.
+2. Use the `skill-creator` workflow to shape the skill before finalizing file contents.
+3. If the repository includes `skill-template/SKILL.md`, use it as the default starter when creating a new local skill.
+4. Ensure the skill has its own `SKILL.md`.
+5. Add a `local` row to `skills/registry.tsv`.
+6. Add the skill to a bundle only if it is generally useful.
+7. Run validation and sync.
 
 Prefer rows like:
 
 ```tsv
 my-skill	local	local-skills/my-skill
 ```
+
+When bootstrapping a new skill, prefer this sequence:
+
+1. Use `skill-creator` to decide the skill scope, trigger language, and whether scripts or references are needed.
+2. Copy `skill-template/SKILL.md` into `local-skills/<skill-name>/SKILL.md`.
+3. Rename the frontmatter fields.
+4. Replace the placeholder purpose with the real workflow.
+5. Add extra references or scripts only if the workflow will benefit from them repeatedly.
 
 ## Bundle Design
 
@@ -186,6 +196,8 @@ Point them to project integration templates if available.
 Watch for and fix these issues proactively:
 
 - `skills/` being edited directly instead of `local-skills/`
+- users skipping `skill-creator` and jumping straight into ad hoc skill authoring
+- users starting a new local skill from scratch when a repo template already exists
 - duplicated source-of-truth files
 - bundle lists drifting away from actual registry contents
 - old submodule metadata left behind after converting a skill to local
