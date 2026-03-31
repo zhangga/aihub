@@ -57,17 +57,6 @@ hash_file() {
     fi
 }
 
-get_git_blob_hash() {
-    local repo_relative_path="$1"
-    local stage_output
-
-    stage_output="$(git -C "$ROOT_DIR" ls-files -s -- "$repo_relative_path" 2>/dev/null || true)"
-
-    if [ -n "$stage_output" ]; then
-        printf '%s\n' "$stage_output" | awk 'NR==1 {print $2}'
-    fi
-}
-
 hash_local_skill_dir() {
     local dir_path="$1"
     local manifest_file
@@ -80,7 +69,7 @@ hash_local_skill_dir() {
     find "$dir_path" -type f | LC_ALL=C sort | while IFS= read -r file_path; do
         relative_path="${file_path#$dir_path/}"
         repo_relative_path="${file_path#$ROOT_DIR/}"
-        file_hash="$(get_git_blob_hash "$repo_relative_path")"
+        file_hash="$(git -C "$ROOT_DIR" hash-object --path "$repo_relative_path" "$file_path" 2>/dev/null || true)"
 
         if [ -z "$file_hash" ]; then
             file_hash="$(hash_file "$file_path")"
