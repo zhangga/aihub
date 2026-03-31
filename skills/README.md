@@ -1,8 +1,10 @@
 # Agent Skills 库
 
-这个目录用于沉淀和管理各类 Agent 扩展技能（Skills）。通过安装这些技能，你可以显著增强 AI Agent（如 Cline, Trae, Cursor 等工作流中的 Agent）在特定领域的专业分析、网页浏览或代码执行能力。
+这个目录用于统一分发各类 Agent 扩展技能（Skills）。通过安装这里的技能产物，你可以显著增强 AI Agent（如 Cline, Trae, Cursor 等工作流中的 Agent）在特定领域的专业分析、网页浏览或代码执行能力。
 
-为了保持技能的最新状态并避免手动复制带来的代码陈旧问题，我们通过 Git Submodule 统一管理外部依赖，并提供了一键同步脚本。
+为了保持技能的最新状态并避免手动复制带来的代码陈旧问题，我们通过 Git Submodule 管理外部依赖，并使用 `local-skills/` 管理自研源码，再通过一键同步脚本统一生成当前目录下的分发产物。
+
+`skills/registry.tsv` 是唯一的技能清单来源。`skills/skills_list.txt` 和根目录的 `skills-lock.json` 都由 `bash skills/update.sh` 自动生成。
 
 ## 🚀 一键安装指南
 
@@ -47,12 +49,25 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 ## ⚙️ 仓库维护指南 (仅限开发者)
 
-本目录下的具体技能代码并非手写，而是从 `/external/` 目录中的第三方开源仓库子模块自动抽取过来的。
+本目录下的具体技能代码是分发产物，不建议直接在这里手写维护。外部技能来自 `/external/` 目录中的第三方开源仓库子模块，自研技能来自 `/local-skills/`，两者都会通过同一份 registry 纳入分发。
 
 **如何添加新技能或更新现有技能代码：**
-1. **配置依赖**: 编辑项目根目录的 `external/needed_skills.txt`，按行追加或修改你需要引入的子模块路径（例如 `01coder-agent-skills/skills/china-stock-analysis`）。
+1. **配置依赖**: 编辑 `skills/registry.tsv`。每一行格式为 `name<TAB>source_type<TAB>source_path`。其中：
+   - `submodule` 表示来源于 `external/` 下的子模块路径，例如 `01coder-agent-skills/skills/china-stock-analysis`
+   - `local` 表示来源于当前仓库的自研源码目录，例如 `local-skills/xai-stock-sentiment`
 2. **执行同步脚本**: 在根目录运行更新脚本。
    ```bash
    bash skills/update.sh
    ```
-   > 脚本会自动：拉取最新的 Git Submodule -> 将配置好的技能夹拷贝到 `skills/` 下 -> 动态扫描并重新生成 `skills_list.txt` 文件。
+   > 脚本会自动：拉取最新的 Git Submodule -> 将 registry 中配置好的技能同步到 `skills/` 下 -> 生成 `skills_list.txt` 和 `skills-lock.json`。
+
+3. **离线校验或仅重建产物**: 如果你已经手动更新过 submodule，或当前环境不方便联网，可以执行：
+   ```bash
+   bash skills/update.sh --skip-submodule-update
+   ```
+
+4. **运行本地校验**: 在提交前可以执行：
+   ```bash
+   bash skills/check-registry.sh
+   ```
+   这会检查 `registry.tsv` 的列格式、重复名称和来源路径是否存在。GitHub Actions 也会执行同样的检查。

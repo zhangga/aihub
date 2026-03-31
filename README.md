@@ -6,8 +6,9 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 
 ## 📂 仓库结构
 
-- **[`/skills`](./skills/)**: 智能体扩展技能库。这里集中了从外部优秀的开源仓库中筛选和同步过来的核心 Agent 技能。包含金融数据分析、代码 Review、前端设计、网页浏览等多种能力。
+- **[`/skills`](./skills/)**: 智能体扩展技能分发目录。这里存放最终对外发布和安装的 Agent 技能产物，内容由同步脚本统一生成和维护。
   - *详细技能列表和配置见 [skills 目录](./skills/README.md)。*
+- **[`/local-skills`](./local-skills/)**: 自研技能源码目录。用于存放你自己编写并希望纳入统一分发流程的本地 skills。
 - **[`/prompts`](./prompts/)**: 高质量提示词模板库。沉淀了经过实际验证的、适用于不同场景的系统提示词，可直接应用于大模型的上下文。
 - **[`/external`](./external/)**: 存放通过 Git Submodule 引入的第三方开源技能仓库源。我们通过自动化脚本将其中的精华部分抽取至 `/skills` 中。
 
@@ -39,12 +40,12 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 ### 3. (仅限开发者) 更新与同步上游代码 
 如果你 fork 了本仓库并想要更新上游技能：
-1. 编辑 `external/needed_skills.txt` 配置你需要的外部模块路径。
+1. 编辑 `skills/registry.tsv`，维护需要分发的技能、来源类型和来源路径。外部 skill 指向 `external/`，自研 skill 指向 `local-skills/`。
 2. 在根目录执行脚本：
    ```bash
    bash skills/update.sh
    ```
-   这会自动拉取 submodule，将指定技能目录提取到 `skills/` 下，并重新生成 `skills_list.txt`。
+   这会自动拉取 submodule，将指定技能目录提取到 `skills/` 下，并重新生成 `skills/skills_list.txt` 和 `skills-lock.json`。
 
 ## 📄 许可证
 

@@ -1,0 +1,35 @@
+name: Skills Sync Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  sync-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Set up Git identity for diff checks
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Validate registry
+        run: bash skills/check-registry.sh
+
+      - name: Regenerate derived skill artifacts
+        run: bash skills/update.sh --skip-submodule-update
+
+      - name: Validate skills-lock.json
+        run: python -m json.tool skills-lock.json > /dev/null
+
+      - name: Fail on generated file drift
+        run: git diff --exit-code -- skills/skills_list.txt skills-lock.json

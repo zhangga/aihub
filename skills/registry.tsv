@@ -1,0 +1,14 @@
+# name	source_type	source_path
+agent-browser	submodule	agent-browser/skills/agent-browser
+brainstorming	submodule	superpowers/skills/brainstorming
+china-stock-analysis	submodule	01coder-agent-skills/skills/china-stock-analysis
+codex-review	submodule	antigravity-awesome-skills/skills/codex-review
+finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
+frontend-design	submodule	impeccable/.claude/skills/frontend-design
+institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
+news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
+remotion	submodule	json-render/skills/remotion
+stock-analyst	submodule	stock-sdk-mcp/skills/stock-analyst
+stock-metrics	submodule	stock-analysis/skills/stock-metrics
+xai-stock-sentiment	local	local-skills/xai-stock-sentiment
+yahoo-data-fetcher	local	local-skills/yahoo-data-fetcher
