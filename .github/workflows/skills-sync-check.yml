@@ -188,8 +188,13 @@ jobs:
 
             $env:AIHUB_NPX_CMD = "$testDir/bin/fake-npx-fail"
             $env:AIHUB_TEST_LOG = "$testDir/ps-install-fail.log"
-            & pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -Bundle core -Scope global
-            if ($LASTEXITCODE -eq 0) {
+            $failureProcess = Start-Process pwsh -ArgumentList @(
+              "-ExecutionPolicy", "Bypass",
+              "-File", "skills/install.ps1",
+              "-Bundle", "core",
+              "-Scope", "global"
+            ) -NoNewWindow -Wait -PassThru
+            if ($failureProcess.ExitCode -eq 0) {
               throw "Expected PowerShell installer to return a non-zero exit code when a skill install fails."
             }
 
