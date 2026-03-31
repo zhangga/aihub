@@ -19,7 +19,7 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 
 ## 🚀 核心特性
 
-1. **开箱即用**: 提供跨平台（Mac/Linux/Windows）的一键远程安装脚本，轻松将十余种精选技能一键部署到你的 Agent 运行环境中。
+1. **开箱即用**: 提供跨平台（Mac/Linux/Windows）的一键远程安装脚本，轻松将仓库当前收录的精选技能一键部署到你的 Agent 运行环境中。
 2. **场景丰富**: 涵盖股票投资分析、数据抓取、头脑风暴、代码审计、音视频渲染等多个实用领域。
 3. **自动化依赖管理**: 通过 Git Submodule 和内置的 `update.sh` 脚本统一管理上游外部技能更新，确保本地沉淀的技能代码永远保持最新。
 
@@ -38,7 +38,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-> **注意**: 该操作会自动读取 `skills/skills_list.txt`，批量静默安装所有的核心技能。更详细的技能说明请参考 [Skills 文档](./skills/README.md)。
+> **注意**: 该操作会自动读取 `skills/skills_list.txt`，批量静默安装当前 registry 中的全部分发技能。更详细的技能说明请参考 [Skills 文档](./skills/README.md)。
 
 你也可以按预设包安装，并选择安装到全局目录：
 

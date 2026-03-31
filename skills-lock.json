@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "generatedAt": "2026-03-31T09:29:43Z",
   "skills": {
     "agent-browser": {
       "sourceType": "submodule",
@@ -54,7 +53,7 @@
       "sourceType": "local",
       "sourcePath": "local-skills/humanizer-zh",
       "sourceRepo": "local",
-      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+      "sourceCommit": "f83e89255a7c37aa5e5b1518451e649bf8e09920"
     },
     "institutional-flow-tracker": {
       "sourceType": "submodule",
@@ -78,13 +77,13 @@
       "sourceType": "local",
       "sourcePath": "local-skills/sensight",
       "sourceRepo": "local",
-      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+      "sourceCommit": "f83e89255a7c37aa5e5b1518451e649bf8e09920"
     },
     "skill-hub-builder": {
       "sourceType": "local",
       "sourcePath": "local-skills/skill-hub-builder",
       "sourceRepo": "local",
-      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+      "sourceCommit": "f83e89255a7c37aa5e5b1518451e649bf8e09920"
     },
     "stock-analyst": {
       "sourceType": "submodule",
@@ -108,13 +107,13 @@
       "sourceType": "local",
       "sourcePath": "local-skills/xai-stock-sentiment",
       "sourceRepo": "local",
-      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+      "sourceCommit": "f83e89255a7c37aa5e5b1518451e649bf8e09920"
     },
     "yahoo-data-fetcher": {
       "sourceType": "local",
       "sourcePath": "local-skills/yahoo-data-fetcher",
       "sourceRepo": "local",
-      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+      "sourceCommit": "f83e89255a7c37aa5e5b1518451e649bf8e09920"
     }
   }
 }

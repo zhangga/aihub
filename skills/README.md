@@ -8,7 +8,7 @@
 
 ## 🚀 一键安装指南
 
-如果你想直接将本仓库中提供的**所有 19 个精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
+如果你想直接将本仓库中提供的**全部精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
 
 **Mac / Linux / Windows WSL**:
 ```bash
@@ -62,7 +62,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-## 📦 现有技能列表 (共 19 款)
+## 📦 现有技能列表
 
 当前已同步并支持一键安装的技能包括：
 

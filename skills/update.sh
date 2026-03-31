@@ -50,7 +50,7 @@ cleanup() {
 
 trap cleanup EXIT
 
-printf '{\n  "version": 2,\n  "generatedAt": "%s",\n  "skills": {\n' "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$tmp_lock_file"
+printf '{\n  "version": 2,\n  "skills": {\n' > "$tmp_lock_file"
 
 while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$raw_path" ]; do
     skill_name="$(printf '%s' "$raw_name" | tr -d '\r')"
