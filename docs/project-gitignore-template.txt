@@ -1,0 +1,10 @@
+# Add only the agent directories your team actually uses.
+.agents/
+.claude/
+.cursor/
+.continue/
+.augment/
+.goose/
+.crush/
+.junie/
+.trae/

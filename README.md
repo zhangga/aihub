@@ -56,7 +56,19 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 ### 2. 使用 Prompts
 直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的 System Prompt 或直接输入。
 
-### 3. (仅限开发者) 更新与同步上游代码 
+### 3. 在业务项目中复用 Skills
+如果你希望在其他项目里复用本仓库维护的 skills，并给团队成员一份可直接复制的接入说明，可以参考：
+
+- [`docs/project-readme-template.zh.md`](./docs/project-readme-template.zh.md)
+- [`docs/project-readme-template.en.md`](./docs/project-readme-template.en.md)
+- [`docs/project-gitignore-template.txt`](./docs/project-gitignore-template.txt)
+
+这份文档提供了：
+- 中英文 README 模板
+- 推荐的 `.gitignore` 模板
+- 团队协作时的安装与提交建议
+
+### 4. (仅限开发者) 更新与同步上游代码 
 如果你 fork 了本仓库并想要更新上游技能：
 1. 编辑 `skills/registry.tsv`，维护需要分发的技能、来源类型和来源路径。外部 skill 指向 `external/`，自研 skill 指向 `local-skills/`。
 2. 在根目录执行脚本：
