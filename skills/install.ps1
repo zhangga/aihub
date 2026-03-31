@@ -85,6 +85,7 @@ if (-not (Get-Command npx.cmd -ErrorAction SilentlyContinue)) {
 
 $skills = @()
 $allBundles = @()
+$failedSkills = @()
 
 if ($ListBundles) {
     try {
@@ -200,13 +201,23 @@ foreach ($skill in $skills) {
             Write-Host "Success: $skill installed." -ForegroundColor Green
         } else {
             Write-Host "Error: $skill failed with exit code $exitCode." -ForegroundColor Red
+            $failedSkills += $skill
         }
     } catch {
         Write-Host "Error: failed while installing $skill." -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Red
+        $failedSkills += $skill
     }
 
     Write-Host "--------------------------------------------------" -ForegroundColor Cyan
+}
+
+if ($failedSkills.Count -gt 0) {
+    Write-Host "The following skills failed to install:" -ForegroundColor Red
+    foreach ($failedSkill in ($failedSkills | Select-Object -Unique)) {
+        Write-Host "  - $failedSkill" -ForegroundColor Red
+    }
+    exit 1
 }
 
 Write-Host "Skill installation finished." -ForegroundColor Green

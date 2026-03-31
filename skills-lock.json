@@ -1,0 +1,120 @@
+{
+  "version": 2,
+  "generatedAt": "2026-03-31T09:29:43Z",
+  "skills": {
+    "agent-browser": {
+      "sourceType": "submodule",
+      "sourcePath": "agent-browser/skills/agent-browser",
+      "sourceRepo": "https://github.com/vercel-labs/agent-browser.git",
+      "sourceCommit": "312db04e5e2e68a9c1725548b12352d0a55e84db"
+    },
+    "brainstorming": {
+      "sourceType": "submodule",
+      "sourcePath": "superpowers/skills/brainstorming",
+      "sourceRepo": "https://github.com/obra/superpowers.git",
+      "sourceCommit": "eafe962b18f6c5dc70fb7c8cc7e83e61f4cdde06"
+    },
+    "china-stock-analysis": {
+      "sourceType": "submodule",
+      "sourcePath": "01coder-agent-skills/skills/china-stock-analysis",
+      "sourceRepo": "https://github.com/sugarforever/01coder-agent-skills.git",
+      "sourceCommit": "a26f2a825a7c479070ab00dbee9f287d93737634"
+    },
+    "codex-review": {
+      "sourceType": "submodule",
+      "sourcePath": "antigravity-awesome-skills/skills/codex-review",
+      "sourceRepo": "https://github.com/sickn33/antigravity-awesome-skills.git",
+      "sourceCommit": "c729a410bbb9ed58dbb2fae4df30ddab962c8529"
+    },
+    "doc-coauthoring": {
+      "sourceType": "submodule",
+      "sourcePath": "anthropics-skills/skills/doc-coauthoring",
+      "sourceRepo": "https://github.com/anthropics/skills.git",
+      "sourceCommit": "98669c11ca63e9c81c11501e1437e5c47b556621"
+    },
+    "excalidraw-diagram-generator": {
+      "sourceType": "submodule",
+      "sourcePath": "awesome-copilot/skills/excalidraw-diagram-generator",
+      "sourceRepo": "https://github.com/github/awesome-copilot.git",
+      "sourceCommit": "4020587c735b577f4f52ebdaf1bbf5d68377c98d"
+    },
+    "finviz-screener": {
+      "sourceType": "submodule",
+      "sourcePath": "claude-trading-skills/skills/finviz-screener",
+      "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
+      "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
+    },
+    "frontend-design": {
+      "sourceType": "submodule",
+      "sourcePath": "impeccable/.claude/skills/frontend-design",
+      "sourceRepo": "https://github.com/pbakaus/impeccable.git",
+      "sourceCommit": "685728b992e873be2d27cc187cf4cdc104582ae7"
+    },
+    "humanizer-zh": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/humanizer-zh",
+      "sourceRepo": "local",
+      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+    },
+    "institutional-flow-tracker": {
+      "sourceType": "submodule",
+      "sourcePath": "claude-trading-skills/skills/institutional-flow-tracker",
+      "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
+      "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
+    },
+    "news-sentiment": {
+      "sourceType": "submodule",
+      "sourcePath": "trading_skills/.claude/skills/news-sentiment",
+      "sourceRepo": "https://github.com/staskh/trading_skills.git",
+      "sourceCommit": "1f8c4ba8900d6accc7596ecdbc741c4beb3d7d3e"
+    },
+    "remotion": {
+      "sourceType": "submodule",
+      "sourcePath": "json-render/skills/remotion",
+      "sourceRepo": "https://github.com/vercel-labs/json-render.git",
+      "sourceCommit": "9adcc092040f7b79eaf53ae7ee32e2125bb9dfcf"
+    },
+    "sensight": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/sensight",
+      "sourceRepo": "local",
+      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+    },
+    "skill-hub-builder": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/skill-hub-builder",
+      "sourceRepo": "local",
+      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+    },
+    "stock-analyst": {
+      "sourceType": "submodule",
+      "sourcePath": "stock-sdk-mcp/skills/stock-analyst",
+      "sourceRepo": "https://github.com/chengzuopeng/stock-sdk-mcp.git",
+      "sourceCommit": "f2f11347d423c2c458f7b2abe422952cdbb87092"
+    },
+    "stock-metrics": {
+      "sourceType": "submodule",
+      "sourcePath": "stock-analysis/skills/stock-metrics",
+      "sourceRepo": "https://github.com/patharanordev/stock-analysis.git",
+      "sourceCommit": "4133378f1fd70a47f852f471f18613d7b838862a"
+    },
+    "ui-ux-pro-max": {
+      "sourceType": "submodule",
+      "sourcePath": "ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max",
+      "sourceRepo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
+      "sourceCommit": "4255c218a6762c945a782701fd38dfb24fc10064"
+    },
+    "xai-stock-sentiment": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/xai-stock-sentiment",
+      "sourceRepo": "local",
+      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+    },
+    "yahoo-data-fetcher": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/yahoo-data-fetcher",
+      "sourceRepo": "local",
+      "sourceCommit": "61dcfc1dfc5ac460f97c05c8d8b0b0b5f1c998b6"
+    }
+  }
+}

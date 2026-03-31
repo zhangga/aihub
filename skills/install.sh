@@ -61,6 +61,7 @@ fi
 
 SKILLS=()
 ALL_BUNDLES=()
+FAILED_SKILLS=()
 
 unique_lines() {
     awk '!seen[$0]++'
@@ -186,15 +187,22 @@ for skill in "${SKILLS[@]}"; do
         install_cmd+=(--global)
     fi
 
-    run_skills_command "${install_cmd[@]}"
-
-    if [ $? -eq 0 ]; then
+    if run_skills_command "${install_cmd[@]}"; then
         echo "Success: $skill installed."
     else
         echo "Error: $skill installation failed."
+        FAILED_SKILLS+=("$skill")
     fi
     echo "--------------------------------------------------"
 done
+
+if [ ${#FAILED_SKILLS[@]} -gt 0 ]; then
+    echo "The following skills failed to install:"
+    for skill in "${FAILED_SKILLS[@]}"; do
+        echo "  - $skill"
+    done
+    exit 1
+fi
 
 echo "Skill installation finished."
 echo "=================================================="
