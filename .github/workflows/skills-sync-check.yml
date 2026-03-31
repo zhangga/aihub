@@ -8,6 +8,7 @@ on:
       - ".github/workflows/skills-sync-check.yml"
       - ".gitmodules"
       - "AGENTS.md"
+      - "AGENTS.zh.md"
       - "README.md"
       - "external/**"
       - "local-skills/**"
@@ -17,6 +18,7 @@ on:
       - ".github/workflows/skills-sync-check.yml"
       - ".gitmodules"
       - "AGENTS.md"
+      - "AGENTS.zh.md"
       - "README.md"
       - "external/**"
       - "local-skills/**"
@@ -49,5 +51,156 @@ jobs:
 
       - name: Fail on generated file drift
         run: git diff --exit-code -- skills/skills_list.txt skills-lock.json
+
+      - name: Smoke test Bash installer
+        shell: bash
+        run: |
+          set -euo pipefail
+          test_dir="$(mktemp -d)"
+          trap 'kill "${server_pid:-0}" >/dev/null 2>&1 || true; rm -rf "$test_dir"' EXIT
+
+          mkdir -p "$test_dir/bin" "$test_dir/www"
+          cat > "$test_dir/www/skills_list.txt" <<'EOF'
+          alpha
+          beta
+          EOF
+          cat > "$test_dir/www/bundles.tsv" <<'EOF'
+          core	Test bundle	alpha,beta
+          EOF
+          cat > "$test_dir/bin/fake-npx" <<'EOF'
+          #!/bin/bash
+          printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
+          exit 0
+          EOF
+          cat > "$test_dir/bin/fake-npx-fail" <<'EOF'
+          #!/bin/bash
+          printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
+          case "$*" in
+            *"--skill beta "*)
+              exit 1
+              ;;
+            *)
+              exit 0
+              ;;
+          esac
+          EOF
+          chmod +x "$test_dir/bin/fake-npx" "$test_dir/bin/fake-npx-fail"
+
+          python -m http.server 18080 --directory "$test_dir/www" >/tmp/aihub-http.log 2>&1 &
+          server_pid=$!
+          sleep 2
+
+          AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
+          bash skills/install.sh --list-bundles | tee "$test_dir/list.txt"
+          grep -F "core - Test bundle" "$test_dir/list.txt"
+
+          export AIHUB_TEST_LOG="$test_dir/bash-install.log"
+          AIHUB_REPO_URL="example/repo" \
+          AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
+          AIHUB_NPX_BIN="$test_dir/bin/fake-npx" \
+          bash skills/install.sh --bundle core --global
+
+          grep -F "skills@latest add example/repo --skill alpha -y --global" "$AIHUB_TEST_LOG"
+          grep -F "skills@latest add example/repo --skill beta -y --global" "$AIHUB_TEST_LOG"
+
+          export AIHUB_TEST_LOG="$test_dir/bash-install-fail.log"
+          if AIHUB_REPO_URL="example/repo" \
+             AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
+             AIHUB_NPX_BIN="$test_dir/bin/fake-npx-fail" \
+             bash skills/install.sh --bundle core --global; then
+            echo "Expected bash installer to fail when a skill install fails."
+            exit 1
+          fi
+
+          grep -F "skills@latest add example/repo --skill beta -y --global" "$AIHUB_TEST_LOG"
+
+      - name: Smoke test PowerShell installer
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          $testDir = Join-Path $env:RUNNER_TEMP "aihub-installer-ps"
+          if (Test-Path $testDir) { Remove-Item $testDir -Recurse -Force }
+          New-Item -ItemType Directory -Path $testDir | Out-Null
+          New-Item -ItemType Directory -Path (Join-Path $testDir "www") | Out-Null
+          New-Item -ItemType Directory -Path (Join-Path $testDir "bin") | Out-Null
+
+          @"
+          alpha
+          beta
+          "@ | Set-Content (Join-Path $testDir "www/skills_list.txt")
+
+          @"
+          core	Test bundle	alpha,beta
+          "@ | Set-Content (Join-Path $testDir "www/bundles.tsv")
+
+          @"
+          #!/bin/bash
+          printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
+          exit 0
+          "@ | Set-Content (Join-Path $testDir "bin/fake-npx")
+
+          @"
+          #!/bin/bash
+          printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
+          case "$*" in
+            *"--skill beta "*)
+              exit 1
+              ;;
+            *)
+              exit 0
+              ;;
+          esac
+          "@ | Set-Content (Join-Path $testDir "bin/fake-npx-fail")
+
+          bash -lc "chmod +x '$testDir/bin/fake-npx' '$testDir/bin/fake-npx-fail'"
+
+          $job = Start-Job -ScriptBlock {
+            param($root)
+            Set-Location $root
+            python -m http.server 18081 --directory www
+          } -ArgumentList $testDir
+
+          try {
+            Start-Sleep -Seconds 2
+
+            $env:AIHUB_BUNDLES_URL = "http://127.0.0.1:18081/bundles.tsv"
+            $listOutput = pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -ListBundles | Out-String
+            if ($listOutput -notmatch "core - Test bundle") {
+              throw "PowerShell list-bundles output did not contain expected bundle."
+            }
+
+            $env:AIHUB_REPO_URL = "example/repo"
+            $env:AIHUB_NPX_CMD = "$testDir/bin/fake-npx"
+            $env:AIHUB_TEST_LOG = "$testDir/ps-install.log"
+            pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -Bundle core -Scope global
+
+            $log = Get-Content $env:AIHUB_TEST_LOG -Raw
+            if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill alpha -y --global")) {
+              throw "Missing alpha install command in PowerShell smoke test."
+            }
+            if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill beta -y --global")) {
+              throw "Missing beta install command in PowerShell smoke test."
+            }
+
+            $env:AIHUB_NPX_CMD = "$testDir/bin/fake-npx-fail"
+            $env:AIHUB_TEST_LOG = "$testDir/ps-install-fail.log"
+            & pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -Bundle core -Scope global
+            if ($LASTEXITCODE -eq 0) {
+              throw "Expected PowerShell installer to return a non-zero exit code when a skill install fails."
+            }
+
+            $failLog = Get-Content $env:AIHUB_TEST_LOG -Raw
+            if ($failLog -notmatch [regex]::Escape("skills@latest add example/repo --skill beta -y --global")) {
+              throw "Missing beta install command in PowerShell failure smoke test."
+            }
+          }
+          finally {
+            Stop-Job $job -ErrorAction SilentlyContinue | Out-Null
+            Remove-Job $job -Force -ErrorAction SilentlyContinue | Out-Null
+            Remove-Item Env:AIHUB_BUNDLES_URL -ErrorAction SilentlyContinue
+            Remove-Item Env:AIHUB_REPO_URL -ErrorAction SilentlyContinue
+            Remove-Item Env:AIHUB_NPX_CMD -ErrorAction SilentlyContinue
+            Remove-Item Env:AIHUB_TEST_LOG -ErrorAction SilentlyContinue
+          }
 
 

@@ -44,6 +44,37 @@ tmp_skills_list="$(mktemp)"
 tmp_lock_file="$(mktemp)"
 skills_count=0
 
+hash_file() {
+    local file_path="$1"
+
+    if command -v sha256sum >/dev/null 2>&1; then
+        sha256sum "$file_path" | awk '{print $1}'
+    elif command -v shasum >/dev/null 2>&1; then
+        shasum -a 256 "$file_path" | awk '{print $1}'
+    else
+        echo "Error: sha256sum or shasum is required to hash local skills."
+        exit 1
+    fi
+}
+
+hash_local_skill_dir() {
+    local dir_path="$1"
+    local manifest_file
+    local relative_path
+    local file_hash
+
+    manifest_file="$(mktemp)"
+
+    find "$dir_path" -type f | LC_ALL=C sort | while IFS= read -r file_path; do
+        relative_path="${file_path#$dir_path/}"
+        file_hash="$(hash_file "$file_path")"
+        printf '%s\t%s\n' "$relative_path" "$file_hash"
+    done > "$manifest_file"
+
+    hash_file "$manifest_file"
+    rm -f "$manifest_file"
+}
+
 cleanup() {
     rm -f "$tmp_skills_list" "$tmp_lock_file"
 }
@@ -110,9 +141,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
             fi
 
             source_repo="local"
-            if git -C "$ROOT_DIR" rev-parse HEAD >/dev/null 2>&1; then
-                source_commit="$(git -C "$ROOT_DIR" rev-parse HEAD)"
-            fi
+            source_commit="$(hash_local_skill_dir "$source_path")"
             ;;
         *)
             echo "Error: unsupported source_type: $source_type"

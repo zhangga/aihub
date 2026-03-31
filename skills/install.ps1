@@ -19,9 +19,10 @@ Write-Host "==================================================" -ForegroundColor
 Write-Host "Starting AI Hub skill installation..." -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
-$RepoUrl = "github.com/zhangga/aihub"
-$SkillsListUrl = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt"
-$BundlesUrl = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv"
+$RepoUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_REPO_URL)) { $env:AIHUB_REPO_URL } else { "github.com/zhangga/aihub" }
+$SkillsListUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_SKILLS_LIST_URL)) { $env:AIHUB_SKILLS_LIST_URL } else { "https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt" }
+$BundlesUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_BUNDLES_URL)) { $env:AIHUB_BUNDLES_URL } else { "https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv" }
+$NpxCommand = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_NPX_CMD)) { $env:AIHUB_NPX_CMD } else { "npx.cmd" }
 
 function New-SanitizedNpmUserConfig {
     $sourcePath = $null
@@ -56,7 +57,7 @@ function Invoke-SkillsNpx {
 
     try {
         $env:NPM_CONFIG_USERCONFIG = $tempUserConfig
-        & npx.cmd "skills@latest" @Arguments
+        & $NpxCommand "skills@latest" @Arguments
         return $LASTEXITCODE
     } finally {
         if ([string]::IsNullOrWhiteSpace($previousUserConfig)) {
@@ -76,11 +77,6 @@ function Get-RemoteLines {
 
     $content = Invoke-RestMethod -Uri $Url -UseBasicParsing
     return $content -split "`n"
-}
-
-if (-not (Get-Command npx.cmd -ErrorAction SilentlyContinue)) {
-    Write-Host "Error: npx was not found. Please install Node.js and npm first." -ForegroundColor Red
-    exit 1
 }
 
 $skills = @()
@@ -108,6 +104,11 @@ if ($ListBundles) {
     }
 
     exit 0
+}
+
+if (-not (Get-Command $NpxCommand -ErrorAction SilentlyContinue)) {
+    Write-Host "Error: $NpxCommand was not found. Please install Node.js and npm first." -ForegroundColor Red
+    exit 1
 }
 
 if (-not [string]::IsNullOrWhiteSpace($Bundle)) {

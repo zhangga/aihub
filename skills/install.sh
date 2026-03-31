@@ -6,9 +6,10 @@ echo "=================================================="
 echo "Starting AI Hub skill installation..."
 echo "=================================================="
 
-REPO_URL="github.com/zhangga/aihub"
-SKILLS_LIST_URL="https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt"
-BUNDLES_URL="https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv"
+REPO_URL="${AIHUB_REPO_URL:-github.com/zhangga/aihub}"
+SKILLS_LIST_URL="${AIHUB_SKILLS_LIST_URL:-https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt}"
+BUNDLES_URL="${AIHUB_BUNDLES_URL:-https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv}"
+NPX_BIN="${AIHUB_NPX_BIN:-npx}"
 SELECTED_BUNDLE="${AIHUB_BUNDLE:-}"
 INSTALL_SCOPE="${AIHUB_SCOPE:-project}"
 LIST_BUNDLES=0
@@ -43,11 +44,6 @@ while [ $# -gt 0 ]; do
             ;;
     esac
 done
-
-if ! command -v npx >/dev/null 2>&1; then
-    echo "Error: npx was not found. Please install Node.js and npm first."
-    exit 1
-fi
 
 if ! command -v curl >/dev/null 2>&1; then
     echo "Error: curl was not found. Cannot fetch remote skill metadata."
@@ -94,7 +90,7 @@ prepare_npm_userconfig() {
 }
 
 run_skills_command() {
-    NPM_CONFIG_USERCONFIG="$TEMP_NPMRC" npx skills@latest "$@"
+    NPM_CONFIG_USERCONFIG="$TEMP_NPMRC" "$NPX_BIN" skills@latest "$@"
 }
 
 if [ "$LIST_BUNDLES" -eq 1 ]; then
@@ -108,6 +104,11 @@ if [ "$LIST_BUNDLES" -eq 1 ]; then
         echo "$bundle_name - $bundle_description"
     done < <(curl -fsSL "$BUNDLES_URL")
     exit 0
+fi
+
+if ! command -v "$NPX_BIN" >/dev/null 2>&1; then
+    echo "Error: $NPX_BIN was not found. Please install Node.js and npm first."
+    exit 1
 fi
 
 if [ -n "$SELECTED_BUNDLE" ]; then
