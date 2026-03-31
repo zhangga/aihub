@@ -10,6 +10,7 @@ humanizer-zh
 institutional-flow-tracker
 news-sentiment
 remotion
+sensight
 stock-analyst
 stock-metrics
 ui-ux-pro-max

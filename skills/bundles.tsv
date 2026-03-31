@@ -2,4 +2,4 @@
 core	通用基础能力组合，适合大多数日常 AI Agent 工作流。	agent-browser,brainstorming,codex-review,frontend-design,ui-ux-pro-max
 finance	金融与市场分析能力组合。	china-stock-analysis,finviz-screener,institutional-flow-tracker,news-sentiment,stock-analyst,stock-metrics,xai-stock-sentiment,yahoo-data-fetcher
 creative	创意与可视化能力组合。	excalidraw-diagram-generator,frontend-design,remotion,ui-ux-pro-max
-productivity	研发与效率提升能力组合。	agent-browser,brainstorming,codex-review,doc-coauthoring,humanizer-zh
+productivity	研发与效率提升能力组合。	agent-browser,brainstorming,codex-review,doc-coauthoring,humanizer-zh,sensight
