@@ -7,7 +7,7 @@ doc-coauthoring	submodule	anthropics-skills/skills/doc-coauthoring
 excalidraw-diagram-generator	submodule	awesome-copilot/skills/excalidraw-diagram-generator
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
 frontend-design	submodule	impeccable/.claude/skills/frontend-design
-humanizer-zh	submodule	humanizer-zh
+humanizer-zh	local	local-skills/humanizer-zh
 institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
 remotion	submodule	json-render/skills/remotion
