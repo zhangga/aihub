@@ -8,6 +8,7 @@ finviz-screener
 frontend-design
 humanizer-zh
 institutional-flow-tracker
+long-run-harness
 news-sentiment
 remotion
 sensight

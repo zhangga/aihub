@@ -84,6 +84,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 - **`excalidraw-diagram-generator`**: 根据自然语言描述生成 Excalidraw 图表，可用于流程图、关系图、脑图和架构图。
 - **`frontend-design`**: 前端设计与 UI 组件生成辅助技能。
 - **`humanizer-zh`**: 中文写作润色与去 AI 痕迹技能，适合编辑、审阅和自然化改写中文文本。
+- **`long-run-harness`**: 面向超长复杂任务的自主执行 harness，要求 Agent 通过结构化状态文件持续规划、增量推进、验证结果，并默认工作到最终目标完成才停止。
 - **`remotion`**: 基于 JSON 渲染，支持自动化生成视频/动画的整合技能。
 - **`sensight`**: 社媒热点、AI 行业资讯与语义检索技能，适合做舆情观察、热门话题追踪和作者动态检索。
 - **`skill-hub-builder`**: 个人 skill hub 搭建与维护工作流技能，适合初始化聚合仓、接入外部与本地 skills、维护分发清单和 bundle。

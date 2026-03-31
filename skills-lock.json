@@ -61,6 +61,12 @@
       "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
       "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
     },
+    "long-run-harness": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/long-run-harness",
+      "sourceRepo": "local",
+      "sourceCommit": "5de6c86720fdf1a455c58cfd24c43289bc85427051bd6ff9f36b63f165f851bb"
+    },
     "news-sentiment": {
       "sourceType": "submodule",
       "sourcePath": "trading_skills/.claude/skills/news-sentiment",

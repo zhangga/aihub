@@ -9,6 +9,7 @@ finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
 frontend-design	submodule	impeccable/.claude/skills/frontend-design
 humanizer-zh	local	local-skills/humanizer-zh
 institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
+long-run-harness	local	local-skills/long-run-harness
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
 remotion	submodule	json-render/skills/remotion
 sensight	local	local-skills/sensight
