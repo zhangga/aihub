@@ -16,6 +16,7 @@ BUNDLES_URL="https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles
 SELECTED_BUNDLE="${AIHUB_BUNDLE:-}"
 INSTALL_SCOPE="${AIHUB_SCOPE:-project}"
 LIST_BUNDLES=0
+TEMP_NPMRC=""
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -66,6 +67,36 @@ ALL_BUNDLES=()
 
 unique_lines() {
     awk '!seen[$0]++'
+}
+
+cleanup() {
+    if [ -n "$TEMP_NPMRC" ] && [ -f "$TEMP_NPMRC" ]; then
+        rm -f "$TEMP_NPMRC"
+    fi
+}
+
+trap cleanup EXIT
+
+prepare_npm_userconfig() {
+    local source_npmrc=""
+
+    if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "${NPM_CONFIG_USERCONFIG}" ]; then
+        source_npmrc="${NPM_CONFIG_USERCONFIG}"
+    elif [ -n "${HOME:-}" ] && [ -f "${HOME}/.npmrc" ]; then
+        source_npmrc="${HOME}/.npmrc"
+    fi
+
+    TEMP_NPMRC="$(mktemp "${TMPDIR:-/tmp}/aihub-npmrc.XXXXXX")"
+
+    if [ -n "$source_npmrc" ]; then
+        awk 'BEGIN { IGNORECASE = 1 } !/^[[:space:]]*prefix[[:space:]]*=/' "$source_npmrc" > "$TEMP_NPMRC"
+    else
+        : > "$TEMP_NPMRC"
+    fi
+}
+
+run_skills_command() {
+    NPM_CONFIG_USERCONFIG="$TEMP_NPMRC" npx skills@latest "$@"
 }
 
 if [ "$LIST_BUNDLES" -eq 1 ]; then
@@ -147,15 +178,17 @@ for skill in "${SKILLS[@]}"; do
 done
 echo "--------------------------------------------------"
 
+prepare_npm_userconfig
+
 for skill in "${SKILLS[@]}"; do
     echo "🔄 正在安装: $skill ..."
 
-    install_cmd=(npx skills@latest add "$REPO_URL" --skill "$skill" -y)
+    install_cmd=(add "$REPO_URL" --skill "$skill" -y)
     if [ "$INSTALL_SCOPE" = "global" ]; then
         install_cmd+=(--global)
     fi
 
-    "${install_cmd[@]}"
+    run_skills_command "${install_cmd[@]}"
 
     if [ $? -eq 0 ]; then
         echo "✔️  $skill 安装成功！"

@@ -12,26 +12,79 @@ if ([string]::IsNullOrWhiteSpace($Scope)) {
 }
 
 Write-Host "==================================================" -ForegroundColor Cyan
-Write-Host "🚀 开始安装 AI Hub 技能 (Agent Skills)..." -ForegroundColor Cyan
+Write-Host "Starting AI Hub skill installation..." -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
-$REPO_URL = "github.com/zhangga/aihub"
-$SKILLS_LIST_URL = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt"
-$BUNDLES_URL = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv"
+$RepoUrl = "github.com/zhangga/aihub"
+$SkillsListUrl = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt"
+$BundlesUrl = "https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv"
+
+function New-SanitizedNpmUserConfig {
+    $sourcePath = $null
+
+    if (-not [string]::IsNullOrWhiteSpace($env:NPM_CONFIG_USERCONFIG) -and (Test-Path $env:NPM_CONFIG_USERCONFIG)) {
+        $sourcePath = $env:NPM_CONFIG_USERCONFIG
+    } elseif (-not [string]::IsNullOrWhiteSpace($HOME)) {
+        $defaultUserConfig = Join-Path $HOME ".npmrc"
+        if (Test-Path $defaultUserConfig) {
+            $sourcePath = $defaultUserConfig
+        }
+    }
+
+    $tempPath = Join-Path ([System.IO.Path]::GetTempPath()) ("aihub-npmrc-{0}.tmp" -f ([System.Guid]::NewGuid().ToString("N")))
+
+    if ($sourcePath) {
+        Get-Content $sourcePath | Where-Object { $_ -notmatch '^\s*prefix\s*=' } | Set-Content $tempPath
+    } else {
+        Set-Content $tempPath ''
+    }
+
+    return $tempPath
+}
+
+function Invoke-SkillsNpx {
+    param(
+        [string[]]$Arguments
+    )
+
+    $previousUserConfig = $env:NPM_CONFIG_USERCONFIG
+    $tempUserConfig = New-SanitizedNpmUserConfig
+
+    try {
+        $env:NPM_CONFIG_USERCONFIG = $tempUserConfig
+        & npx.cmd "skills@latest" @Arguments
+        return $LASTEXITCODE
+    } finally {
+        if ([string]::IsNullOrWhiteSpace($previousUserConfig)) {
+            Remove-Item Env:NPM_CONFIG_USERCONFIG -ErrorAction SilentlyContinue
+        } else {
+            $env:NPM_CONFIG_USERCONFIG = $previousUserConfig
+        }
+
+        Remove-Item $tempUserConfig -Force -ErrorAction SilentlyContinue
+    }
+}
+
+function Get-RemoteLines {
+    param(
+        [string]$Url
+    )
+
+    $content = Invoke-RestMethod -Uri $Url -UseBasicParsing
+    return $content -split "`n"
+}
 
 if (-not (Get-Command npx.cmd -ErrorAction SilentlyContinue)) {
-    Write-Host "❌ 错误: 未找到 npx 命令！请先安装 Node.js 和 npm。" -ForegroundColor Red
+    Write-Host "Error: npx was not found. Please install Node.js and npm first." -ForegroundColor Red
     exit 1
 }
 
-$SKILLS = @()
-$ALL_BUNDLES = @()
+$skills = @()
+$allBundles = @()
 
 if ($ListBundles) {
     try {
-        $bundleContent = Invoke-RestMethod -Uri $BUNDLES_URL -UseBasicParsing
-        $bundleLines = $bundleContent -split "`n"
-        foreach ($line in $bundleLines) {
+        foreach ($line in Get-RemoteLines -Url $BundlesUrl) {
             $cleanLine = $line.Trim()
             if ([string]::IsNullOrWhiteSpace($cleanLine) -or $cleanLine.StartsWith("#")) {
                 continue
@@ -45,7 +98,7 @@ if ($ListBundles) {
             Write-Host ("{0} - {1}" -f $parts[0].Trim(), $parts[1].Trim())
         }
     } catch {
-        Write-Host "❌ 获取 bundle 列表失败！请检查网络连接。" -ForegroundColor Red
+        Write-Host "Error: failed to fetch bundle list." -ForegroundColor Red
         exit 1
     }
 
@@ -57,9 +110,7 @@ if (-not [string]::IsNullOrWhiteSpace($Bundle)) {
     $foundBundle = $false
 
     try {
-        $bundleContent = Invoke-RestMethod -Uri $BUNDLES_URL -UseBasicParsing
-        $bundleLines = $bundleContent -split "`n"
-        foreach ($line in $bundleLines) {
+        foreach ($line in Get-RemoteLines -Url $BundlesUrl) {
             $cleanLine = $line.Trim()
             if ([string]::IsNullOrWhiteSpace($cleanLine) -or $cleanLine.StartsWith("#")) {
                 continue
@@ -72,89 +123,87 @@ if (-not [string]::IsNullOrWhiteSpace($Bundle)) {
 
             $bundleName = $parts[0].Trim()
             $bundleSkills = $parts[2].Trim()
-            $ALL_BUNDLES += $bundleName
+            $allBundles += $bundleName
 
             if ($requestedBundles -contains $bundleName) {
                 $foundBundle = $true
                 $bundleSkills.Split(",") | ForEach-Object {
                     $skillName = $_.Trim()
                     if (-not [string]::IsNullOrWhiteSpace($skillName)) {
-                        $SKILLS += $skillName
+                        $skills += $skillName
                     }
                 }
             }
         }
     } catch {
-        Write-Host "❌ 获取 bundle 列表失败！请检查网络连接。" -ForegroundColor Red
+        Write-Host "Error: failed to fetch bundle list." -ForegroundColor Red
         exit 1
     }
 
     if (-not $foundBundle) {
-        Write-Host "⚠️ 警告: 未找到符合条件的 bundle。" -ForegroundColor Yellow
-        Write-Host "可用 bundle：" -ForegroundColor Yellow
-        $ALL_BUNDLES | Sort-Object -Unique | ForEach-Object { Write-Host "  - $_" -ForegroundColor Yellow }
+        Write-Host "Warning: no matching bundle was found." -ForegroundColor Yellow
+        Write-Host "Available bundles:" -ForegroundColor Yellow
+        $allBundles | Sort-Object -Unique | ForEach-Object { Write-Host "  - $_" -ForegroundColor Yellow }
         exit 0
     }
 
-    $SKILLS = $SKILLS | Select-Object -Unique
+    $skills = $skills | Select-Object -Unique
 } else {
     try {
-        $skillsContent = Invoke-RestMethod -Uri $SKILLS_LIST_URL -UseBasicParsing
-        $skillLines = $skillsContent -split "`n"
-        foreach ($line in $skillLines) {
+        foreach ($line in Get-RemoteLines -Url $SkillsListUrl) {
             $cleanLine = $line.Trim()
             if ([string]::IsNullOrWhiteSpace($cleanLine) -or $cleanLine.StartsWith("#")) {
                 continue
             }
 
-            $SKILLS += $cleanLine
+            $skills += $cleanLine
         }
     } catch {
-        Write-Host "❌ 获取技能列表失败！请检查网络连接。" -ForegroundColor Red
+        Write-Host "Error: failed to fetch skill list." -ForegroundColor Red
         exit 1
     }
 }
 
-if ($SKILLS.Count -eq 0) {
-    Write-Host "⚠️ 警告: 未找到符合条件的技能。" -ForegroundColor Yellow
+if ($skills.Count -eq 0) {
+    Write-Host "Warning: no skills matched the requested install target." -ForegroundColor Yellow
     exit 0
 }
 
-Write-Host "📦 即将安装以下技能：" -ForegroundColor Yellow
+Write-Host "The following skills will be installed:" -ForegroundColor Yellow
 if (-not [string]::IsNullOrWhiteSpace($Bundle)) {
-    Write-Host "  预设包: $Bundle" -ForegroundColor Yellow
+    Write-Host "  Bundle: $Bundle" -ForegroundColor Yellow
 } else {
-    Write-Host "  模式: full" -ForegroundColor Yellow
+    Write-Host "  Mode: full" -ForegroundColor Yellow
 }
-Write-Host "  位置: $Scope" -ForegroundColor Yellow
-foreach ($skill in $SKILLS) {
+Write-Host "  Scope: $Scope" -ForegroundColor Yellow
+foreach ($skill in $skills) {
     Write-Host "  - $skill" -ForegroundColor Yellow
 }
 Write-Host "--------------------------------------------------" -ForegroundColor Cyan
 
-foreach ($skill in $SKILLS) {
-    Write-Host "🔄 正在安装: $skill ..." -ForegroundColor Yellow
+foreach ($skill in $skills) {
+    Write-Host "Installing: $skill" -ForegroundColor Yellow
 
     try {
-        $cmdArgs = @("skills@latest", "add", $REPO_URL, "--skill", $skill, "-y")
+        $cmdArgs = @("add", $RepoUrl, "--skill", $skill, "-y")
         if ($Scope -eq "global") {
             $cmdArgs += "--global"
         }
 
-        & npx.cmd @cmdArgs
+        $exitCode = Invoke-SkillsNpx -Arguments $cmdArgs
 
-        if ($LASTEXITCODE -eq 0) {
-            Write-Host "✔️  $skill 安装成功！" -ForegroundColor Green
+        if ($exitCode -eq 0) {
+            Write-Host "Success: $skill installed." -ForegroundColor Green
         } else {
-            Write-Host "❌ $skill 安装失败！(退出码: $LASTEXITCODE)" -ForegroundColor Red
+            Write-Host "Error: $skill failed with exit code $exitCode." -ForegroundColor Red
         }
     } catch {
-        Write-Host "❌ $skill 安装时发生异常！" -ForegroundColor Red
+        Write-Host "Error: failed while installing $skill." -ForegroundColor Red
         Write-Host $_.Exception.Message -ForegroundColor Red
     }
 
     Write-Host "--------------------------------------------------" -ForegroundColor Cyan
 }
 
-Write-Host "🎉 所有技能安装流程执行完毕！" -ForegroundColor Green
+Write-Host "Skill installation finished." -ForegroundColor Green
 Write-Host "==================================================" -ForegroundColor Cyan
