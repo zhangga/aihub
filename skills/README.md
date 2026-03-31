@@ -8,7 +8,7 @@
 
 ## 🚀 一键安装指南
 
-如果你想直接将本仓库中提供的**所有 13 个精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
+如果你想直接将本仓库中提供的**所有 14 个精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
 
 **Mac / Linux / Windows WSL**:
 ```bash
@@ -24,7 +24,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 ---
 
-## 📦 现有技能列表 (共 13 款)
+## 📦 现有技能列表 (共 14 款)
 
 当前已同步并支持一键安装的技能包括：
 
@@ -42,6 +42,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 - **`agent-browser`**: 能够让 Agent 自主浏览、检索和阅读网页内容的强大技能。
 - **`brainstorming`**: 头脑风暴辅助工具，扩展 Agent 的创意构思与发散能力。
 - **`codex-review`**: 提供智能代码审查（Code Review）与架构分析能力。
+- **`excalidraw-diagram-generator`**: 根据自然语言描述生成 Excalidraw 图表，可用于流程图、关系图、脑图和架构图。
 - **`frontend-design`**: 前端设计与 UI 组件生成辅助技能。
 - **`remotion`**: 基于 JSON 渲染，支持自动化生成视频/动画的整合技能。
 

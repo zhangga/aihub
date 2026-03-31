@@ -2,6 +2,7 @@ agent-browser
 brainstorming
 china-stock-analysis
 codex-review
+excalidraw-diagram-generator
 finviz-screener
 frontend-design
 institutional-flow-tracker
