@@ -1,4 +1,4 @@
-# AI Hub 🤖
+﻿# AI Hub 🤖
 
 AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Prompts）以及智能体技能（Agent Skills）的综合性知识仓库。
 
@@ -35,6 +35,24 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 > **注意**: 该操作会自动读取 `skills/skills_list.txt`，批量静默安装所有的核心技能。更详细的技能说明请参考 [Skills 文档](./skills/README.md)。
 
+你也可以按预设包安装，并选择安装到全局目录：
+
+**Bash / WSL 预设包**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle core
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle creative --global
+```
+
+**PowerShell**:
+```powershell
+$env:AIHUB_BUNDLE="creative"
+$env:AIHUB_SCOPE="global"
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
+
 ### 2. 使用 Prompts
 直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的 System Prompt 或直接输入。
 
@@ -50,3 +68,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 ## 📄 许可证
 
 本项目开源，详细请参考根目录下的 [LICENSE](LICENSE) 文件。
+
+
+
+

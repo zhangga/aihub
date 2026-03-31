@@ -57,6 +57,7 @@ These scripts are designed to be executed via `curl` or `Invoke-RestMethod` dire
 *   **Prerequisites for Devs**: A Unix-like shell (macOS/Linux terminal, WSL, or Git Bash) is required to execute the synchronization script `update.sh`.
 *   **Sources of Truth**:
     *   `skills/registry.tsv`: The single source of truth for distributed skills and their origins.
+    *   `skills/bundles.tsv`: User-facing preset bundles for simpler installation choices.
     *   `local-skills/`: The source directory for first-party, locally-authored skills.
-    *   `skills/skills_list.txt`: Auto-generated install list consumed by remote installers.
+    *   `skills/skills_list.txt`: Auto-generated install list for full installs consumed by remote installers.
     *   `skills-lock.json`: Auto-generated lock metadata with source path and commit information.

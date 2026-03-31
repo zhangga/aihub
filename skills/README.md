@@ -1,4 +1,4 @@
-# Agent Skills 库
+﻿# Agent Skills 库
 
 这个目录用于统一分发各类 Agent 扩展技能（Skills）。通过安装这里的技能产物，你可以显著增强 AI Agent（如 Cline, Trae, Cursor 等工作流中的 Agent）在特定领域的专业分析、网页浏览或代码执行能力。
 
@@ -22,7 +22,39 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 > **注意**：上述脚本会读取 `skills_list.txt`，自动从云端下载并静默安装（`-y`）所有支持的核心技能。
 
----
+推荐优先使用预设包。
+
+支持的预设包如下：
+
+- `core`
+- `finance`
+- `creative`
+- `productivity`
+
+预设包安装示例：
+
+**Mac / Linux / Windows WSL**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle core
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle creative --global
+```
+
+查看可用预设包：
+
+**Mac / Linux / Windows WSL**:
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --list-bundles
+```
+
+**Windows (PowerShell)**:
+```powershell
+$env:AIHUB_BUNDLE="creative"
+$env:AIHUB_SCOPE="global"
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
 
 ## 📦 现有技能列表 (共 14 款)
 
@@ -72,3 +104,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
    bash skills/check-registry.sh
    ```
    这会检查 `registry.tsv` 的列格式、重复名称和来源路径是否存在。GitHub Actions 也会执行同样的检查。
+
+
+
+

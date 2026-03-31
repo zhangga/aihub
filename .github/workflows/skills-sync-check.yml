@@ -1,4 +1,4 @@
-name: Skills Sync Check
+﻿name: Skills Sync Check
 
 on:
   push:
@@ -33,3 +33,5 @@ jobs:
 
       - name: Fail on generated file drift
         run: git diff --exit-code -- skills/skills_list.txt skills-lock.json
+
+

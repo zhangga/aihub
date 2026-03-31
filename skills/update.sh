@@ -141,5 +141,7 @@ printf '\n  }\n}\n' >> "$tmp_lock_file"
 mv "$tmp_skills_list" "$SKILLS_LIST_FILE"
 mv "$tmp_lock_file" "$LOCK_FILE"
 
+rm -f "$SKILLS_DIR/skills_catalog.tsv"
+
 echo "✅ 已生成 $(basename "$SKILLS_LIST_FILE") 和 $(basename "$LOCK_FILE")"
 echo "🎉 共处理 $skills_count 个 skills。"
