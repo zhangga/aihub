@@ -12,6 +12,11 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 - **[`/prompts`](./prompts/)**: 高质量提示词模板库。沉淀了经过实际验证的、适用于不同场景的系统提示词，可直接应用于大模型的上下文。
 - **[`/external`](./external/)**: 存放通过 Git Submodule 引入的第三方开源技能仓库源。我们通过自动化脚本将其中的精华部分抽取至 `/skills` 中。
 
+架构说明可参考：
+
+- [AGENTS.md](./AGENTS.md)
+- [AGENTS.zh.md](./AGENTS.zh.md)
+
 ## 🚀 核心特性
 
 1. **开箱即用**: 提供跨平台（Mac/Linux/Windows）的一键远程安装脚本，轻松将十余种精选技能一键部署到你的 Agent 运行环境中。
