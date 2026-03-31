@@ -4,7 +4,23 @@ on:
   push:
     branches:
       - main
+    paths:
+      - ".github/workflows/skills-sync-check.yml"
+      - ".gitmodules"
+      - "AGENTS.md"
+      - "README.md"
+      - "external/**"
+      - "local-skills/**"
+      - "skills/**"
   pull_request:
+    paths:
+      - ".github/workflows/skills-sync-check.yml"
+      - ".gitmodules"
+      - "AGENTS.md"
+      - "README.md"
+      - "external/**"
+      - "local-skills/**"
+      - "skills/**"
   workflow_dispatch:
 
 jobs:

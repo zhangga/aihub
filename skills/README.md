@@ -56,6 +56,12 @@ $env:AIHUB_SCOPE="global"
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
+也支持零参数直接安装：
+
+```powershell
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
+
 ## 📦 现有技能列表 (共 18 款)
 
 当前已同步并支持一键安装的技能包括：

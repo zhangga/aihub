@@ -18,27 +18,27 @@ for arg in "$@"; do
             should_update_submodules=0
             ;;
         *)
-            echo "❌ 未知参数: $arg"
-            echo "用法: bash skills/update.sh [--skip-submodule-update]"
+            echo "Error: unknown argument: $arg"
+            echo "Usage: bash skills/update.sh [--skip-submodule-update]"
             exit 1
             ;;
     esac
 done
 
 if [ ! -f "$REGISTRY_FILE" ]; then
-    echo "❌ registry 文件不存在: $REGISTRY_FILE"
+    echo "Error: registry file not found: $REGISTRY_FILE"
     exit 1
 fi
 
 if [ "$should_update_submodules" -eq 1 ]; then
-    echo "开始更新子模块 (Submodules)..."
+    echo "Updating submodules..."
     git submodule update --init --recursive --remote
-    echo "✅ 子模块更新完成！"
+    echo "Submodule update complete."
 else
-    echo "⏭️  跳过子模块更新。"
+    echo "Skipping submodule update."
 fi
 
-echo "开始根据 registry 同步 skills 并生成清单..."
+echo "Syncing skills from registry and generating derived artifacts..."
 
 tmp_skills_list="$(mktemp)"
 tmp_lock_file="$(mktemp)"
@@ -62,7 +62,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
     fi
 
     if [ -z "$source_type" ] || [ -z "$source_key" ]; then
-        echo "❌ registry 条目格式错误: $skill_name"
+        echo "Error: malformed registry entry for skill: $skill_name"
         exit 1
     fi
 
@@ -77,7 +77,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
             submodule_path="$EXTERNAL_DIR/$source_root"
 
             if [ ! -e "$source_path" ]; then
-                echo "❌ 源路径不存在: $source_path"
+                echo "Error: source path does not exist: $source_path"
                 exit 1
             fi
 
@@ -85,7 +85,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
                 rm -rf "$target_path"
             fi
 
-            echo "正在同步: $skill_name <- $source_key"
+            echo "Syncing: $skill_name <- $source_key"
             cp -r "$source_path" "$target_path"
 
             source_repo="$(git -C "$submodule_path" config --get remote.origin.url || true)"
@@ -95,7 +95,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
             source_path="$ROOT_DIR/$source_key"
 
             if [ ! -e "$source_path" ]; then
-                echo "❌ 本地技能不存在: $source_path"
+                echo "Error: local skill path does not exist: $source_path"
                 exit 1
             fi
 
@@ -103,10 +103,10 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
                 if [ -e "$target_path" ]; then
                     rm -rf "$target_path"
                 fi
-                echo "正在复制本地技能: $skill_name <- $source_key"
+                echo "Copying local skill: $skill_name <- $source_key"
                 cp -r "$source_path" "$target_path"
             else
-                echo "正在保留本地技能: $skill_name"
+                echo "Keeping local skill in place: $skill_name"
             fi
 
             source_repo="local"
@@ -115,7 +115,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
             fi
             ;;
         *)
-            echo "❌ 不支持的 source_type: $source_type"
+            echo "Error: unsupported source_type: $source_type"
             exit 1
             ;;
     esac
@@ -143,5 +143,5 @@ mv "$tmp_lock_file" "$LOCK_FILE"
 
 rm -f "$SKILLS_DIR/skills_catalog.tsv"
 
-echo "✅ 已生成 $(basename "$SKILLS_LIST_FILE") 和 $(basename "$LOCK_FILE")"
-echo "🎉 共处理 $skills_count 个 skills。"
+echo "Generated $(basename "$SKILLS_LIST_FILE") and $(basename "$LOCK_FILE")."
+echo "Processed $skills_count skills."

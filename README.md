@@ -53,6 +53,12 @@ $env:AIHUB_SCOPE="global"
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
+PowerShell 也支持零参数直接安装：
+
+```powershell
+irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```
+
 ### 2. 使用 Prompts
 直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的 System Prompt 或直接输入。
 

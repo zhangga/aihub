@@ -2,12 +2,8 @@
 
 set -e
 
-# 这个脚本设计为可以直接通过 curl 一键执行：
-# 全部安装到当前项目：curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash
-# 安装预设包到全局：curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle creative --global
-
 echo "=================================================="
-echo "🚀 开始安装 AI Hub 技能 (Agent Skills)..."
+echo "Starting AI Hub skill installation..."
 echo "=================================================="
 
 REPO_URL="github.com/zhangga/aihub"
@@ -22,7 +18,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
         --bundle)
             if [ $# -lt 2 ]; then
-                echo "❌ 错误: --bundle 需要一个值。"
+                echo "Error: --bundle requires a value."
                 exit 1
             fi
             SELECTED_BUNDLE="$2"
@@ -41,24 +37,25 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         *)
-            echo "❌ 未知参数: $1"
-            echo "用法: bash install.sh [--bundle <name|a,b>] [--global|--project] [--list-bundles]"
+            echo "Error: unknown argument: $1"
+            echo "Usage: bash install.sh [--bundle <name|a,b>] [--global|--project] [--list-bundles]"
             exit 1
             ;;
     esac
 done
 
-if ! command -v npx &> /dev/null; then
-    echo "❌ 错误: 未找到 npx 命令！请先安装 Node.js 和 npm。"
+if ! command -v npx >/dev/null 2>&1; then
+    echo "Error: npx was not found. Please install Node.js and npm first."
     exit 1
 fi
-if ! command -v curl &> /dev/null; then
-    echo "❌ 错误: 未找到 curl 命令！无法获取技能目录。"
+
+if ! command -v curl >/dev/null 2>&1; then
+    echo "Error: curl was not found. Cannot fetch remote skill metadata."
     exit 1
 fi
 
 if [[ "$INSTALL_SCOPE" != "project" && "$INSTALL_SCOPE" != "global" ]]; then
-    echo "❌ 错误: 安装目标只支持 project 或 global。"
+    echo "Error: install scope must be 'project' or 'global'."
     exit 1
 fi
 
@@ -104,6 +101,7 @@ if [ "$LIST_BUNDLES" -eq 1 ]; then
         if [[ -z "$raw_bundle" ]] || [[ "$raw_bundle" =~ ^#.* ]]; then
             continue
         fi
+
         bundle_name="$(printf '%s' "$raw_bundle" | tr -d '\r' | xargs)"
         bundle_description="$(printf '%s' "$raw_description" | tr -d '\r' | xargs)"
         echo "$bundle_name - $bundle_description"
@@ -141,8 +139,8 @@ if [ -n "$SELECTED_BUNDLE" ]; then
     done < <(curl -fsSL "$BUNDLES_URL")
 
     if [ "$found_bundle" -eq 0 ]; then
-        echo "⚠️ 警告: 未找到符合条件的 bundle。"
-        echo "可用 bundle："
+        echo "Warning: no matching bundle was found."
+        echo "Available bundles:"
         printf '%s\n' "${ALL_BUNDLES[@]}" | sort -u | sed 's/^/  - /'
         exit 0
     fi
@@ -162,17 +160,17 @@ else
 fi
 
 if [ ${#SKILLS[@]} -eq 0 ]; then
-    echo "⚠️ 警告: 未找到符合条件的技能。"
+    echo "Warning: no skills matched the requested install target."
     exit 0
 fi
 
-echo "📦 即将安装以下技能："
+echo "The following skills will be installed:"
 if [ -n "$SELECTED_BUNDLE" ]; then
-    echo "  预设包: $SELECTED_BUNDLE"
+    echo "  Bundle: $SELECTED_BUNDLE"
 else
-    echo "  模式: full"
+    echo "  Mode: full"
 fi
-echo "  位置: $INSTALL_SCOPE"
+echo "  Scope: $INSTALL_SCOPE"
 for skill in "${SKILLS[@]}"; do
     echo "  - $skill"
 done
@@ -181,7 +179,7 @@ echo "--------------------------------------------------"
 prepare_npm_userconfig
 
 for skill in "${SKILLS[@]}"; do
-    echo "🔄 正在安装: $skill ..."
+    echo "Installing: $skill"
 
     install_cmd=(add "$REPO_URL" --skill "$skill" -y)
     if [ "$INSTALL_SCOPE" = "global" ]; then
@@ -191,12 +189,12 @@ for skill in "${SKILLS[@]}"; do
     run_skills_command "${install_cmd[@]}"
 
     if [ $? -eq 0 ]; then
-        echo "✔️  $skill 安装成功！"
+        echo "Success: $skill installed."
     else
-        echo "❌ $skill 安装失败！"
+        echo "Error: $skill installation failed."
     fi
     echo "--------------------------------------------------"
 done
 
-echo "🎉 所有技能安装流程执行完毕！"
+echo "Skill installation finished."
 echo "=================================================="

@@ -32,7 +32,11 @@ To facilitate easy distribution to end-users, the repository provides one-click 
 *   **Windows**: `skills/install.ps1`
 
 **How it works**:
-These scripts are designed to be executed via `curl` or `Invoke-RestMethod` directly from raw GitHub URLs. When executed, they remotely fetch `skills/skills_list.txt` from the `main` branch to determine which skills to install, and then sequentially execute `npx skills@latest add <repo> --skill <name>` for silent installation.
+These scripts are designed to be executed via `curl` or `Invoke-RestMethod` directly from raw GitHub URLs.
+*   **Full install**: Fetches `skills/skills_list.txt` from the `main` branch and sequentially runs `npx skills@latest add <repo> --skill <name> -y`.
+*   **Bundle install**: Fetches `skills/bundles.tsv`, resolves the requested bundle into a concrete skill list, and installs only that filtered set.
+*   **Install scope**: Supports both project-local installs (default) and global installs.
+*   **npm compatibility**: The install scripts sanitize user npm config at runtime to avoid `prefix` conflicts that can otherwise break `npx`.
 
 ## 4. Code Style & Standards
 
