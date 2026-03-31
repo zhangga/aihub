@@ -133,13 +133,13 @@ jobs:
           core	Test bundle	alpha,beta
           "@ | Set-Content (Join-Path $testDir "www/bundles.tsv")
 
-          @"
+          @'
           #!/bin/bash
           printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
           exit 0
-          "@ | Set-Content (Join-Path $testDir "bin/fake-npx")
+          '@ | Set-Content (Join-Path $testDir "bin/fake-npx")
 
-          @"
+          @'
           #!/bin/bash
           printf '%s\n' "$*" >> "${AIHUB_TEST_LOG}"
           case "$*" in
@@ -150,7 +150,7 @@ jobs:
               exit 0
               ;;
           esac
-          "@ | Set-Content (Join-Path $testDir "bin/fake-npx-fail")
+          '@ | Set-Content (Join-Path $testDir "bin/fake-npx-fail")
 
           bash -lc "chmod +x '$testDir/bin/fake-npx' '$testDir/bin/fake-npx-fail'"
 
@@ -174,6 +174,10 @@ jobs:
             $env:AIHUB_TEST_LOG = "$testDir/ps-install.log"
             pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -Bundle core -Scope global
 
+            if (-not (Test-Path $env:AIHUB_TEST_LOG)) {
+              throw "PowerShell smoke test did not create the expected install log."
+            }
+
             $log = Get-Content $env:AIHUB_TEST_LOG -Raw
             if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill alpha -y --global")) {
               throw "Missing alpha install command in PowerShell smoke test."
@@ -187,6 +191,10 @@ jobs:
             & pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -Bundle core -Scope global
             if ($LASTEXITCODE -eq 0) {
               throw "Expected PowerShell installer to return a non-zero exit code when a skill install fails."
+            }
+
+            if (-not (Test-Path $env:AIHUB_TEST_LOG)) {
+              throw "PowerShell failure smoke test did not create the expected install log."
             }
 
             $failLog = Get-Content $env:AIHUB_TEST_LOG -Raw
