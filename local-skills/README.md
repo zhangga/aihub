@@ -11,3 +11,4 @@
 - 一个 skill 一个子目录，例如 `local-skills/my-skill`
 - skill 的目录名与 `registry.tsv` 中的 skill 名称保持一致
 - 不要直接在 `skills/` 里修改自研 skill，避免源码和分发产物混淆
+- 如果某个本地 skill 是“工作流型 skill”，也可以像 `skill-hub-builder` 一样沉淀方法论和维护规范

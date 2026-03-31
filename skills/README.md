@@ -8,7 +8,7 @@
 
 ## 🚀 一键安装指南
 
-如果你想直接将本仓库中提供的**所有 18 个精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
+如果你想直接将本仓库中提供的**所有 19 个精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
 
 **Mac / Linux / Windows WSL**:
 ```bash
@@ -62,7 +62,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-## 📦 现有技能列表 (共 18 款)
+## 📦 现有技能列表 (共 19 款)
 
 当前已同步并支持一键安装的技能包括：
 
@@ -86,6 +86,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 - **`humanizer-zh`**: 中文写作润色与去 AI 痕迹技能，适合编辑、审阅和自然化改写中文文本。
 - **`remotion`**: 基于 JSON 渲染，支持自动化生成视频/动画的整合技能。
 - **`sensight`**: 社媒热点、AI 行业资讯与语义检索技能，适合做舆情观察、热门话题追踪和作者动态检索。
+- **`skill-hub-builder`**: 个人 skill hub 搭建与维护工作流技能，适合初始化聚合仓、接入外部与本地 skills、维护分发清单和 bundle。
 - **`ui-ux-pro-max`**: 面向 Web 和移动端的 UI/UX 设计智能技能，提供设计风格、配色、字体、交互与组件建议。
 
 ---

@@ -11,6 +11,7 @@ institutional-flow-tracker
 news-sentiment
 remotion
 sensight
+skill-hub-builder
 stock-analyst
 stock-metrics
 ui-ux-pro-max
