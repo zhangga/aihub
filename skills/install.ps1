@@ -1,6 +1,5 @@
 param(
     [string]$Bundle = $env:AIHUB_BUNDLE,
-    [ValidateSet("project", "global")]
     [string]$Scope = $env:AIHUB_SCOPE,
     [switch]$ListBundles
 )
@@ -9,6 +8,11 @@ $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($Scope)) {
     $Scope = "project"
+}
+
+if ($Scope -notin @("project", "global")) {
+    Write-Host "Error: scope must be 'project' or 'global'." -ForegroundColor Red
+    exit 1
 }
 
 Write-Host "==================================================" -ForegroundColor Cyan
