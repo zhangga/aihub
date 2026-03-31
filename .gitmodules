@@ -34,3 +34,6 @@
 [submodule "external/ui-ux-pro-max-skill"]
 	path = external/ui-ux-pro-max-skill
 	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule "external/anthropics-skills"]
+	path = external/anthropics-skills
+	url = https://github.com/anthropics/skills.git

@@ -3,6 +3,7 @@ agent-browser	submodule	agent-browser/skills/agent-browser
 brainstorming	submodule	superpowers/skills/brainstorming
 china-stock-analysis	submodule	01coder-agent-skills/skills/china-stock-analysis
 codex-review	submodule	antigravity-awesome-skills/skills/codex-review
+doc-coauthoring	submodule	anthropics-skills/skills/doc-coauthoring
 excalidraw-diagram-generator	submodule	awesome-copilot/skills/excalidraw-diagram-generator
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
 frontend-design	submodule	impeccable/.claude/skills/frontend-design
