@@ -31,3 +31,6 @@
 [submodule "external/awesome-copilot"]
 	path = external/awesome-copilot
 	url = https://github.com/github/awesome-copilot.git
+[submodule "external/ui-ux-pro-max-skill"]
+	path = external/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git

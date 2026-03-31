@@ -10,5 +10,6 @@ news-sentiment
 remotion
 stock-analyst
 stock-metrics
+ui-ux-pro-max
 xai-stock-sentiment
 yahoo-data-fetcher
