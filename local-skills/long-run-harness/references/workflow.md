@@ -11,6 +11,7 @@ When no state exists yet:
 3. Decompose the work into sequential tasks.
 4. Initialize `task_list.json` and `progress.md`.
 5. Select one starting task.
+6. Verify the generated state before beginning work.
 
 Prefer tasks that are:
 
@@ -29,6 +30,7 @@ At the beginning of each later cycle:
 3. Inspect recent git history if available.
 4. Confirm the active task or choose the next unblocked task.
 5. Re-establish the baseline before editing anything new.
+6. Run `verify_state.py` if the state might have drifted or was edited manually.
 
 If the baseline is broken, fix that first.
 
@@ -40,6 +42,7 @@ Once a task is active:
 2. Implement or perform the task.
 3. Run the task's validation.
 4. Gather evidence.
+5. Record validation results before attempting to close the task.
 
 Do not start a second task while the first one is still unresolved.
 
@@ -58,6 +61,7 @@ After review:
 
 1. Update task status, review status, blockers, and commit linkage in `task_list.json`.
 2. Rewrite `progress.md` so a fresh session can continue immediately.
+3. Re-verify state after the update when using helper scripts or manual edits.
 
 Use the helper scripts whenever possible so state transitions stay consistent.
 

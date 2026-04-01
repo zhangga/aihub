@@ -12,6 +12,7 @@ Default to self-review. The executing agent should check:
 - whether the state files match reality
 
 Only mark `review_status` as `self_review_passed` when these checks are complete.
+Do not combine a passing review with an empty validation record or missing validation results.
 
 ## Escalation To Independent Review
 
@@ -53,5 +54,7 @@ Preferred sequence for a normal task:
 3. review
 4. update state
 5. commit
+
+If the task is about to be marked `done`, record validation results before the state transition is written.
 
 If a checkpoint commit is unavoidable before final review, record that clearly in `progress.md` and keep the task active.

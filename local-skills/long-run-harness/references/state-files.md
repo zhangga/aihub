@@ -14,6 +14,7 @@ Purpose:
 - capture the final goal and acceptance criteria
 - track the single active task and all remaining tasks
 - record blockers, review state, and commit linkage
+- record validation outcomes and evidence for completed work
 - support deterministic recovery across sessions
 
 Recommended shape:
@@ -46,6 +47,13 @@ Recommended shape:
       ],
       "artifacts": [
         "progress.md"
+      ],
+      "validation_results": [
+        "Ran baseline startup check successfully"
+      ],
+      "evidence": [
+        "git diff",
+        "test output"
       ],
       "review_status": "self_review_passed",
       "last_commit": "abc1234",
@@ -95,12 +103,19 @@ Allowed review statuses:
 - `independent_review_passed`
 - `changes_requested`
 
+Recommended additional per-task fields:
+
+- `validation_results`
+- `evidence`
+
 Rules:
 
 - Keep exactly one active task at a time.
 - Do not silently delete unfinished tasks.
 - Do not move a task to `done` before validation and review.
 - If a task is blocked, say why in `blocked_reason`.
+- Do not leave task-level `acceptance_criteria` or `validation` empty.
+- Do not move a task to `done` until `validation_results` is recorded.
 - If git is in use, write the most relevant commit hash into `last_commit` after completion.
 
 ## `progress.md`

@@ -17,6 +17,7 @@ Do not use this skill for one-shot edits, lightweight planning, or requests wher
 - Work one task at a time. Do not keep multiple partial tasks open in parallel.
 - Require validation before task completion.
 - Require review before advancing to the next task.
+- Verify state before trusting it and after each significant state transition.
 - Use git history as a recovery aid when a repository is available.
 - Continue automatically unless a real blocker or completion condition exists.
 
@@ -41,6 +42,7 @@ If harness state does not exist yet:
 6. Begin execution only after the state files are coherent.
 
 Use [`scripts/init_harness.py`](scripts/init_harness.py) to create the initial files when possible.
+Prefer structured `--task-json` input so each task starts with explicit task-level acceptance criteria and validation steps.
 
 ## Every Later Session
 
@@ -53,6 +55,7 @@ At the start of every new cycle:
 5. Verify the baseline environment before making new changes.
 
 Read [`references/recovery.md`](references/recovery.md) if the session starts from an interrupted or unclear state.
+Run [`scripts/verify_state.py`](scripts/verify_state.py) before resuming if there is any doubt about state consistency.
 
 ## Task Execution Loop
 
@@ -68,6 +71,7 @@ For the single active task:
 8. Select the next unblocked task and continue.
 
 Read [`references/workflow.md`](references/workflow.md) for the complete lifecycle.
+When marking a task `done`, record explicit validation results first. Do not advance merely because the implementation looks complete.
 
 ## Review Gate
 
@@ -77,6 +81,13 @@ Do not move to the next task until the current task has either:
 
 - passed review and been marked complete, or
 - been marked blocked with an explicit blocker
+
+The helper scripts should reject invalid state transitions such as:
+
+- marking a task `done` without passing review
+- marking a task `done` without task-level validation results
+- activating a next task before its dependencies are `done`
+- blocking a task without a written blocker reason
 
 Read [`references/review-policy.md`](references/review-policy.md) before deciding whether to advance.
 
@@ -98,6 +109,7 @@ Use the helper scripts when possible instead of hand-editing structured state:
 
 - `python scripts/init_harness.py ...` to initialize `task_list.json` and `progress.md`
 - `python scripts/check_next_task.py ...` to validate the state and find the current or next task
+- `python scripts/verify_state.py ...` to validate the full state file before resuming or after state changes
 - `python scripts/update_progress.py ...` to update task status and append progress entries consistently
 
 If you must edit state files manually, preserve the schema and keep status transitions explicit.

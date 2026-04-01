@@ -10,6 +10,7 @@ Use this reference when a session starts after interruption, context compaction,
 4. Determine whether there is an active task.
 5. Re-run the baseline validation or startup checks.
 6. Continue the active task or select the next unblocked task.
+7. Run `verify_state.py` before changing task status if the state was manually edited or looks inconsistent.
 
 Do not guess from repository shape alone when state files exist.
 
@@ -23,6 +24,7 @@ Trust these sources in this order:
 4. current workspace contents
 
 If these disagree, reconcile them before starting new work.
+Prefer fixing the state file explicitly over guessing which task should be active.
 
 ## Common Recovery Cases
 
