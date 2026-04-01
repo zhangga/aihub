@@ -1,15 +1,6 @@
 ---
 name: skill-hub-builder
 description: Scaffold and maintain a personal skill hub repository for collecting, syncing, and distributing commonly used agent skills. Use when setting up a reusable skill hub, adding external or local skills, updating bundles, or preparing one-click install flows for a team.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - PowerShell
-metadata:
-  trigger: building or maintaining a personal skill hub, aggregating favorite skills, distributing skills across machines or teammates
-  source: derived from the aihub repository workflow
 ---
 
 # Skill Hub Builder
@@ -111,8 +102,8 @@ stock-analyst	submodule	stock-sdk-mcp/skills/stock-analyst
 When the user asks to add a first-party skill:
 
 1. Create or inspect `local-skills/<skill-name>/`.
-2. Use the `skill-creator` workflow to shape the skill before finalizing file contents.
-3. If the repository includes `skill-template/SKILL.md`, use it as the default starter when creating a new local skill.
+2. Use the `skill-creator` workflow first to shape the skill scope, trigger language, and resource needs.
+3. Create the actual skill files from that `skill-creator` result instead of copying a repository template.
 4. Ensure the skill has its own `SKILL.md`.
 5. Add a `local` row to `skills/registry.tsv`.
 6. Add the skill to a bundle only if it is generally useful.
@@ -127,10 +118,10 @@ my-skill	local	local-skills/my-skill
 When bootstrapping a new skill, prefer this sequence:
 
 1. Use `skill-creator` to decide the skill scope, trigger language, and whether scripts or references are needed.
-2. Copy `skill-template/SKILL.md` into `local-skills/<skill-name>/SKILL.md`.
-3. Rename the frontmatter fields.
-4. Replace the placeholder purpose with the real workflow.
-5. Add extra references or scripts only if the workflow will benefit from them repeatedly.
+2. Create `local-skills/<skill-name>/SKILL.md` directly from the approved `skill-creator` design.
+3. Add references, scripts, or assets only when the workflow will benefit from them repeatedly.
+4. Keep the frontmatter minimal and accurate.
+5. Treat `skill-creator` as the only recommended entry point for new local skills.
 
 ## Bundle Design
 
@@ -197,7 +188,7 @@ Watch for and fix these issues proactively:
 
 - `skills/` being edited directly instead of `local-skills/`
 - users skipping `skill-creator` and jumping straight into ad hoc skill authoring
-- users starting a new local skill from scratch when a repo template already exists
+- users creating a second unofficial bootstrap path instead of using `skill-creator`
 - duplicated source-of-truth files
 - bundle lists drifting away from actual registry contents
 - old submodule metadata left behind after converting a skill to local

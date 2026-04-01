@@ -89,7 +89,7 @@
       "sourceType": "local",
       "sourcePath": "local-skills/skill-hub-builder",
       "sourceRepo": "local",
-      "sourceCommit": "b2f95a6e68093cc5a22e73837de125f593c9e5e1c6313cce38879c0b2b8d06c6"
+      "sourceCommit": "b35fa913dba77bd39bbc2c37f8b759ba84d77152e3bb2d489d44d72e340f8998"
     },
     "stock-analyst": {
       "sourceType": "submodule",
