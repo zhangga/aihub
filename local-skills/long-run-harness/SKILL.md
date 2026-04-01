@@ -1,4 +1,4 @@
-﻿---
+---
 name: long-run-harness
 description: Use for long-running, complex, multi-step tasks that should continue autonomously until the final goal is fully completed, not merely partially progressed. Trigger when the user wants the agent to self-plan, keep iterating across many work cycles, recover state between sessions, leave structured handoff artifacts, and only stop for true hard blockers such as missing permissions, unavailable external systems, missing required inputs, or high-risk decisions that cannot be made autonomously.
 ---

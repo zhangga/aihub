@@ -65,7 +65,7 @@
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",
       "sourceRepo": "local",
-      "sourceCommit": "5de6c86720fdf1a455c58cfd24c43289bc85427051bd6ff9f36b63f165f851bb"
+      "sourceCommit": "5cde6732d1d206ec9946d866b286de170e1a623d449c9c25d81a19a1233b0ef4"
     },
     "news-sentiment": {
       "sourceType": "submodule",

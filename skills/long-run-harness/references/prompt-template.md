@@ -1,4 +1,4 @@
-﻿# Prompt Template
+# Prompt Template
 
 Use these templates when you want the agent to keep driving a long-running task until the real end goal is complete.
 
