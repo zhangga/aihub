@@ -19,9 +19,6 @@
 [submodule "external/antigravity-awesome-skills"]
 	path = external/antigravity-awesome-skills
 	url = https://github.com/sickn33/antigravity-awesome-skills.git
-[submodule "external/impeccable"]
-	path = external/impeccable
-	url = https://github.com/pbakaus/impeccable.git
 [submodule "external/json-render"]
 	path = external/json-render
 	url = https://github.com/vercel-labs/json-render.git
