@@ -21,7 +21,7 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 架构说明可参考：
 
 - [AGENTS.md](./AGENTS.md)
-- [AGENTS.zh.md](./AGENTS.zh.md)
+- [AGENTS_zh.md](./AGENTS_zh.md)
 
 ## 🚀 核心特性
 

@@ -8,7 +8,7 @@ on:
       - ".github/workflows/skills-sync-check.yml"
       - ".gitmodules"
       - "AGENTS.md"
-      - "AGENTS.zh.md"
+      - "AGENTS_zh.md"
       - "README.md"
       - "external/**"
       - "local-skills/**"
@@ -18,7 +18,7 @@ on:
       - ".github/workflows/skills-sync-check.yml"
       - ".gitmodules"
       - "AGENTS.md"
-      - "AGENTS.zh.md"
+      - "AGENTS_zh.md"
       - "README.md"
       - "external/**"
       - "local-skills/**"
@@ -50,7 +50,7 @@ jobs:
         run: python -m json.tool skills-lock.json > /dev/null
 
       - name: Fail on generated file drift
-        run: git diff --exit-code -- skills/skills_list.txt skills-lock.json
+        run: git diff --exit-code -- skills skills-lock.json
 
       - name: Smoke test Bash installer
         shell: bash
@@ -66,6 +66,9 @@ jobs:
           EOF
           cat > "$test_dir/www/bundles.tsv" <<'EOF'
           core	Test bundle	alpha,beta
+          EOF
+          cat > "$test_dir/www/proxy_registry.tsv" <<EOF
+          beta	$test_dir/bin/fake-npx proxy-source --skill beta
           EOF
           cat > "$test_dir/bin/fake-npx" <<'EOF'
           #!/bin/bash
@@ -97,22 +100,24 @@ jobs:
           export AIHUB_TEST_LOG="$test_dir/bash-install.log"
           AIHUB_REPO_URL="example/repo" \
           AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
+          AIHUB_PROXY_REGISTRY_URL="http://127.0.0.1:18080/proxy_registry.tsv" \
           AIHUB_NPX_BIN="$test_dir/bin/fake-npx" \
           bash skills/install.sh --bundle core --global
 
           grep -F "skills@latest add example/repo --skill alpha -y --global" "$AIHUB_TEST_LOG"
-          grep -F "skills@latest add example/repo --skill beta -y --global" "$AIHUB_TEST_LOG"
+          grep -F "proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
 
           export AIHUB_TEST_LOG="$test_dir/bash-install-fail.log"
           if AIHUB_REPO_URL="example/repo" \
              AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
+             AIHUB_PROXY_REGISTRY_URL="http://127.0.0.1:18080/proxy_registry.tsv" \
              AIHUB_NPX_BIN="$test_dir/bin/fake-npx-fail" \
              bash skills/install.sh --bundle core --global; then
             echo "Expected bash installer to fail when a skill install fails."
             exit 1
           fi
 
-          grep -F "skills@latest add example/repo --skill beta -y --global" "$AIHUB_TEST_LOG"
+          grep -F "proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
 
       - name: Smoke test PowerShell installer
         shell: pwsh
@@ -132,6 +137,10 @@ jobs:
           @"
           core	Test bundle	alpha,beta
           "@ | Set-Content (Join-Path $testDir "www/bundles.tsv")
+
+          @"
+          beta	$testDir/bin/fake-npx proxy-source --skill beta
+          "@ | Set-Content (Join-Path $testDir "www/proxy_registry.tsv")
 
           @'
           #!/bin/bash
@@ -164,6 +173,7 @@ jobs:
             Start-Sleep -Seconds 2
 
             $env:AIHUB_BUNDLES_URL = "http://127.0.0.1:18081/bundles.tsv"
+            $env:AIHUB_PROXY_REGISTRY_URL = "http://127.0.0.1:18081/proxy_registry.tsv"
             $listOutput = pwsh -ExecutionPolicy Bypass -File skills/install.ps1 -ListBundles | Out-String
             if ($listOutput -notmatch "core - Test bundle") {
               throw "PowerShell list-bundles output did not contain expected bundle."
@@ -182,8 +192,8 @@ jobs:
             if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill alpha -y --global")) {
               throw "Missing alpha install command in PowerShell smoke test."
             }
-            if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill beta -y --global")) {
-              throw "Missing beta install command in PowerShell smoke test."
+            if ($log -notmatch [regex]::Escape("proxy-source --skill beta -y --global")) {
+              throw "Missing beta proxy install command in PowerShell smoke test."
             }
 
             $env:AIHUB_NPX_CMD = "$testDir/bin/fake-npx-fail"
@@ -203,14 +213,15 @@ jobs:
             }
 
             $failLog = Get-Content $env:AIHUB_TEST_LOG -Raw
-            if ($failLog -notmatch [regex]::Escape("skills@latest add example/repo --skill beta -y --global")) {
-              throw "Missing beta install command in PowerShell failure smoke test."
+            if ($failLog -notmatch [regex]::Escape("proxy-source --skill beta -y --global")) {
+              throw "Missing beta proxy install command in PowerShell failure smoke test."
             }
           }
           finally {
             Stop-Job $job -ErrorAction SilentlyContinue | Out-Null
             Remove-Job $job -Force -ErrorAction SilentlyContinue | Out-Null
             Remove-Item Env:AIHUB_BUNDLES_URL -ErrorAction SilentlyContinue
+            Remove-Item Env:AIHUB_PROXY_REGISTRY_URL -ErrorAction SilentlyContinue
             Remove-Item Env:AIHUB_REPO_URL -ErrorAction SilentlyContinue
             Remove-Item Env:AIHUB_NPX_CMD -ErrorAction SilentlyContinue
             Remove-Item Env:AIHUB_TEST_LOG -ErrorAction SilentlyContinue
