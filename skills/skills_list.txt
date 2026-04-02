@@ -1,4 +1,3 @@
-china-stock-analysis
 codex-review
 doc-coauthoring
 finviz-screener
@@ -16,6 +15,7 @@ yahoo-data-fetcher
 baoyu-post-to-wechat
 agent-browser
 brainstorming
+china-stock-analysis
 excalidraw-diagram-generator
 frontend-design
 nano-banana-2

@@ -1,5 +1,4 @@
 # name	source_type	source_path
-china-stock-analysis	submodule	01coder-agent-skills/skills/china-stock-analysis
 codex-review	submodule	antigravity-awesome-skills/skills/codex-review
 doc-coauthoring	submodule	anthropics-skills/skills/doc-coauthoring
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
