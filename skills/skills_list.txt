@@ -1,5 +1,4 @@
 long-run-harness
-news-sentiment
 remotion
 sensight
 skill-hub-builder
@@ -17,6 +16,7 @@ frontend-design
 humanizer-zh
 institutional-flow-tracker
 nano-banana-2
+news-sentiment
 playwright-cli
 stock-analyst
 stock-metrics

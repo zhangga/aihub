@@ -7,12 +7,6 @@
       "sourceRepo": "local",
       "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
     },
-    "news-sentiment": {
-      "sourceType": "submodule",
-      "sourcePath": "trading_skills/.claude/skills/news-sentiment",
-      "sourceRepo": "https://github.com/staskh/trading_skills.git",
-      "sourceCommit": "1f8c4ba8900d6accc7596ecdbc741c4beb3d7d3e"
-    },
     "remotion": {
       "sourceType": "submodule",
       "sourcePath": "json-render/skills/remotion",
@@ -112,6 +106,12 @@
     "nano-banana-2": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "news-sentiment": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/staskh/trading_skills --skill news-sentiment",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

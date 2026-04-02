@@ -1,6 +1,5 @@
 # name	source_type	source_path
 long-run-harness	local	local-skills/long-run-harness
-news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
 remotion	submodule	json-render/skills/remotion
 sensight	local	local-skills/sensight
 skill-hub-builder	local	local-skills/skill-hub-builder
