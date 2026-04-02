@@ -1,12 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "codex-review": {
-      "sourceType": "submodule",
-      "sourcePath": "antigravity-awesome-skills/skills/codex-review",
-      "sourceRepo": "https://github.com/sickn33/antigravity-awesome-skills.git",
-      "sourceCommit": "c729a410bbb9ed58dbb2fae4df30ddab962c8529"
-    },
     "doc-coauthoring": {
       "sourceType": "submodule",
       "sourcePath": "anthropics-skills/skills/doc-coauthoring",
@@ -100,6 +94,12 @@
     "china-stock-analysis": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/sugarforever/01coder-agent-skills --skill china-stock-analysis",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "codex-review": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill codex-review",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

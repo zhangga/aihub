@@ -3,6 +3,7 @@ baoyu-post-to-wechat	npx skills add https://github.com/JimLiu/baoyu-skills --ski
 agent-browser	npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser
 brainstorming	npx skills add https://github.com/obra/superpowers --skill brainstorming
 china-stock-analysis	npx skills add https://github.com/sugarforever/01coder-agent-skills --skill china-stock-analysis
+codex-review	npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill codex-review
 excalidraw-diagram-generator	npx skills add https://github.com/github/awesome-copilot --skill excalidraw-diagram-generator
 frontend-design	npx skills add https://github.com/anthropics/skills --skill frontend-design
 humanizer-zh	npx skills add https://github.com/op7418/humanizer-zh --skill humanizer-zh

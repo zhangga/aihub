@@ -1,5 +1,4 @@
 # name	source_type	source_path
-codex-review	submodule	antigravity-awesome-skills/skills/codex-review
 doc-coauthoring	submodule	anthropics-skills/skills/doc-coauthoring
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
 institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
