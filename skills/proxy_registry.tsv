@@ -13,6 +13,7 @@ institutional-flow-tracker	npx skills add https://github.com/tradermonty/claude-
 nano-banana-2	npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2
 news-sentiment	npx skills add https://github.com/staskh/trading_skills --skill news-sentiment
 playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
+remotion-best-practices	npx skills add https://github.com/remotion-dev/skills --skill remotion-best-practices
 stock-analyst	npx skills add https://github.com/chengzuopeng/stock-sdk-mcp --skill stock-analyst
 stock-metrics	npx skills add https://github.com/patharanordev/stock-analysis --skill stock-metrics
 ui-ux-pro-max	npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max

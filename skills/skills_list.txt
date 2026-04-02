@@ -18,6 +18,7 @@ institutional-flow-tracker
 nano-banana-2
 news-sentiment
 playwright-cli
+remotion-best-practices
 stock-analyst
 stock-metrics
 ui-ux-pro-max

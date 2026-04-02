@@ -121,6 +121,12 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
+    "remotion-best-practices": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/remotion-dev/skills --skill remotion-best-practices",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
     "stock-analyst": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/chengzuopeng/stock-sdk-mcp --skill stock-analyst",
