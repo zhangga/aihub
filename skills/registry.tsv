@@ -1,5 +1,4 @@
 # name	source_type	source_path
-agent-browser	submodule	agent-browser/skills/agent-browser
 brainstorming	submodule	superpowers/skills/brainstorming
 china-stock-analysis	submodule	01coder-agent-skills/skills/china-stock-analysis
 codex-review	submodule	antigravity-awesome-skills/skills/codex-review

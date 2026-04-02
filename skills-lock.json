@@ -1,12 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "agent-browser": {
-      "sourceType": "submodule",
-      "sourcePath": "agent-browser/skills/agent-browser",
-      "sourceRepo": "https://github.com/vercel-labs/agent-browser.git",
-      "sourceCommit": "312db04e5e2e68a9c1725548b12352d0a55e84db"
-    },
     "brainstorming": {
       "sourceType": "submodule",
       "sourcePath": "superpowers/skills/brainstorming",
@@ -130,6 +124,12 @@
     "baoyu-post-to-wechat": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "agent-browser": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
