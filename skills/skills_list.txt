@@ -11,7 +11,6 @@ institutional-flow-tracker
 long-run-harness
 nano-banana-2
 news-sentiment
-playwright-dev
 remotion
 sensight
 skill-hub-builder
@@ -21,3 +20,4 @@ ui-ux-pro-max
 xai-stock-sentiment
 yahoo-data-fetcher
 baoyu-post-to-wechat
+playwright-cli

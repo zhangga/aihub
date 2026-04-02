@@ -1,2 +1,3 @@
 # name	command
 baoyu-post-to-wechat	npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat
+playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
