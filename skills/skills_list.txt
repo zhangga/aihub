@@ -1,4 +1,3 @@
-finviz-screener
 long-run-harness
 news-sentiment
 remotion
@@ -15,6 +14,7 @@ china-stock-analysis
 codex-review
 doc-coauthoring
 excalidraw-diagram-generator
+finviz-screener
 frontend-design
 humanizer-zh
 institutional-flow-tracker

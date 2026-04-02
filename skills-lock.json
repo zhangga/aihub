@@ -1,12 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "finviz-screener": {
-      "sourceType": "submodule",
-      "sourcePath": "claude-trading-skills/skills/finviz-screener",
-      "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
-      "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
-    },
     "long-run-harness": {
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",
@@ -100,6 +94,12 @@
     "excalidraw-diagram-generator": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/github/awesome-copilot --skill excalidraw-diagram-generator",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "finviz-screener": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/tradermonty/claude-trading-skills --skill finviz-screener",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

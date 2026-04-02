@@ -6,6 +6,7 @@ china-stock-analysis	npx skills add https://github.com/sugarforever/01coder-agen
 codex-review	npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill codex-review
 doc-coauthoring	npx skills add https://github.com/anthropics/skills --skill doc-coauthoring
 excalidraw-diagram-generator	npx skills add https://github.com/github/awesome-copilot --skill excalidraw-diagram-generator
+finviz-screener	npx skills add https://github.com/tradermonty/claude-trading-skills --skill finviz-screener
 frontend-design	npx skills add https://github.com/anthropics/skills --skill frontend-design
 humanizer-zh	npx skills add https://github.com/op7418/humanizer-zh --skill humanizer-zh
 institutional-flow-tracker	npx skills add https://github.com/tradermonty/claude-trading-skills --skill institutional-flow-tracker
