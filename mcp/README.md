@@ -22,8 +22,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.sh |
 On Windows PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex
-Install-AihubMcp -Client codex -Server chrome-devtools
+irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex;Install-AihubMcp -Client codex -Server chrome-devtools
 ```
 
 Install the filesystem MCP and allow it to access one local directory:
@@ -33,8 +32,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.sh |
 ```
 
 ```powershell
-irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex
-Install-AihubMcp -Client codex -Server filesystem -Arg "C:\work\github"
+irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex;Install-AihubMcp -Client codex -Server filesystem -Arg "C:\work\github"
 ```
 
 Preview the config change without mutating local config:
