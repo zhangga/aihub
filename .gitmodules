@@ -13,9 +13,6 @@
 [submodule "external/stock-analysis"]
 	path = external/stock-analysis
 	url = https://github.com/patharanordev/stock-analysis.git
-[submodule "external/agent-browser"]
-	path = external/agent-browser
-	url = https://github.com/vercel-labs/agent-browser.git
 [submodule "external/superpowers"]
 	path = external/superpowers
 	url = https://github.com/obra/superpowers.git
