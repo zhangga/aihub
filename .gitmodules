@@ -13,9 +13,6 @@
 [submodule "external/stock-analysis"]
 	path = external/stock-analysis
 	url = https://github.com/patharanordev/stock-analysis.git
-[submodule "external/superpowers"]
-	path = external/superpowers
-	url = https://github.com/obra/superpowers.git
 [submodule "external/antigravity-awesome-skills"]
 	path = external/antigravity-awesome-skills
 	url = https://github.com/sickn33/antigravity-awesome-skills.git
