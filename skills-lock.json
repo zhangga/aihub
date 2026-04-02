@@ -1,11 +1,41 @@
 {
   "version": 2,
   "skills": {
-    "agent-browser": {
-      "sourceType": "proxy",
-      "sourcePath": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
-      "sourceRepo": "proxy-registry",
-      "sourceCommit": "proxy"
+    "long-run-harness": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/long-run-harness",
+      "sourceRepo": "local",
+      "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
+    },
+    "remotion": {
+      "sourceType": "submodule",
+      "sourcePath": "json-render/skills/remotion",
+      "sourceRepo": "https://github.com/vercel-labs/json-render.git",
+      "sourceCommit": "9adcc092040f7b79eaf53ae7ee32e2125bb9dfcf"
+    },
+    "sensight": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/sensight",
+      "sourceRepo": "local",
+      "sourceCommit": "85d809ed04cefe4d642b1dd6a82be8b5d04680dddaa3f12647ee9b8544fc9f44"
+    },
+    "skill-hub-builder": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/skill-hub-builder",
+      "sourceRepo": "local",
+      "sourceCommit": "aff86ee7597f145e7c61b0bdfb652905f9a319b615657eb6e4779e60722f050a"
+    },
+    "xai-stock-sentiment": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/xai-stock-sentiment",
+      "sourceRepo": "local",
+      "sourceCommit": "00c873b1fe9b947deb811a6cb51d72e5b10c1a790aaf7e5b1541213bf441c48a"
+    },
+    "yahoo-data-fetcher": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/yahoo-data-fetcher",
+      "sourceRepo": "local",
+      "sourceCommit": "8fd4415d568997fe6b7268eeb49b841069ab1e28d04a1d6e137ca07fe7104fc0"
     },
     "baoyu-post-to-wechat": {
       "sourceType": "proxy",
@@ -16,6 +46,12 @@
     "baoyu-xhs-images": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/jimliu/baoyu-skills --skill baoyu-xhs-images",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "agent-browser": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
@@ -73,11 +109,6 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
-    "long-run-harness": {
-      "source": "zhangga/aihub",
-      "sourceType": "github",
-      "computedHash": "ea23fe5bad786a622a4b6a6eef1dc6de75a5bbfc9017f28b59f0be0993c5968e"
-    },
     "nano-banana-2": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2",
@@ -96,28 +127,11 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
-    "remotion": {
-      "source": "zhangga/aihub",
-      "sourceType": "github",
-      "computedHash": "391d340781220430ac6a8cc92fea99c5df026439d2e9be46b9d2c5d20488e3ef"
-    },
     "remotion-best-practices": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/remotion-dev/skills --skill remotion-best-practices",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
-    },
-    "sensight": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/sensight",
-      "sourceRepo": "local",
-      "sourceCommit": "85d809ed04cefe4d642b1dd6a82be8b5d04680dddaa3f12647ee9b8544fc9f44"
-    },
-    "skill-hub-builder": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/skill-hub-builder",
-      "sourceRepo": "local",
-      "sourceCommit": "aff86ee7597f145e7c61b0bdfb652905f9a319b615657eb6e4779e60722f050a"
     },
     "stock-analyst": {
       "sourceType": "proxy",
@@ -136,18 +150,6 @@
       "sourcePath": "npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
-    },
-    "xai-stock-sentiment": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/xai-stock-sentiment",
-      "sourceRepo": "local",
-      "sourceCommit": "00c873b1fe9b947deb811a6cb51d72e5b10c1a790aaf7e5b1541213bf441c48a"
-    },
-    "yahoo-data-fetcher": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/yahoo-data-fetcher",
-      "sourceRepo": "local",
-      "sourceCommit": "8fd4415d568997fe6b7268eeb49b841069ab1e28d04a1d6e137ca07fe7104fc0"
     }
   }
 }
