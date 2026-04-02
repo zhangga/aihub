@@ -3,7 +3,6 @@ news-sentiment
 remotion
 sensight
 skill-hub-builder
-stock-analyst
 stock-metrics
 xai-stock-sentiment
 yahoo-data-fetcher
@@ -20,4 +19,5 @@ humanizer-zh
 institutional-flow-tracker
 nano-banana-2
 playwright-cli
+stock-analyst
 ui-ux-pro-max
