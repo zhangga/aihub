@@ -3,7 +3,6 @@ news-sentiment
 remotion
 sensight
 skill-hub-builder
-stock-metrics
 xai-stock-sentiment
 yahoo-data-fetcher
 baoyu-post-to-wechat
@@ -20,4 +19,5 @@ institutional-flow-tracker
 nano-banana-2
 playwright-cli
 stock-analyst
+stock-metrics
 ui-ux-pro-max

@@ -13,4 +13,5 @@ institutional-flow-tracker	npx skills add https://github.com/tradermonty/claude-
 nano-banana-2	npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2
 playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
 stock-analyst	npx skills add https://github.com/chengzuopeng/stock-sdk-mcp --skill stock-analyst
+stock-metrics	npx skills add https://github.com/patharanordev/stock-analysis --skill stock-metrics
 ui-ux-pro-max	npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max

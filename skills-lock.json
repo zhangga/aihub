@@ -31,12 +31,6 @@
       "sourceRepo": "local",
       "sourceCommit": "b35fa913dba77bd39bbc2c37f8b759ba84d77152e3bb2d489d44d72e340f8998"
     },
-    "stock-metrics": {
-      "sourceType": "submodule",
-      "sourcePath": "stock-analysis/skills/stock-metrics",
-      "sourceRepo": "https://github.com/patharanordev/stock-analysis.git",
-      "sourceCommit": "4133378f1fd70a47f852f471f18613d7b838862a"
-    },
     "xai-stock-sentiment": {
       "sourceType": "local",
       "sourcePath": "local-skills/xai-stock-sentiment",
@@ -130,6 +124,12 @@
     "stock-analyst": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/chengzuopeng/stock-sdk-mcp --skill stock-analyst",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "stock-metrics": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/patharanordev/stock-analysis --skill stock-metrics",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
