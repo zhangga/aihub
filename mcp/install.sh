@@ -18,6 +18,8 @@ SCOPE="user"
 DRY_RUN=0
 LIST_SERVERS=0
 LIST_BUNDLES=0
+EXTRA_ARGS=()
+EXTRA_ENVS=()
 
 fail() {
     echo "Error: $1" >&2
@@ -47,7 +49,7 @@ resolve_node_bin() {
 
 usage() {
     cat <<'EOF'
-Usage: bash mcp/install.sh --client <name> (--server <name> | --bundle <name>) [--scope user] [--dry-run]
+Usage: bash mcp/install.sh --client <name> (--server <name> | --bundle <name>) [--scope user] [--arg <value>] [--env KEY=VALUE] [--dry-run]
        bash mcp/install.sh --list-servers
        bash mcp/install.sh --list-bundles
 EOF
@@ -74,6 +76,16 @@ while [ $# -gt 0 ]; do
         --dry-run)
             DRY_RUN=1
             shift
+            ;;
+        --arg)
+            [ $# -ge 2 ] || fail "--arg requires a value."
+            EXTRA_ARGS+=("$2")
+            shift 2
+            ;;
+        --env)
+            [ $# -ge 2 ] || fail "--env requires a KEY=VALUE pair."
+            EXTRA_ENVS+=("$2")
+            shift 2
             ;;
         --list-servers)
             LIST_SERVERS=1
@@ -168,20 +180,22 @@ if (parts.length < 6) {
 const [name, runtime, source, argsJson, envJson] = parts;
 const args = JSON.parse(argsJson);
 const env = JSON.parse(envJson);
+const extraArgs = JSON.parse(process.argv[1]);
+const extraEnvs = JSON.parse(process.argv[2]);
 let command = runtime;
 let finalArgs = [];
 if (runtime === "npx") {
   command = "npx";
-  finalArgs = ["-y", source, ...args];
+  finalArgs = ["-y", source, ...args, ...extraArgs];
 } else if (runtime === "node") {
   command = "node";
-  finalArgs = [source, ...args];
+  finalArgs = [source, ...args, ...extraArgs];
 } else {
   command = runtime;
-  finalArgs = [source, ...args];
+  finalArgs = [source, ...args, ...extraArgs];
 }
-process.stdout.write(JSON.stringify({ name, command, args: finalArgs, env }));
-'
+process.stdout.write(JSON.stringify({ name, command, args: finalArgs, env: { ...env, ...extraEnvs } }));
+' "$(printf '%s\n' "${EXTRA_ARGS[@]}" | "$NODE_BIN" -e 'const fs=require("fs"); const input=fs.readFileSync(0,"utf8").split(/\r?\n/).filter(Boolean); process.stdout.write(JSON.stringify(input));')" "$(printf '%s\n' "${EXTRA_ENVS[@]}" | "$NODE_BIN" -e 'const fs=require("fs"); const envs={}; for (const line of fs.readFileSync(0,"utf8").split(/\r?\n/)) { if (!line) continue; const idx=line.indexOf("="); if (idx === -1) { console.error("Malformed --env entry: " + line); process.exit(1); } envs[line.slice(0, idx)] = line.slice(idx + 1); } process.stdout.write(JSON.stringify(envs));')"
 }
 
 supports_client() {

@@ -2,7 +2,7 @@
 
 This directory distributes MCP servers with one-command installers, similar to the repository's `skills/` flow.
 
-The first release ships `chrome-devtools` and targets these clients:
+The first release ships `chrome-devtools` and `filesystem` and targets these clients:
 
 - Codex
 - Claude Code
@@ -26,6 +26,17 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex
 Install-AihubMcp -Client claude-desktop -Server chrome-devtools
 ```
 
+Install the filesystem MCP and allow it to access one local directory:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.sh | bash -s -- --client codex --server filesystem --arg "$HOME/projects"
+```
+
+```powershell
+irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex
+Install-AihubMcp -Client codex -Server filesystem -Arg "C:\work\github"
+```
+
 Preview the config change without mutating local config:
 
 ```bash
@@ -41,6 +52,7 @@ Install-AihubMcp -Client vscode -Server chrome-devtools -DryRun
 | Name | Runtime | Source | Clients |
 |------|---------|--------|---------|
 | `chrome-devtools` | `npx` | `chrome-devtools-mcp@latest` | `codex`, `claude-code`, `claude-desktop`, `vscode` |
+| `filesystem` | `npx` | `@modelcontextprotocol/server-filesystem` | `codex`, `claude-code`, `claude-desktop`, `vscode` |
 
 ## Flags
 
@@ -48,6 +60,8 @@ Install-AihubMcp -Client vscode -Server chrome-devtools -DryRun
 - `--server <name>`: install one server from `registry.tsv`
 - `--bundle <name>`: install all servers from a bundle
 - `--scope <scope>`: currently only `user` is supported in the first release
+- `--arg <value>`: append an extra argument to the MCP server command. Repeatable.
+- `--env KEY=VALUE`: append an extra environment variable to the MCP server definition. Repeatable.
 - `--dry-run`: print the resolved config changes without applying them
 - `--list-servers`: list available server names
 - `--list-bundles`: list available bundle names
@@ -55,6 +69,7 @@ Install-AihubMcp -Client vscode -Server chrome-devtools -DryRun
 ## Notes
 
 - `chrome-devtools` is installed with conservative defaults. It does not enable `--autoConnect` by default.
+- `filesystem` requires at least one allowed directory path. Pass it with `--arg` in Bash or `-Arg` in PowerShell.
 - For Chrome session takeover flows, users still need to enable remote debugging in Chrome and approve the debugging prompt when applicable.
 - VS Code user installs use the official `code --add-mcp` CLI path.
 - Claude Desktop installs edit `claude_desktop_config.json` directly and create a backup before writing.

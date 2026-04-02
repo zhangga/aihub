@@ -1,2 +1,3 @@
 # bundle	description	servers
 browser-dev	Browser debugging with Chrome DevTools MCP	chrome-devtools
+local-dev	Local browser and filesystem MCP tools	chrome-devtools,filesystem

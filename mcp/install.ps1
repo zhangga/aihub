@@ -3,6 +3,8 @@ param(
     [string]$Server,
     [string]$Bundle,
     [string]$Scope = "user",
+    [string[]]$Arg,
+    [string[]]$Env,
     [switch]$DryRun,
     [switch]$ListServers,
     [switch]$ListBundles
@@ -16,6 +18,8 @@ function Install-AihubMcp {
         [string]$Server,
         [string]$Bundle,
         [string]$Scope = "user",
+        [string[]]$Arg,
+        [string[]]$Env,
         [switch]$DryRun,
         [switch]$ListServers,
         [switch]$ListBundles
@@ -125,6 +129,18 @@ function Install-AihubMcp {
                     $envMap[$key] = [string]$rawEnv[$key]
                 }
             }
+        }
+
+        foreach ($extraArg in ($Arg | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })) {
+            $args += $extraArg
+        }
+
+        foreach ($envItem in ($Env | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })) {
+            $idx = $envItem.IndexOf("=")
+            if ($idx -lt 1) {
+                Fail "Malformed -Env entry: $envItem"
+            }
+            $envMap[$envItem.Substring(0, $idx)] = $envItem.Substring($idx + 1)
         }
 
         $runtime = $Row[1]
@@ -407,4 +423,4 @@ fs.writeFileSync(configPath, JSON.stringify(doc, null, 2) + '\n');
     Write-Host "MCP installation finished." -ForegroundColor Green
 }
 
-Install-AihubMcp -Client $Client -Server $Server -Bundle $Bundle -Scope $Scope -DryRun:$DryRun -ListServers:$ListServers -ListBundles:$ListBundles
+Install-AihubMcp -Client $Client -Server $Server -Bundle $Bundle -Scope $Scope -Arg $Arg -Env $Env -DryRun:$DryRun -ListServers:$ListServers -ListBundles:$ListBundles
