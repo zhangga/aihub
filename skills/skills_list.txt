@@ -11,6 +11,7 @@ institutional-flow-tracker
 long-run-harness
 nano-banana-2
 news-sentiment
+baoyu-post-to-wechat
 playwright-dev
 remotion
 sensight

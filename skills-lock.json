@@ -79,6 +79,12 @@
       "sourceRepo": "https://github.com/staskh/trading_skills.git",
       "sourceCommit": "1f8c4ba8900d6accc7596ecdbc741c4beb3d7d3e"
     },
+    "baoyu-post-to-wechat": {
+      "sourceType": "submodule",
+      "sourcePath": "baoyu-skills/skills/baoyu-post-to-wechat",
+      "sourceRepo": "https://github.com/JimLiu/baoyu-skills.git",
+      "sourceCommit": "b791ee5dc725e4622fd35b2651aa59836c9fae16"
+    },
     "playwright-dev": {
       "sourceType": "submodule",
       "sourcePath": "playwright/.claude/skills/playwright-dev",

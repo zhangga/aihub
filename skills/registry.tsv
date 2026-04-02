@@ -12,6 +12,7 @@ institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-
 long-run-harness	local	local-skills/long-run-harness
 nano-banana-2	local	local-skills/nano-banana-2
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
+baoyu-post-to-wechat	submodule	baoyu-skills/skills/baoyu-post-to-wechat
 playwright-dev	submodule	playwright/.claude/skills/playwright-dev
 remotion	submodule	json-render/skills/remotion
 sensight	local	local-skills/sensight
