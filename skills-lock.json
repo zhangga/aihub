@@ -37,12 +37,6 @@
       "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
       "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
     },
-    "frontend-design": {
-      "sourceType": "submodule",
-      "sourcePath": "impeccable/.claude/skills/frontend-design",
-      "sourceRepo": "https://github.com/pbakaus/impeccable.git",
-      "sourceCommit": "685728b992e873be2d27cc187cf4cdc104582ae7"
-    },
     "humanizer-zh": {
       "sourceType": "local",
       "sourcePath": "local-skills/humanizer-zh",
@@ -130,6 +124,12 @@
     "agent-browser": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "frontend-design": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/anthropics/skills --skill frontend-design",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

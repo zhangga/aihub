@@ -4,7 +4,6 @@ codex-review
 doc-coauthoring
 excalidraw-diagram-generator
 finviz-screener
-frontend-design
 humanizer-zh
 institutional-flow-tracker
 long-run-harness
@@ -20,4 +19,5 @@ xai-stock-sentiment
 yahoo-data-fetcher
 baoyu-post-to-wechat
 agent-browser
+frontend-design
 playwright-cli
