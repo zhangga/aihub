@@ -423,4 +423,16 @@ fs.writeFileSync(configPath, JSON.stringify(doc, null, 2) + '\n');
     Write-Host "MCP installation finished." -ForegroundColor Green
 }
 
-Install-AihubMcp -Client $Client -Server $Server -Bundle $Bundle -Scope $Scope -Arg $Arg -Env $Env -DryRun:$DryRun -ListServers:$ListServers -ListBundles:$ListBundles
+$shouldAutoRun = $PSBoundParameters.ContainsKey('Client') `
+    -or $PSBoundParameters.ContainsKey('Server') `
+    -or $PSBoundParameters.ContainsKey('Bundle') `
+    -or $PSBoundParameters.ContainsKey('Scope') `
+    -or $PSBoundParameters.ContainsKey('Arg') `
+    -or $PSBoundParameters.ContainsKey('Env') `
+    -or $PSBoundParameters.ContainsKey('DryRun') `
+    -or $PSBoundParameters.ContainsKey('ListServers') `
+    -or $PSBoundParameters.ContainsKey('ListBundles')
+
+if ($shouldAutoRun) {
+    Install-AihubMcp -Client $Client -Server $Server -Bundle $Bundle -Scope $Scope -Arg $Arg -Env $Env -DryRun:$DryRun -ListServers:$ListServers -ListBundles:$ListBundles
+}

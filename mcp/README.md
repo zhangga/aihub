@@ -23,7 +23,7 @@ On Windows PowerShell:
 
 ```powershell
 irm https://raw.githubusercontent.com/zhangga/aihub/main/mcp/install.ps1 | iex
-Install-AihubMcp -Client claude-desktop -Server chrome-devtools
+Install-AihubMcp -Client codex -Server chrome-devtools
 ```
 
 Install the filesystem MCP and allow it to access one local directory:
