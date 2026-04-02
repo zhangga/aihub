@@ -11,6 +11,7 @@ humanizer-zh	local	local-skills/humanizer-zh
 institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
 long-run-harness	local	local-skills/long-run-harness
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
+playwright-dev	submodule	playwright/.claude/skills/playwright-dev
 remotion	submodule	json-render/skills/remotion
 sensight	local	local-skills/sensight
 skill-hub-builder	local	local-skills/skill-hub-builder

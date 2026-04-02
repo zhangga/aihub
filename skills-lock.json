@@ -65,13 +65,19 @@
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",
       "sourceRepo": "local",
-      "sourceCommit": "5fd1f103094023049350c3d67227179ab79fa996390acc3d240fcff6db00b113"
+      "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
     },
     "news-sentiment": {
       "sourceType": "submodule",
       "sourcePath": "trading_skills/.claude/skills/news-sentiment",
       "sourceRepo": "https://github.com/staskh/trading_skills.git",
       "sourceCommit": "1f8c4ba8900d6accc7596ecdbc741c4beb3d7d3e"
+    },
+    "playwright-dev": {
+      "sourceType": "submodule",
+      "sourcePath": "playwright/.claude/skills/playwright-dev",
+      "sourceRepo": "https://github.com/microsoft/playwright.git",
+      "sourceCommit": "2d6be2d9c235253840459a66a3be248b5ad5bced"
     },
     "remotion": {
       "sourceType": "submodule",
