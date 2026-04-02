@@ -107,6 +107,10 @@ jobs:
           grep -F "skills@latest add example/repo --skill alpha -y --global" "$AIHUB_TEST_LOG"
           grep -F "skills add proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
 
+          cat > "$test_dir/www/proxy_registry.tsv" <<EOF
+          beta	$test_dir/bin/fake-npx-fail skills add proxy-source --skill beta
+          EOF
+
           export AIHUB_TEST_LOG="$test_dir/bash-install-fail.log"
           if AIHUB_REPO_URL="example/repo" \
              AIHUB_BUNDLES_URL="http://127.0.0.1:18080/bundles.tsv" \
@@ -196,6 +200,7 @@ jobs:
               throw "Missing beta proxy install command in PowerShell smoke test."
             }
 
+            Set-Content (Join-Path $testDir "www/proxy_registry.tsv") "beta`t$testDir/bin/fake-npx-fail skills add proxy-source --skill beta"
             $env:AIHUB_NPX_CMD = "$testDir/bin/fake-npx-fail"
             $env:AIHUB_TEST_LOG = "$testDir/ps-install-fail.log"
             $failureProcess = Start-Process pwsh -ArgumentList @(
