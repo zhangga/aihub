@@ -68,7 +68,7 @@ jobs:
           core	Test bundle	alpha,beta
           EOF
           cat > "$test_dir/www/proxy_registry.tsv" <<EOF
-          beta	$test_dir/bin/fake-npx proxy-source --skill beta
+          beta	$test_dir/bin/fake-npx skills add proxy-source --skill beta
           EOF
           cat > "$test_dir/bin/fake-npx" <<'EOF'
           #!/bin/bash
@@ -105,7 +105,7 @@ jobs:
           bash skills/install.sh --bundle core --global
 
           grep -F "skills@latest add example/repo --skill alpha -y --global" "$AIHUB_TEST_LOG"
-          grep -F "proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
+          grep -F "skills add proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
 
           export AIHUB_TEST_LOG="$test_dir/bash-install-fail.log"
           if AIHUB_REPO_URL="example/repo" \
@@ -117,7 +117,7 @@ jobs:
             exit 1
           fi
 
-          grep -F "proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
+          grep -F "skills add proxy-source --skill beta -y --global" "$AIHUB_TEST_LOG"
 
       - name: Smoke test PowerShell installer
         shell: pwsh
@@ -139,7 +139,7 @@ jobs:
           "@ | Set-Content (Join-Path $testDir "www/bundles.tsv")
 
           @"
-          beta	$testDir/bin/fake-npx proxy-source --skill beta
+          beta	$testDir/bin/fake-npx skills add proxy-source --skill beta
           "@ | Set-Content (Join-Path $testDir "www/proxy_registry.tsv")
 
           @'
@@ -192,7 +192,7 @@ jobs:
             if ($log -notmatch [regex]::Escape("skills@latest add example/repo --skill alpha -y --global")) {
               throw "Missing alpha install command in PowerShell smoke test."
             }
-            if ($log -notmatch [regex]::Escape("proxy-source --skill beta -y --global")) {
+            if ($log -notmatch [regex]::Escape("skills add proxy-source --skill beta -y --global")) {
               throw "Missing beta proxy install command in PowerShell smoke test."
             }
 
@@ -213,7 +213,7 @@ jobs:
             }
 
             $failLog = Get-Content $env:AIHUB_TEST_LOG -Raw
-            if ($failLog -notmatch [regex]::Escape("proxy-source --skill beta -y --global")) {
+            if ($failLog -notmatch [regex]::Escape("skills add proxy-source --skill beta -y --global")) {
               throw "Missing beta proxy install command in PowerShell failure smoke test."
             }
           }
