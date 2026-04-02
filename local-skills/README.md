@@ -3,8 +3,9 @@
 这个目录用于存放仓库内自研的 skill 源码。
 
 - 在这里开发和维护你自己编写的 skills
-- 通过 `skills/registry.tsv` 里的 `local` 条目将它们纳入分发
+- 通过 `skills/registry.tsv` 里的 `local` 条目将它们纳入镜像分发
 - 执行 `bash skills/update.sh` 后，对应 skill 会被复制到 `skills/` 目录作为最终分发产物
+- 如果某个能力更适合走上游代理安装，而不是本仓库镜像，则应改为登记到 `skills/proxy_registry.tsv`，而不是继续保留本地源码副本
 
 推荐约定：
 

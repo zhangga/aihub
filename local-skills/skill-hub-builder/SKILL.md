@@ -29,7 +29,8 @@ Always steer the user toward this structure:
 - `external/`: third-party upstream repositories, ideally via `git submodule`
 - `local-skills/`: first-party skill source directories
 - `skills/`: generated distributable artifacts only
-- `skills/registry.tsv`: single source of truth for distributed skills
+- `skills/registry.tsv`: mirrored skill source manifest
+- `skills/proxy_registry.tsv`: proxy skill source manifest
 - `skills/bundles.tsv`: user-facing install presets
 - `skills/skills_list.txt`: generated full install list
 - `skills-lock.json`: generated source metadata and traceability
@@ -39,6 +40,7 @@ Preserve these rules:
 - `skills/` is a build/distribution output, not the source of truth
 - `local-skills/` is where custom skill source code lives
 - external skills should not be edited in-place
+- proxy skills should store install commands, not copied upstream files
 - bundle presets are more user-friendly than category systems
 - install scripts should support zero-argument full install and bundle-based install
 
@@ -49,9 +51,9 @@ When helping the user, follow this sequence:
 1. Inspect the repository structure first.
 2. Detect whether this is already a skill hub or needs to be initialized.
 3. If missing, scaffold the minimal hub structure.
-4. Add or update `skills/registry.tsv`.
+4. Add or update `skills/registry.tsv` or `skills/proxy_registry.tsv`.
 5. Add or update `skills/bundles.tsv`.
-6. Add external skills via submodule or local skills via `local-skills/`.
+6. Add external skills via submodule, local skills via `local-skills/`, or proxy skills via `skills/proxy_registry.tsv`.
 7. Run registry validation.
 8. Run sync to regenerate `skills/skills_list.txt` and `skills-lock.json`.
 9. Update user-facing docs if the workflow changed.
@@ -65,6 +67,7 @@ If the repository is not yet a skill hub, scaffold the following:
 - `local-skills/`
 - `skills/`
 - `skills/registry.tsv`
+- `skills/proxy_registry.tsv`
 - `skills/bundles.tsv`
 - `skills/update.sh`
 - `skills/check-registry.sh`
@@ -75,7 +78,7 @@ If the repository is not yet a skill hub, scaffold the following:
 
 Use practical defaults:
 
-- make `registry.tsv` the only source of truth for distributed skills
+- make `registry.tsv` + `proxy_registry.tsv` the source-of-truth manifests for distributed skills
 - keep `bundles.tsv` small and opinionated
 - prefer a `core` bundle plus a few domain bundles
 - make `project` install scope the default
@@ -95,6 +98,12 @@ Prefer source paths relative to `external/`, for example:
 
 ```tsv
 stock-analyst	submodule	stock-sdk-mcp/skills/stock-analyst
+```
+
+If the upstream skill updates frequently and does not need to be mirrored into this repo, prefer a proxy entry instead:
+
+```tsv
+stock-analyst	npx skills add https://github.com/chengzuopeng/stock-sdk-mcp --skill stock-analyst
 ```
 
 ## Adding Local Skills
@@ -192,6 +201,7 @@ Watch for and fix these issues proactively:
 - duplicated source-of-truth files
 - bundle lists drifting away from actual registry contents
 - old submodule metadata left behind after converting a skill to local
+- old mirrored artifacts left behind after converting a skill to proxy
 - broken PowerShell online install flows because of parameter validation on empty env vars
 - `npx` failures caused by user `.npmrc` `prefix` settings
 - generated outputs checked in without rerunning sync

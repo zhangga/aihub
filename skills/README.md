@@ -64,7 +64,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 ## 📦 现有技能列表
 
-当前已同步并支持一键安装的技能包括：
+当前已登记并支持一键安装的技能包括：
 
 ### 📈 投资与金融分析
 - **`china-stock-analysis`**: A股价值投资分析工具，基于价值投资理论，提供股票筛选、个股深度分析和估值计算功能。
@@ -94,18 +94,24 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 ## ⚙️ 仓库维护指南 (仅限开发者)
 
-本目录下的具体技能代码是分发产物，不建议直接在这里手写维护。外部技能来自 `/external/` 目录中的第三方开源仓库子模块，自研技能来自 `/local-skills/`，两者都会通过同一份 registry 纳入分发。
+本目录下的具体技能代码是分发产物，不建议直接在这里手写维护。当前仓库同时支持三种 skill 来源：
+
+- 镜像外部 skill：来自 `/external/` 中的第三方开源仓库子模块
+- 镜像本地 skill：来自 `/local-skills/`
+- proxy skill：只在安装时代理执行上游命令，不在仓库中保留镜像副本
 
 **如何添加新技能或更新现有技能代码：**
-1. **配置依赖**: 编辑 `skills/registry.tsv`。每一行格式为 `name<TAB>source_type<TAB>source_path`。其中：
+1. **配置依赖**:
+   编辑 `skills/registry.tsv` 或 `skills/proxy_registry.tsv`。
+   `skills/registry.tsv` 的每一行格式为 `name<TAB>source_type<TAB>source_path`。其中：
    - `submodule` 表示来源于 `external/` 下的子模块路径，例如 `01coder-agent-skills/skills/china-stock-analysis`
-   - `local` 表示来源于当前仓库的自研源码目录，例如 `local-skills/xai-stock-sentiment`
-   如果某个上游 skill 不想镜像到仓库中，而是希望安装时直接代理到上游安装命令，则将它加入 `skills/proxy_registry.tsv`，格式为 `name<TAB>command`。例如：`baoyu-post-to-wechat<TAB>npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat`。
+- `local` 表示来源于当前仓库的自研源码目录，例如 `local-skills/xai-stock-sentiment`
+   `skills/proxy_registry.tsv` 的格式为 `name<TAB>command`。如果某个上游 skill 不想镜像到仓库中，而是希望安装时直接代理到上游安装命令，就把它写在这里。例如：`baoyu-post-to-wechat<TAB>npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat`。
 2. **执行同步脚本**: 在根目录运行更新脚本。
    ```bash
    bash skills/update.sh
    ```
-   > 脚本会自动：拉取最新的 Git Submodule -> 将 registry 中配置好的技能同步到 `skills/` 下 -> 生成 `skills_list.txt` 和 `skills-lock.json`。
+> 脚本会自动：更新仍在使用的 Git Submodule -> 将 `registry.tsv` 中配置好的镜像 skill 同步到 `skills/` 下 -> 将 `proxy_registry.tsv` 中的代理 skill 纳入安装清单 -> 生成 `skills_list.txt` 和 `skills-lock.json`。
 
 3. **离线校验或仅重建产物**: 如果你已经手动更新过 submodule，或当前环境不方便联网，可以执行：
    ```bash

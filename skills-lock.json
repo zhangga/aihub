@@ -23,7 +23,7 @@
       "sourceType": "local",
       "sourcePath": "local-skills/skill-hub-builder",
       "sourceRepo": "local",
-      "sourceCommit": "b35fa913dba77bd39bbc2c37f8b759ba84d77152e3bb2d489d44d72e340f8998"
+      "sourceCommit": "aff86ee7597f145e7c61b0bdfb652905f9a319b615657eb6e4779e60722f050a"
     },
     "xai-stock-sentiment": {
       "sourceType": "local",
