@@ -2,9 +2,9 @@
 
 这个目录用于统一分发各类 Agent 扩展技能（Skills）。通过安装这里的技能产物，你可以显著增强 AI Agent（如 Cline, Trae, Cursor 等工作流中的 Agent）在特定领域的专业分析、网页浏览或代码执行能力。
 
-为了保持技能的最新状态并避免手动复制带来的代码陈旧问题，我们通过 Git Submodule 管理外部依赖，并使用 `local-skills/` 管理自研源码，再通过一键同步脚本统一生成当前目录下的分发产物。
+为了保持技能的最新状态并避免手动复制带来的代码陈旧问题，我们通过 Git Submodule 管理外部依赖，并使用 `local-skills/` 管理自研源码，再通过一键同步脚本统一生成当前目录下的分发产物。对于少量更新频繁、无需镜像进仓库的上游技能，也支持通过 `skills/proxy_registry.tsv` 走“代理安装”模式，保留统一入口但直接安装上游 skill。
 
-`skills/registry.tsv` 是唯一的技能清单来源。`skills/skills_list.txt` 和根目录的 `skills-lock.json` 都由 `bash skills/update.sh` 自动生成。
+`skills/registry.tsv` 和 `skills/proxy_registry.tsv` 共同定义对外分发的技能清单。`skills/skills_list.txt` 和根目录的 `skills-lock.json` 都由 `bash skills/update.sh` 自动生成。
 
 ## 🚀 一键安装指南
 
@@ -100,6 +100,7 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 1. **配置依赖**: 编辑 `skills/registry.tsv`。每一行格式为 `name<TAB>source_type<TAB>source_path`。其中：
    - `submodule` 表示来源于 `external/` 下的子模块路径，例如 `01coder-agent-skills/skills/china-stock-analysis`
    - `local` 表示来源于当前仓库的自研源码目录，例如 `local-skills/xai-stock-sentiment`
+   如果某个上游 skill 不想镜像到仓库中，而是希望安装时直接代理到上游仓库，则将它加入 `skills/proxy_registry.tsv`，格式为 `name<TAB>repo_url<TAB>upstream_skill`。
 2. **执行同步脚本**: 在根目录运行更新脚本。
    ```bash
    bash skills/update.sh

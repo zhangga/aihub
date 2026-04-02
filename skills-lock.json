@@ -2,16 +2,20 @@
   "version": 2,
   "skills": {
     "agent-browser": {
-      "sourceType": "submodule",
-      "sourcePath": "agent-browser/skills/agent-browser",
-      "sourceRepo": "https://github.com/vercel-labs/agent-browser.git",
-      "sourceCommit": "312db04e5e2e68a9c1725548b12352d0a55e84db"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "972ff8c61bef9fdf6e4b0664f231412544fa1c411b2a2751f32355d0df6bd490"
+    },
+    "baoyu-post-to-wechat": {
+      "sourceType": "proxy",
+      "sourcePath": "baoyu-post-to-wechat",
+      "sourceRepo": "github.com/JimLiu/baoyu-skills",
+      "sourceCommit": "proxy"
     },
     "brainstorming": {
-      "sourceType": "submodule",
-      "sourcePath": "superpowers/skills/brainstorming",
-      "sourceRepo": "https://github.com/obra/superpowers.git",
-      "sourceCommit": "eafe962b18f6c5dc70fb7c8cc7e83e61f4cdde06"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "1106e6b6ba37dd3732c764c9468085169663464103e283bcfc21dd4514dcebbc"
     },
     "china-stock-analysis": {
       "sourceType": "submodule",
@@ -20,16 +24,14 @@
       "sourceCommit": "a26f2a825a7c479070ab00dbee9f287d93737634"
     },
     "codex-review": {
-      "sourceType": "submodule",
-      "sourcePath": "antigravity-awesome-skills/skills/codex-review",
-      "sourceRepo": "https://github.com/sickn33/antigravity-awesome-skills.git",
-      "sourceCommit": "c729a410bbb9ed58dbb2fae4df30ddab962c8529"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "bddffaa5b657b06e610670b42da3f1cc0fccf5682ef7d09c9e2e6fb6b8c33328"
     },
     "doc-coauthoring": {
-      "sourceType": "submodule",
-      "sourcePath": "anthropics-skills/skills/doc-coauthoring",
-      "sourceRepo": "https://github.com/anthropics/skills.git",
-      "sourceCommit": "98669c11ca63e9c81c11501e1437e5c47b556621"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "b964e4c3ffe13f66f76dd7919073e60c7aec622cd8a8363bb36323188100cf8e"
     },
     "excalidraw-diagram-generator": {
       "sourceType": "submodule",
@@ -50,10 +52,9 @@
       "sourceCommit": "685728b992e873be2d27cc187cf4cdc104582ae7"
     },
     "humanizer-zh": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/humanizer-zh",
-      "sourceRepo": "local",
-      "sourceCommit": "6c5d77a8aba23624b6a761e1820b8835d97f3d7c53907735b013e3939a6f1216"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "559f73948d6b9d67d67d463b53b692207931cc074039058ac0a5fcdbb3f513ee"
     },
     "institutional-flow-tracker": {
       "sourceType": "submodule",
@@ -62,10 +63,9 @@
       "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
     },
     "long-run-harness": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/long-run-harness",
-      "sourceRepo": "local",
-      "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "db1698f5ea0bbd25ccfc954b097000b128decf40a7d92db08e73e736fc788548"
     },
     "nano-banana-2": {
       "sourceType": "local",
@@ -78,12 +78,6 @@
       "sourcePath": "trading_skills/.claude/skills/news-sentiment",
       "sourceRepo": "https://github.com/staskh/trading_skills.git",
       "sourceCommit": "1f8c4ba8900d6accc7596ecdbc741c4beb3d7d3e"
-    },
-    "baoyu-post-to-wechat": {
-      "sourceType": "submodule",
-      "sourcePath": "baoyu-skills/skills/baoyu-post-to-wechat",
-      "sourceRepo": "https://github.com/JimLiu/baoyu-skills.git",
-      "sourceCommit": "b791ee5dc725e4622fd35b2651aa59836c9fae16"
     },
     "playwright-dev": {
       "sourceType": "submodule",
@@ -98,16 +92,14 @@
       "sourceCommit": "9adcc092040f7b79eaf53ae7ee32e2125bb9dfcf"
     },
     "sensight": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/sensight",
-      "sourceRepo": "local",
-      "sourceCommit": "85d809ed04cefe4d642b1dd6a82be8b5d04680dddaa3f12647ee9b8544fc9f44"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "45832e3092ef05e5f6b24709b3780b0c5c289aad3ef9933aa0b5779bb83df7de"
     },
     "skill-hub-builder": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/skill-hub-builder",
-      "sourceRepo": "local",
-      "sourceCommit": "b35fa913dba77bd39bbc2c37f8b759ba84d77152e3bb2d489d44d72e340f8998"
+      "source": "zhangga/aihub",
+      "sourceType": "github",
+      "computedHash": "937b9139d8ff580bcdaf978ab1314cc6738abb835532b34c7fc05d8fb51af431"
     },
     "stock-analyst": {
       "sourceType": "submodule",

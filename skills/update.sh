@@ -7,6 +7,7 @@ ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 EXTERNAL_DIR="$ROOT_DIR/external"
 SKILLS_DIR="$ROOT_DIR/skills"
 REGISTRY_FILE="$SKILLS_DIR/registry.tsv"
+PROXY_REGISTRY_FILE="$SKILLS_DIR/proxy_registry.tsv"
 SKILLS_LIST_FILE="$SKILLS_DIR/skills_list.txt"
 LOCK_FILE="$ROOT_DIR/skills-lock.json"
 
@@ -27,6 +28,11 @@ done
 
 if [ ! -f "$REGISTRY_FILE" ]; then
     echo "Error: registry file not found: $REGISTRY_FILE"
+    exit 1
+fi
+
+if [ ! -f "$PROXY_REGISTRY_FILE" ]; then
+    echo "Error: proxy registry file not found: $PROXY_REGISTRY_FILE"
     exit 1
 fi
 
@@ -171,6 +177,41 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
 
     skills_count=$((skills_count + 1))
 done < "$REGISTRY_FILE"
+
+while IFS=$'\t' read -r raw_name raw_repo raw_skill || [ -n "$raw_name$raw_repo$raw_skill" ]; do
+    skill_name="$(printf '%s' "$raw_name" | tr -d '\r')"
+    proxy_repo="$(printf '%s' "$raw_repo" | tr -d '\r')"
+    proxy_skill="$(printf '%s' "$raw_skill" | tr -d '\r')"
+
+    if [[ -z "$skill_name" ]] || [[ "$skill_name" =~ ^#.* ]]; then
+        continue
+    fi
+
+    if [ -z "$proxy_repo" ] || [ -z "$proxy_skill" ]; then
+        echo "Error: malformed proxy registry entry for skill: $skill_name"
+        exit 1
+    fi
+
+    target_path="$SKILLS_DIR/$skill_name"
+    if [ -e "$target_path" ]; then
+        rm -rf "$target_path"
+    fi
+
+    printf '%s\n' "$skill_name" >> "$tmp_skills_list"
+
+    if [ "$skills_count" -gt 0 ]; then
+        printf ',\n' >> "$tmp_lock_file"
+    fi
+
+    printf '    "%s": {\n' "$skill_name" >> "$tmp_lock_file"
+    printf '      "sourceType": "proxy",\n' >> "$tmp_lock_file"
+    printf '      "sourcePath": "%s",\n' "$proxy_skill" >> "$tmp_lock_file"
+    printf '      "sourceRepo": "%s",\n' "$proxy_repo" >> "$tmp_lock_file"
+    printf '      "sourceCommit": "proxy"\n' >> "$tmp_lock_file"
+    printf '    }' >> "$tmp_lock_file"
+
+    skills_count=$((skills_count + 1))
+done < "$PROXY_REGISTRY_FILE"
 
 printf '\n  }\n}\n' >> "$tmp_lock_file"
 

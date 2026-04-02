@@ -9,6 +9,7 @@ echo "=================================================="
 REPO_URL="${AIHUB_REPO_URL:-github.com/zhangga/aihub}"
 SKILLS_LIST_URL="${AIHUB_SKILLS_LIST_URL:-https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt}"
 BUNDLES_URL="${AIHUB_BUNDLES_URL:-https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv}"
+PROXY_REGISTRY_URL="${AIHUB_PROXY_REGISTRY_URL:-https://raw.githubusercontent.com/zhangga/aihub/main/skills/proxy_registry.tsv}"
 NPX_BIN="${AIHUB_NPX_BIN:-npx}"
 SELECTED_BUNDLE="${AIHUB_BUNDLE:-}"
 INSTALL_SCOPE="${AIHUB_SCOPE:-project}"
@@ -91,6 +92,26 @@ prepare_npm_userconfig() {
 
 run_skills_command() {
     NPM_CONFIG_USERCONFIG="$TEMP_NPMRC" "$NPX_BIN" skills@latest "$@"
+}
+
+resolve_proxy_skill() {
+    local wanted_skill="$1"
+    while IFS=$'\t' read -r raw_name raw_repo raw_upstream; do
+        if [[ -z "$raw_name" ]] || [[ "$raw_name" =~ ^#.* ]]; then
+            continue
+        fi
+
+        skill_name="$(printf '%s' "$raw_name" | tr -d '\r' | xargs)"
+        repo_url="$(printf '%s' "$raw_repo" | tr -d '\r' | xargs)"
+        upstream_skill="$(printf '%s' "$raw_upstream" | tr -d '\r' | xargs)"
+
+        if [[ "$skill_name" == "$wanted_skill" ]]; then
+            printf '%s\t%s\n' "$repo_url" "$upstream_skill"
+            return 0
+        fi
+    done < <(curl -fsSL "$PROXY_REGISTRY_URL")
+
+    return 1
 }
 
 if [ "$LIST_BUNDLES" -eq 1 ]; then
@@ -183,7 +204,15 @@ prepare_npm_userconfig
 for skill in "${SKILLS[@]}"; do
     echo "Installing: $skill"
 
-    install_cmd=(add "$REPO_URL" --skill "$skill" -y)
+    install_repo="$REPO_URL"
+    install_skill="$skill"
+    if proxy_resolution="$(resolve_proxy_skill "$skill")"; then
+        install_repo="$(printf '%s' "$proxy_resolution" | cut -f1)"
+        install_skill="$(printf '%s' "$proxy_resolution" | cut -f2)"
+        echo "  Source: proxy -> $install_repo@$install_skill"
+    fi
+
+    install_cmd=(add "$install_repo" --skill "$install_skill" -y)
     if [ "$INSTALL_SCOPE" = "global" ]; then
         install_cmd+=(--global)
     fi

@@ -22,6 +22,7 @@ Write-Host "==================================================" -ForegroundColor
 $RepoUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_REPO_URL)) { $env:AIHUB_REPO_URL } else { "github.com/zhangga/aihub" }
 $SkillsListUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_SKILLS_LIST_URL)) { $env:AIHUB_SKILLS_LIST_URL } else { "https://raw.githubusercontent.com/zhangga/aihub/main/skills/skills_list.txt" }
 $BundlesUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_BUNDLES_URL)) { $env:AIHUB_BUNDLES_URL } else { "https://raw.githubusercontent.com/zhangga/aihub/main/skills/bundles.tsv" }
+$ProxyRegistryUrl = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_PROXY_REGISTRY_URL)) { $env:AIHUB_PROXY_REGISTRY_URL } else { "https://raw.githubusercontent.com/zhangga/aihub/main/skills/proxy_registry.tsv" }
 $NpxCommand = if (-not [string]::IsNullOrWhiteSpace($env:AIHUB_NPX_CMD)) { $env:AIHUB_NPX_CMD } else { "npx.cmd" }
 
 function New-SanitizedNpmUserConfig {
@@ -77,6 +78,33 @@ function Get-RemoteLines {
 
     $content = Invoke-RestMethod -Uri $Url -UseBasicParsing
     return $content -split "`n"
+}
+
+function Resolve-ProxySkill {
+    param(
+        [string]$SkillName
+    )
+
+    foreach ($line in Get-RemoteLines -Url $ProxyRegistryUrl) {
+        $cleanLine = $line.Trim()
+        if ([string]::IsNullOrWhiteSpace($cleanLine) -or $cleanLine.StartsWith("#")) {
+            continue
+        }
+
+        $parts = $cleanLine -split "`t"
+        if ($parts.Count -lt 3) {
+            continue
+        }
+
+        if ($parts[0].Trim() -eq $SkillName) {
+            return @{
+                Repo = $parts[1].Trim()
+                Skill = $parts[2].Trim()
+            }
+        }
+    }
+
+    return $null
 }
 
 $skills = @()
@@ -191,7 +219,16 @@ foreach ($skill in $skills) {
     Write-Host "Installing: $skill" -ForegroundColor Yellow
 
     try {
-        $cmdArgs = @("add", $RepoUrl, "--skill", $skill, "-y")
+        $installRepo = $RepoUrl
+        $installSkill = $skill
+        $proxy = Resolve-ProxySkill -SkillName $skill
+        if ($proxy) {
+            $installRepo = $proxy.Repo
+            $installSkill = $proxy.Skill
+            Write-Host ("  Source: proxy -> {0}@{1}" -f $installRepo, $installSkill) -ForegroundColor DarkYellow
+        }
+
+        $cmdArgs = @("add", $installRepo, "--skill", $installSkill, "-y")
         if ($Scope -eq "global") {
             $cmdArgs += "--global"
         }
