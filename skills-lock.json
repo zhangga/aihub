@@ -1,12 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "brainstorming": {
-      "sourceType": "submodule",
-      "sourcePath": "superpowers/skills/brainstorming",
-      "sourceRepo": "https://github.com/obra/superpowers.git",
-      "sourceCommit": "eafe962b18f6c5dc70fb7c8cc7e83e61f4cdde06"
-    },
     "china-stock-analysis": {
       "sourceType": "submodule",
       "sourcePath": "01coder-agent-skills/skills/china-stock-analysis",
@@ -112,6 +106,12 @@
     "agent-browser": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "brainstorming": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/obra/superpowers --skill brainstorming",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

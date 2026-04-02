@@ -1,6 +1,7 @@
 # name	command
 baoyu-post-to-wechat	npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat
 agent-browser	npx skills add https://github.com/vercel-labs/agent-browser --skill agent-browser
+brainstorming	npx skills add https://github.com/obra/superpowers --skill brainstorming
 frontend-design	npx skills add https://github.com/anthropics/skills --skill frontend-design
 nano-banana-2	npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2
 playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
