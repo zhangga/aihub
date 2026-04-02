@@ -1,9 +1,6 @@
 [submodule "external/trading_skills"]
 	path = external/trading_skills
 	url = https://github.com/staskh/trading_skills.git
-[submodule "external/stock-analysis"]
-	path = external/stock-analysis
-	url = https://github.com/patharanordev/stock-analysis.git
 [submodule "external/json-render"]
 	path = external/json-render
 	url = https://github.com/vercel-labs/json-render.git
