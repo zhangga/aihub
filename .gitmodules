@@ -1,6 +1,3 @@
-[submodule "external/claude-trading-skills"]
-	path = external/claude-trading-skills
-	url = https://github.com/tradermonty/claude-trading-skills.git
 [submodule "external/trading_skills"]
 	path = external/trading_skills
 	url = https://github.com/staskh/trading_skills.git
