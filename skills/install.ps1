@@ -238,6 +238,9 @@ foreach ($skill in $skills) {
             if ($isSkillsAddProxy -and $command -notmatch '(^|\s)-y(\s|$)' -and $command -notmatch '(^|\s)--yes(\s|$)') {
                 $command += " -y"
             }
+            if ($IsWindows -and $isSkillsAddProxy -and $command -notmatch '(^|\s)--copy(\s|$)') {
+                $command += " --copy"
+            }
             if ($Scope -eq "global" -and $isSkillsAddProxy) {
                 $command += " --global"
             }
@@ -256,6 +259,9 @@ foreach ($skill in $skills) {
             }
         } else {
             $cmdArgs = @("add", $RepoUrl, "--skill", $skill, "-y")
+            if ($IsWindows) {
+                $cmdArgs += "--copy"
+            }
             if ($Scope -eq "global") {
                 $cmdArgs += "--global"
             }
