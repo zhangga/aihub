@@ -67,6 +67,12 @@
       "sourceRepo": "local",
       "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
     },
+    "nano-banana-2": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/nano-banana-2",
+      "sourceRepo": "local",
+      "sourceCommit": "31c9e9c6d46772bf63946df75b5c08b3739250293cf1029224ba97b91e99d4f6"
+    },
     "news-sentiment": {
       "sourceType": "submodule",
       "sourcePath": "trading_skills/.claude/skills/news-sentiment",

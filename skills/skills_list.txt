@@ -9,6 +9,7 @@ frontend-design
 humanizer-zh
 institutional-flow-tracker
 long-run-harness
+nano-banana-2
 news-sentiment
 playwright-dev
 remotion
