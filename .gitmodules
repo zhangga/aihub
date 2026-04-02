@@ -1,6 +1,3 @@
-[submodule "external/01coder-agent-skills"]
-	path = external/01coder-agent-skills
-	url = https://github.com/sugarforever/01coder-agent-skills.git
 [submodule "external/claude-trading-skills"]
 	path = external/claude-trading-skills
 	url = https://github.com/tradermonty/claude-trading-skills.git
