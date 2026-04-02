@@ -58,7 +58,7 @@ function Invoke-SkillsNpx {
 
     try {
         $env:NPM_CONFIG_USERCONFIG = $tempUserConfig
-        & $NpxCommand "skills@latest" @Arguments
+        & $NpxCommand "skills@latest" @Arguments | Out-Host
         return $LASTEXITCODE
     } finally {
         if ([string]::IsNullOrWhiteSpace($previousUserConfig)) {
