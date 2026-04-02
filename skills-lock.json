@@ -1,12 +1,6 @@
 {
   "version": 2,
   "skills": {
-    "doc-coauthoring": {
-      "sourceType": "submodule",
-      "sourcePath": "anthropics-skills/skills/doc-coauthoring",
-      "sourceRepo": "https://github.com/anthropics/skills.git",
-      "sourceCommit": "98669c11ca63e9c81c11501e1437e5c47b556621"
-    },
     "finviz-screener": {
       "sourceType": "submodule",
       "sourcePath": "claude-trading-skills/skills/finviz-screener",
@@ -100,6 +94,12 @@
     "codex-review": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/sickn33/antigravity-awesome-skills --skill codex-review",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "doc-coauthoring": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/anthropics/skills --skill doc-coauthoring",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

@@ -1,4 +1,3 @@
-doc-coauthoring
 finviz-screener
 institutional-flow-tracker
 long-run-harness
@@ -15,6 +14,7 @@ agent-browser
 brainstorming
 china-stock-analysis
 codex-review
+doc-coauthoring
 excalidraw-diagram-generator
 frontend-design
 humanizer-zh
