@@ -14,6 +14,5 @@ sensight	local	local-skills/sensight
 skill-hub-builder	local	local-skills/skill-hub-builder
 stock-analyst	submodule	stock-sdk-mcp/skills/stock-analyst
 stock-metrics	submodule	stock-analysis/skills/stock-metrics
-ui-ux-pro-max	submodule	ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max
 xai-stock-sentiment	local	local-skills/xai-stock-sentiment
 yahoo-data-fetcher	local	local-skills/yahoo-data-fetcher

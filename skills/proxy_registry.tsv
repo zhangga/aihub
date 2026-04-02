@@ -4,3 +4,4 @@ agent-browser	npx skills add https://github.com/vercel-labs/agent-browser --skil
 frontend-design	npx skills add https://github.com/anthropics/skills --skill frontend-design
 nano-banana-2	npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2
 playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
+ui-ux-pro-max	npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max

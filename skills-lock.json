@@ -91,12 +91,6 @@
       "sourceRepo": "https://github.com/patharanordev/stock-analysis.git",
       "sourceCommit": "4133378f1fd70a47f852f471f18613d7b838862a"
     },
-    "ui-ux-pro-max": {
-      "sourceType": "submodule",
-      "sourcePath": "ui-ux-pro-max-skill/.claude/skills/ui-ux-pro-max",
-      "sourceRepo": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
-      "sourceCommit": "4255c218a6762c945a782701fd38dfb24fc10064"
-    },
     "xai-stock-sentiment": {
       "sourceType": "local",
       "sourcePath": "local-skills/xai-stock-sentiment",
@@ -136,6 +130,12 @@
     "playwright-cli": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "ui-ux-pro-max": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     }
