@@ -104,6 +104,20 @@ function Resolve-ProxySkill {
     return $null
 }
 
+function Invoke-ProxyCommand {
+    param(
+        [string]$Command
+    )
+
+    if ($IsWindows) {
+        & $env:ComSpec /c $Command | Out-Host
+        return $LASTEXITCODE
+    }
+
+    & bash -lc $Command | Out-Host
+    return $LASTEXITCODE
+}
+
 $skills = @()
 $allBundles = @()
 $failedSkills = @()
@@ -231,8 +245,7 @@ foreach ($skill in $skills) {
             $tempUserConfig = New-SanitizedNpmUserConfig
             try {
                 $env:NPM_CONFIG_USERCONFIG = $tempUserConfig
-                & $env:ComSpec /c $command | Out-Host
-                $exitCode = $LASTEXITCODE
+                $exitCode = Invoke-ProxyCommand -Command $command
             } finally {
                 if ([string]::IsNullOrWhiteSpace($previousUserConfig)) {
                     Remove-Item Env:NPM_CONFIG_USERCONFIG -ErrorAction SilentlyContinue
