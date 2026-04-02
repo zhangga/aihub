@@ -1,5 +1,4 @@
 finviz-screener
-institutional-flow-tracker
 long-run-harness
 news-sentiment
 remotion
@@ -18,6 +17,7 @@ doc-coauthoring
 excalidraw-diagram-generator
 frontend-design
 humanizer-zh
+institutional-flow-tracker
 nano-banana-2
 playwright-cli
 ui-ux-pro-max

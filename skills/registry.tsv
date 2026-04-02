@@ -1,6 +1,5 @@
 # name	source_type	source_path
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
-institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
 long-run-harness	local	local-skills/long-run-harness
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment
 remotion	submodule	json-render/skills/remotion
