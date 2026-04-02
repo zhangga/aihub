@@ -1,2 +1,2 @@
-# name	repo_url	upstream_skill
-baoyu-post-to-wechat	github.com/JimLiu/baoyu-skills	baoyu-post-to-wechat
+# name	command
+baoyu-post-to-wechat	npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat

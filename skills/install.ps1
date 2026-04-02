@@ -92,15 +92,12 @@ function Resolve-ProxySkill {
         }
 
         $parts = $cleanLine -split "`t"
-        if ($parts.Count -lt 3) {
+        if ($parts.Count -lt 2) {
             continue
         }
 
         if ($parts[0].Trim() -eq $SkillName) {
-            return @{
-                Repo = $parts[1].Trim()
-                Skill = $parts[2].Trim()
-            }
+            return $parts[1].Trim()
         }
     }
 
@@ -219,21 +216,39 @@ foreach ($skill in $skills) {
     Write-Host "Installing: $skill" -ForegroundColor Yellow
 
     try {
-        $installRepo = $RepoUrl
-        $installSkill = $skill
         $proxy = Resolve-ProxySkill -SkillName $skill
         if ($proxy) {
-            $installRepo = $proxy.Repo
-            $installSkill = $proxy.Skill
-            Write-Host ("  Source: proxy -> {0}@{1}" -f $installRepo, $installSkill) -ForegroundColor DarkYellow
-        }
+            Write-Host ("  Source: proxy -> {0}" -f $proxy) -ForegroundColor DarkYellow
+            $command = $proxy
+            $isSkillsAddProxy = $command -match '(^|\s)skills\s+add(\s|$)'
+            if ($isSkillsAddProxy -and $command -notmatch '(^|\s)-y(\s|$)' -and $command -notmatch '(^|\s)--yes(\s|$)') {
+                $command += " -y"
+            }
+            if ($Scope -eq "global" -and $isSkillsAddProxy) {
+                $command += " --global"
+            }
+            $previousUserConfig = $env:NPM_CONFIG_USERCONFIG
+            $tempUserConfig = New-SanitizedNpmUserConfig
+            try {
+                $env:NPM_CONFIG_USERCONFIG = $tempUserConfig
+                & $env:ComSpec /c $command | Out-Host
+                $exitCode = $LASTEXITCODE
+            } finally {
+                if ([string]::IsNullOrWhiteSpace($previousUserConfig)) {
+                    Remove-Item Env:NPM_CONFIG_USERCONFIG -ErrorAction SilentlyContinue
+                } else {
+                    $env:NPM_CONFIG_USERCONFIG = $previousUserConfig
+                }
+                Remove-Item $tempUserConfig -Force -ErrorAction SilentlyContinue
+            }
+        } else {
+            $cmdArgs = @("add", $RepoUrl, "--skill", $skill, "-y")
+            if ($Scope -eq "global") {
+                $cmdArgs += "--global"
+            }
 
-        $cmdArgs = @("add", $installRepo, "--skill", $installSkill, "-y")
-        if ($Scope -eq "global") {
-            $cmdArgs += "--global"
+            $exitCode = Invoke-SkillsNpx -Arguments $cmdArgs
         }
-
-        $exitCode = Invoke-SkillsNpx -Arguments $cmdArgs
 
         if ($exitCode -eq 0) {
             Write-Host "Success: $skill installed." -ForegroundColor Green

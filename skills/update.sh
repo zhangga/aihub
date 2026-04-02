@@ -178,16 +178,15 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
     skills_count=$((skills_count + 1))
 done < "$REGISTRY_FILE"
 
-while IFS=$'\t' read -r raw_name raw_repo raw_skill || [ -n "$raw_name$raw_repo$raw_skill" ]; do
+while IFS=$'\t' read -r raw_name raw_command || [ -n "$raw_name$raw_command" ]; do
     skill_name="$(printf '%s' "$raw_name" | tr -d '\r')"
-    proxy_repo="$(printf '%s' "$raw_repo" | tr -d '\r')"
-    proxy_skill="$(printf '%s' "$raw_skill" | tr -d '\r')"
+    proxy_command="$(printf '%s' "$raw_command" | tr -d '\r')"
 
     if [[ -z "$skill_name" ]] || [[ "$skill_name" =~ ^#.* ]]; then
         continue
     fi
 
-    if [ -z "$proxy_repo" ] || [ -z "$proxy_skill" ]; then
+    if [ -z "$proxy_command" ]; then
         echo "Error: malformed proxy registry entry for skill: $skill_name"
         exit 1
     fi
@@ -205,8 +204,8 @@ while IFS=$'\t' read -r raw_name raw_repo raw_skill || [ -n "$raw_name$raw_repo$
 
     printf '    "%s": {\n' "$skill_name" >> "$tmp_lock_file"
     printf '      "sourceType": "proxy",\n' >> "$tmp_lock_file"
-    printf '      "sourcePath": "%s",\n' "$proxy_skill" >> "$tmp_lock_file"
-    printf '      "sourceRepo": "%s",\n' "$proxy_repo" >> "$tmp_lock_file"
+    printf '      "sourcePath": "%s",\n' "$proxy_command" >> "$tmp_lock_file"
+    printf '      "sourceRepo": "proxy-registry",\n' >> "$tmp_lock_file"
     printf '      "sourceCommit": "proxy"\n' >> "$tmp_lock_file"
     printf '    }' >> "$tmp_lock_file"
 

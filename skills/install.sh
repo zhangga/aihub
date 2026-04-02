@@ -96,17 +96,16 @@ run_skills_command() {
 
 resolve_proxy_skill() {
     local wanted_skill="$1"
-    while IFS=$'\t' read -r raw_name raw_repo raw_upstream; do
+    while IFS=$'\t' read -r raw_name raw_command; do
         if [[ -z "$raw_name" ]] || [[ "$raw_name" =~ ^#.* ]]; then
             continue
         fi
 
         skill_name="$(printf '%s' "$raw_name" | tr -d '\r' | xargs)"
-        repo_url="$(printf '%s' "$raw_repo" | tr -d '\r' | xargs)"
-        upstream_skill="$(printf '%s' "$raw_upstream" | tr -d '\r' | xargs)"
+        proxy_command="$(printf '%s' "$raw_command" | tr -d '\r' | xargs)"
 
         if [[ "$skill_name" == "$wanted_skill" ]]; then
-            printf '%s\t%s\n' "$repo_url" "$upstream_skill"
+            printf '%s\n' "$proxy_command"
             return 0
         fi
     done < <(curl -fsSL "$PROXY_REGISTRY_URL")
@@ -204,15 +203,26 @@ prepare_npm_userconfig
 for skill in "${SKILLS[@]}"; do
     echo "Installing: $skill"
 
-    install_repo="$REPO_URL"
-    install_skill="$skill"
-    if proxy_resolution="$(resolve_proxy_skill "$skill")"; then
-        install_repo="$(printf '%s' "$proxy_resolution" | cut -f1)"
-        install_skill="$(printf '%s' "$proxy_resolution" | cut -f2)"
-        echo "  Source: proxy -> $install_repo@$install_skill"
+    if proxy_command="$(resolve_proxy_skill "$skill")"; then
+        echo "  Source: proxy -> $proxy_command"
+        full_proxy_command="$proxy_command"
+        if [[ "$full_proxy_command" == *" skills add "* ]] && [[ "$full_proxy_command" != *" -y"* && "$full_proxy_command" != *" --yes"* ]]; then
+            full_proxy_command="$full_proxy_command -y"
+        fi
+        if [ "$INSTALL_SCOPE" = "global" ] && [[ "$full_proxy_command" == *" skills add "* ]]; then
+            full_proxy_command="$full_proxy_command --global"
+        fi
+        if NPM_CONFIG_USERCONFIG="$TEMP_NPMRC" bash -lc "$full_proxy_command"; then
+            echo "Success: $skill installed."
+        else
+            echo "Error: $skill installation failed."
+            FAILED_SKILLS+=("$skill")
+        fi
+        echo "--------------------------------------------------"
+        continue
     fi
 
-    install_cmd=(add "$install_repo" --skill "$install_skill" -y)
+    install_cmd=(add "$REPO_URL" --skill "$skill" -y)
     if [ "$INSTALL_SCOPE" = "global" ]; then
         install_cmd+=(--global)
     fi
