@@ -1,7 +1,6 @@
 china-stock-analysis
 codex-review
 doc-coauthoring
-excalidraw-diagram-generator
 finviz-screener
 humanizer-zh
 institutional-flow-tracker
@@ -17,6 +16,7 @@ yahoo-data-fetcher
 baoyu-post-to-wechat
 agent-browser
 brainstorming
+excalidraw-diagram-generator
 frontend-design
 nano-banana-2
 playwright-cli

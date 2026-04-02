@@ -19,12 +19,6 @@
       "sourceRepo": "https://github.com/anthropics/skills.git",
       "sourceCommit": "98669c11ca63e9c81c11501e1437e5c47b556621"
     },
-    "excalidraw-diagram-generator": {
-      "sourceType": "submodule",
-      "sourcePath": "awesome-copilot/skills/excalidraw-diagram-generator",
-      "sourceRepo": "https://github.com/github/awesome-copilot.git",
-      "sourceCommit": "4020587c735b577f4f52ebdaf1bbf5d68377c98d"
-    },
     "finviz-screener": {
       "sourceType": "submodule",
       "sourcePath": "claude-trading-skills/skills/finviz-screener",
@@ -112,6 +106,12 @@
     "brainstorming": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/obra/superpowers --skill brainstorming",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "excalidraw-diagram-generator": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/github/awesome-copilot --skill excalidraw-diagram-generator",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
