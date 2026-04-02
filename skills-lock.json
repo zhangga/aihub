@@ -19,12 +19,6 @@
       "sourceRepo": "https://github.com/tradermonty/claude-trading-skills.git",
       "sourceCommit": "6ebcfe1fd3d1110e335589b9bf44fff07549dfaa"
     },
-    "humanizer-zh": {
-      "sourceType": "local",
-      "sourcePath": "local-skills/humanizer-zh",
-      "sourceRepo": "local",
-      "sourceCommit": "6c5d77a8aba23624b6a761e1820b8835d97f3d7c53907735b013e3939a6f1216"
-    },
     "institutional-flow-tracker": {
       "sourceType": "submodule",
       "sourcePath": "claude-trading-skills/skills/institutional-flow-tracker",
@@ -118,6 +112,12 @@
     "frontend-design": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/anthropics/skills --skill frontend-design",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "humanizer-zh": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/op7418/humanizer-zh --skill humanizer-zh",
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },

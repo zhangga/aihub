@@ -2,7 +2,6 @@
 codex-review	submodule	antigravity-awesome-skills/skills/codex-review
 doc-coauthoring	submodule	anthropics-skills/skills/doc-coauthoring
 finviz-screener	submodule	claude-trading-skills/skills/finviz-screener
-humanizer-zh	local	local-skills/humanizer-zh
 institutional-flow-tracker	submodule	claude-trading-skills/skills/institutional-flow-tracker
 long-run-harness	local	local-skills/long-run-harness
 news-sentiment	submodule	trading_skills/.claude/skills/news-sentiment

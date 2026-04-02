@@ -1,7 +1,6 @@
 codex-review
 doc-coauthoring
 finviz-screener
-humanizer-zh
 institutional-flow-tracker
 long-run-harness
 news-sentiment
@@ -18,6 +17,7 @@ brainstorming
 china-stock-analysis
 excalidraw-diagram-generator
 frontend-design
+humanizer-zh
 nano-banana-2
 playwright-cli
 ui-ux-pro-max

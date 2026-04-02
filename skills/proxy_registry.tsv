@@ -5,6 +5,7 @@ brainstorming	npx skills add https://github.com/obra/superpowers --skill brainst
 china-stock-analysis	npx skills add https://github.com/sugarforever/01coder-agent-skills --skill china-stock-analysis
 excalidraw-diagram-generator	npx skills add https://github.com/github/awesome-copilot --skill excalidraw-diagram-generator
 frontend-design	npx skills add https://github.com/anthropics/skills --skill frontend-design
+humanizer-zh	npx skills add https://github.com/op7418/humanizer-zh --skill humanizer-zh
 nano-banana-2	npx skills add https://github.com/inferen-sh/skills --skill nano-banana-2
 playwright-cli	npx skills add https://github.com/microsoft/playwright-cli --skill playwright-cli
 ui-ux-pro-max	npx skills add https://github.com/nextlevelbuilder/ui-ux-pro-max-skill --skill ui-ux-pro-max
