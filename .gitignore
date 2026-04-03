@@ -41,3 +41,11 @@ logs
 .trae/
 
 node_modules/
+
+wechat-drafts/
+.baoyu-skills/
+
+# tmp
+tmp-image-fallback/
+tmp-infsh/
+tmp-infsh-install.sh

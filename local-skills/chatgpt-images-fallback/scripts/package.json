@@ -1,0 +1,12 @@
+{
+  "name": "chatgpt-images-fallback-scripts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "chatgpt-fallback": "node run_chatgpt_fallback.mjs",
+    "pipeline": "python run_pipeline.py"
+  },
+  "dependencies": {
+    "playwright": "^1.59.0"
+  }
+}

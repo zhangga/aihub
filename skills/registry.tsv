@@ -1,4 +1,5 @@
 # name	source_type	source_path
+chatgpt-images-fallback	local	local-skills/chatgpt-images-fallback
 long-run-harness	local	local-skills/long-run-harness
 remotion	submodule	json-render/skills/remotion
 sensight	local	local-skills/sensight

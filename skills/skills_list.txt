@@ -1,3 +1,4 @@
+chatgpt-images-fallback
 long-run-harness
 remotion
 sensight

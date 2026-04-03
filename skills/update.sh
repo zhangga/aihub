@@ -94,6 +94,14 @@ cleanup() {
 
 trap cleanup EXIT
 
+prune_unwanted_dirs() {
+    local target_root="$1"
+
+    if [ -d "$target_root" ]; then
+        find "$target_root" -type d \( -name node_modules -o -name __pycache__ \) -prune -exec rm -rf {} +
+    fi
+}
+
 printf '{\n  "version": 2,\n  "skills": {\n' > "$tmp_lock_file"
 
 while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$raw_path" ]; do
@@ -131,6 +139,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
 
             echo "Syncing: $skill_name <- $source_key"
             cp -r "$source_path" "$target_path"
+            prune_unwanted_dirs "$target_path"
 
             source_repo="$(git -C "$submodule_path" config --get remote.origin.url || true)"
             source_commit="$(git -C "$submodule_path" rev-parse HEAD || true)"
@@ -149,6 +158,7 @@ while IFS=$'\t' read -r raw_name raw_type raw_path || [ -n "$raw_name$raw_type$r
                 fi
                 echo "Copying local skill: $skill_name <- $source_key"
                 cp -r "$source_path" "$target_path"
+                prune_unwanted_dirs "$target_path"
             else
                 echo "Keeping local skill in place: $skill_name"
             fi

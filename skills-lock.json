@@ -1,6 +1,12 @@
 {
   "version": 2,
   "skills": {
+    "chatgpt-images-fallback": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/chatgpt-images-fallback",
+      "sourceRepo": "local",
+      "sourceCommit": "9ec585d65da39362bfd0a0053acc82f9083526c223b0d4cc736533c8eee56698"
+    },
     "long-run-harness": {
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",
