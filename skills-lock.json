@@ -49,6 +49,12 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
+    "baoyu-image-gen": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/jimliu/baoyu-skills --skill baoyu-image-gen",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
     "baoyu-xhs-images": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/jimliu/baoyu-skills --skill baoyu-xhs-images",

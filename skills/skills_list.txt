@@ -6,6 +6,7 @@ skill-hub-builder
 xai-stock-sentiment
 yahoo-data-fetcher
 baoyu-post-to-wechat
+baoyu-image-gen
 baoyu-xhs-images
 agent-browser
 brainstorming
