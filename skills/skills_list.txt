@@ -8,6 +8,7 @@ yahoo-data-fetcher
 baoyu-post-to-wechat
 baoyu-article-illustrator
 baoyu-cover-image
+baoyu-infographic
 baoyu-image-gen
 baoyu-xhs-images
 agent-browser
