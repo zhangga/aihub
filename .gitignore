@@ -39,3 +39,5 @@ logs
 .agents/
 .claude/
 .trae/
+
+node_modules/
