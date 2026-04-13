@@ -8,12 +8,13 @@ Owner: Codex
 
 This document proposes a new first-party skill named `game-ai-daily-report` for the `aihub` repository.
 
-The skill should help generate a daily deep-dive report about the intersection of games and AI. The report should prioritize formal sources such as company blogs, product announcements, conference updates, media reporting, and official statements, then use social discussion as a secondary signal for heat-checking, validation, and reaction analysis.
+The skill should help generate a daily deep-dive report about the intersection of games and AI. The report should prioritize formal sources such as company blogs, product announcements, conference updates, media reporting, and official statements, then use X discussion as a high-visibility heat and reaction layer that meaningfully shapes report ordering and analysis.
 
-The skill should support two usage modes from the start:
+The skill should support three usage properties from the start:
 
 - manual invocation, such as "give me today's game x AI daily report"
 - future automation compatibility, so the same report workflow can run on a schedule without redesigning the output contract
+- bilingual file output compatibility, so each run can save matching Chinese and English Markdown reports to predictable relative paths
 
 The scope explicitly includes two sub-domains:
 
@@ -24,16 +25,17 @@ The scope explicitly includes two sub-domains:
 
 - Create a reusable skill for producing a daily "game x AI" report with a stable structure
 - Keep the report focused on high-signal developments rather than generic AI or gaming news
-- Prefer formal sources and use social platforms only as supporting evidence
+- Prefer formal sources and use X as the main heat-check channel
 - Make the output useful for strategic tracking, not just link aggregation
 - Keep the skill lightweight enough for manual use while shaping it for later automation
 - Fit the repository's existing `local-skills -> skills/update.sh -> skills/` distribution model
+- Save each generated report to `docs/game-ai-daily-reports/YYYY-MM-DD-game-ai-report.zh.md` and `docs/game-ai-daily-reports/YYYY-MM-DD-game-ai-report.en.md` relative to the current working directory
 
 ## Non-Goals
 
 - Building a full crawler or standalone news aggregation product in v1
 - Covering the entire game industry or entire AI industry without an intersection filter
-- Treating social chatter as a primary source of truth
+- Treating X chatter as a replacement for formal-source validation
 - Solving push delivery, database storage, or analytics dashboards in the first release
 - Adding heavy scripts before the report workflow has been proven through repeated real use
 
@@ -43,7 +45,7 @@ The skill should trigger when the user wants a recurring or on-demand report abo
 
 - "Give me today's game x AI daily report"
 - "Summarize the latest gaming and AI convergence news"
-- "What happened in game AI in the last 24 hours?"
+- "What happened in game AI in the last 3 days?"
 - "Track how game companies are using AI this week"
 - "Find recent news about AI companies making game products"
 
@@ -54,52 +56,6 @@ The skill should not trigger for:
 - unrelated technical implementation tasks
 - broad stock, weather, or code-generation requests
 
-## Alternatives Considered
-
-### 1. Prompt-only skill
-
-Pros:
-
-- fastest to ship
-- lowest maintenance overhead
-- enough for early experimentation
-
-Cons:
-
-- weak consistency across runs
-- filtering and report structure likely drift over time
-- not ideal for later automation
-
-### 2. Workflow skill with references
-
-Pros:
-
-- keeps the skill concise while locking in workflow quality
-- allows stable boundaries, scoring, and output templates
-- adapts well to manual use now and automation later
-- fits the current repository pattern for local first-party skills
-
-Cons:
-
-- requires a bit more upfront design than a single-file prompt
-- still relies on agent judgment for source gathering
-
-### 3. Script-heavy pipeline skill
-
-Pros:
-
-- strongest deterministic behavior
-- easier to standardize scoring and rendering later
-- good long-term base if usage becomes frequent and repetitive
-
-Cons:
-
-- overbuilt for v1
-- higher maintenance cost
-- risks solving the wrong problem before the workflow is validated
-
-Recommendation: choose option 2.
-
 ## Recommended Approach
 
 Implement `game-ai-daily-report` as a workflow-first local skill with a concise `SKILL.md` and a small set of focused reference files.
@@ -109,10 +65,11 @@ The skill should define:
 - what counts as "game x AI"
 - which source classes are preferred
 - how to collect and filter candidate items
-- how to validate heat or relevance with social discussion
+- how to validate heat or relevance with X discussion
 - how to render a stable daily report
+- how to save the final bilingual reports to disk
 
-The first version should avoid mandatory scripts. It should lean on the agent's browsing and existing repo capabilities, including reuse of `sensight`-style social discovery patterns where helpful, while keeping the workflow explicit enough that later automation can call the same steps with a date parameter.
+The first version should avoid mandatory scripts. It should lean on the agent's browsing and existing repo capabilities, including reuse of `sensight`-style social discovery patterns where helpful, while keeping the workflow explicit enough that later automation can call the same steps with a date parameter and save to a deterministic relative file path.
 
 ## Architecture
 
@@ -127,15 +84,17 @@ Defined in `SKILL.md` plus references. Responsible for:
 - source prioritization
 - report assembly rules
 - quality checks before output
+- bilingual file output behavior
 
 ### Layer 2: Information gathering
 
 Performed by the agent at runtime. Responsible for:
 
 - finding formal-source candidates
-- collecting supporting social evidence when needed
+- collecting X heat evidence and supporting social context when needed
 - dropping low-signal or weakly sourced items
 - composing the final report using the fixed template
+- saving the final bilingual reports to disk
 
 This split keeps the skill reusable and avoids prematurely hard-coding a data pipeline.
 
@@ -163,45 +122,52 @@ The skill should only include items that sit meaningfully at the overlap of game
 The default report should use the following sections in order:
 
 1. `Today in Brief`
-2. `Game Companies Using AI`
-3. `AI Companies Building Game Products`
-4. `Social Heat Check`
-5. `What To Watch Next`
+2. `Formal Signal`
+3. `X Heat Check`
+4. `Game Companies Using AI`
+5. `AI Companies Building Game Products`
+6. `What To Watch Next`
+7. `Saved Report`
 
 Section rules:
 
 - `Today in Brief` should summarize the most important changes in 3 to 5 bullets
-- the two middle sections should group items by sub-domain rather than by source
-- `Social Heat Check` should not repeat the whole story; it should explain whether the market is paying attention and what the reaction pattern looks like
+- `Formal Signal` should contain only formally supported facts
+- `X Heat Check` should be a major analytical section that explains whether the market is paying attention, who is driving the conversation, and where the disagreement sits
+- the two domain sections should group items by sub-domain rather than by source
 - `What To Watch Next` should list 2 to 4 forward-looking observations or follow-up questions
+- `Saved Report` should state the file path or a save failure
 
 ## Candidate Selection Workflow
 
 Each report run should follow the same sequence:
 
-1. Resolve report window, defaulting to the last 24 hours for daily mode
+1. Resolve report window, defaulting to the last 3 days for daily mode
 2. Search formal sources first
 3. Build a candidate list of possible items
 4. Filter candidates using the game x AI boundary
 5. Score each remaining item
-6. Use social discussion only to validate heat, controversy, or practitioner reaction
+6. Use X discussion to validate heat, controversy, and reaction, and to elevate the relative priority of qualified items
 7. Keep the top items that produce a coherent report
 8. Render the report in the fixed section order
+9. Save the Chinese and English reports to deterministic relative file paths
 
 ## Scoring Model
 
-Each candidate item should be scored on four dimensions:
+Each candidate item should be scored on five dimensions:
 
 - `relevance`: how directly it sits at the game x AI intersection
 - `credibility`: how strong and formal the sourcing is
 - `impact`: how important it appears for industry behavior, product direction, or platform strategy
 - `novelty`: whether it adds genuinely new information versus repeating ongoing chatter
+- `x_heat`: how much meaningful X discussion, spread, or disagreement the item is generating
 
 Recommended interpretation:
 
 - include only items with strong relevance and acceptable credibility
-- use impact and novelty to rank items inside the report
-- use social heat as a tie-breaker or explanatory signal, not a standalone justification
+- use impact and X heat to rank items inside the report
+- use novelty as a tie-breaker
+- allow X-led weakly confirmed topics only inside `X Heat Check`
 
 ## Source Strategy
 
@@ -217,7 +183,7 @@ The source strategy should be intentionally asymmetric.
 - executive statements in credible publications
 - established gaming and AI trade media
 
-### Secondary sources
+### Heat and secondary sources
 
 - X or Twitter discussion
 - Reddit
@@ -225,7 +191,7 @@ The source strategy should be intentionally asymmetric.
 - YouTube creator commentary
 - other public discussion venues where practitioner reaction is visible
 
-Social sources should answer questions like:
+X should be the default heat lens. Secondary social sources should answer questions like:
 
 - Is this item attracting unusual attention?
 - Are developers, creators, or players reacting positively or negatively?
@@ -240,6 +206,7 @@ The skill should live under:
 Initial package contents:
 
 - `SKILL.md`
+- `scripts/save_reports.py`
 - `references/topic-boundary.md`
 - `references/source-map.md`
 - `references/report-template.md`
@@ -253,6 +220,14 @@ Initial package contents:
 - keep concise
 - define triggers, workflow order, and output expectations
 - tell the agent which reference file to open for specific decisions
+- define the save-to-file behavior
+
+`scripts/save_reports.py`
+
+- save the Chinese and English Markdown reports to deterministic relative paths
+- create the target directory when missing
+- overwrite the same day's files cleanly
+- return machine-readable success output for automation
 
 `references/topic-boundary.md`
 
@@ -262,16 +237,17 @@ Initial package contents:
 `references/source-map.md`
 
 - list source categories and representative source types to check first
-- separate formal sources from social validation sources
+- separate formal sources from X and supporting social validation sources
 
 `references/report-template.md`
 
 - define the final Markdown structure
 - standardize tone, section order, and per-item formatting
+- define the bilingual saved-report footer and language-alignment rules
 
 `references/scoring-rules.md`
 
-- define the four scoring dimensions
+- define the five scoring dimensions
 - give practical keep-or-drop guidance
 
 ## Distribution Plan
@@ -305,13 +281,14 @@ Required properties:
 - explicit source attribution in prose or link form
 - date window included near the top
 - stable formatting that can later be reused by scheduled automations
+- deterministic bilingual save paths relative to the current working directory
 
 Recommended per-item format:
 
 - headline
 - why it matters
 - source summary
-- optional social reaction note when relevant
+- optional X reaction note when relevant
 
 ## Error Handling
 
@@ -320,16 +297,17 @@ The skill should fail gracefully when signal is weak.
 Expected cases:
 
 - not enough high-quality items in the selected time window
-- high social heat but no credible formal source
+- strong X heat but weak formal confirmation
 - formal-source item exists but has weak or no visible market reaction
 - duplicate stories from multiple publications
 
 Behavior:
 
 - prefer a shorter, high-confidence report over a long noisy one
-- explicitly note when a social trend lacks formal confirmation
+- explicitly note when an X trend lacks formal confirmation
 - collapse duplicates into one entry with the strongest source
 - if the window is too sparse, widen slightly and say so clearly
+- if save-to-file fails, still return the short Chinese summary and state the language-specific error
 
 ## Testing Strategy
 
@@ -352,9 +330,10 @@ Success criteria:
 
 - output stays within the game x AI boundary
 - formal sources clearly lead the report
-- social discussion appears only as supporting evidence
+- X heat meaningfully shapes ordering and analysis without overriding formal-source gating
 - the structure is stable across repeated runs
 - the report remains useful for both manual reading and future automation
+- the Chinese and English reports are saved to the expected relative paths
 
 ## Implementation Phases
 
@@ -380,15 +359,16 @@ Success criteria:
 ## Open Decisions Already Resolved
 
 - report shape: deep daily report
-- source policy: formal sources first, social discussion for validation and heat reference
+- source policy: formal sources first, X as the default heat lens
 - topic coverage: both "game companies using AI" and "AI companies building game products"
 - usage model: support manual invocation now, preserve automation compatibility
+- file output: save to `docs/game-ai-daily-reports/YYYY-MM-DD-game-ai-report.zh.md` and `.en.md` relative to cwd
 - v1 implementation: workflow-first, not script-heavy
 
 ## Residual Risks
 
 - the game x AI boundary may still drift without enough examples in `topic-boundary.md`
-- over-reliance on social reaction could sneak back in if the workflow wording is weak
+- over-reliance on X reaction could sneak back in if the workflow wording is weak
 - some days may have too little signal for a dense daily report, requiring explicit sparse-day behavior
 - future automation will still need scheduling and destination choices outside the skill itself
 
@@ -398,7 +378,8 @@ This design is complete when the resulting skill:
 
 - is implemented as a local first-party skill under `local-skills/`
 - produces a structured daily deep-dive report about game x AI developments
-- prioritizes formal sources and uses social discussion only as supporting evidence
+- prioritizes formal sources and uses X as the primary heat and reaction layer
 - covers both major sub-domains in separate sections
 - is usable manually today and shaped for scheduled automation later
+- saves Chinese and English reports to the expected relative paths
 - fits the repository's existing sync and distribution workflow

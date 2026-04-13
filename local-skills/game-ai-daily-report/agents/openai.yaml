@@ -1,0 +1,3 @@
+display_name: Game x AI Daily Report
+short_description: Build a formal-source-first daily report about game x AI developments, with social discussion used only for heat checks and reaction context.
+default_prompt: Prepare today's game x AI daily report. Prioritize official announcements, company blogs, conference updates, product pages, and credible trade coverage. Use social discussion only to validate attention and reaction, then write the report in the fixed skill template.

@@ -7,6 +7,12 @@
       "sourceRepo": "local",
       "sourceCommit": "9ec585d65da39362bfd0a0053acc82f9083526c223b0d4cc736533c8eee56698"
     },
+    "game-ai-daily-report": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/game-ai-daily-report",
+      "sourceRepo": "local",
+      "sourceCommit": "85b138480199bd50b8b23001d0f2c6ed76c5fa046d3fa1afd714830731d39783"
+    },
     "long-run-harness": {
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",

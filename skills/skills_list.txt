@@ -1,4 +1,5 @@
 chatgpt-images-fallback
+game-ai-daily-report
 long-run-harness
 remotion
 sensight
