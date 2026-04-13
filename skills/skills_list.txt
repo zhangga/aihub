@@ -9,7 +9,7 @@ baoyu-post-to-wechat
 baoyu-article-illustrator
 baoyu-cover-image
 baoyu-infographic
-baoyu-image-gen
+baoyu-imagine
 baoyu-xhs-images
 agent-browser
 brainstorming
