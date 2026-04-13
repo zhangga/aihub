@@ -19,6 +19,12 @@
       "sourceRepo": "local",
       "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
     },
+    "women-ai-topic-radar": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/women-ai-topic-radar",
+      "sourceRepo": "local",
+      "sourceCommit": "fcd66479dd58b9cd111a81b5623b1e180a82b1fcdb0218d44cc8501685ca043c"
+    },
     "remotion": {
       "sourceType": "submodule",
       "sourcePath": "json-render/skills/remotion",
