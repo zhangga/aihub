@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI WeChat Hotspot Writer"
+  short_description: "Turn recent AI hotspots into WeChat articles and image prompts."
+  default_prompt: "Use $ai-wechat-hotspot-writer to collect recent AI hotspots and draft a WeChat article with long-image prompts."

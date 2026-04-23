@@ -1,6 +1,12 @@
 {
   "version": 2,
   "skills": {
+    "ai-wechat-hotspot-writer": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/ai-wechat-hotspot-writer",
+      "sourceRepo": "local",
+      "sourceCommit": "f5fbd5a6bda375d03afdd64dd7cb296c8ae3f86cb6c2f941f4db97e0adb02e09"
+    },
     "chatgpt-images-fallback": {
       "sourceType": "local",
       "sourcePath": "local-skills/chatgpt-images-fallback",

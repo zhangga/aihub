@@ -1,3 +1,4 @@
+ai-wechat-hotspot-writer
 chatgpt-images-fallback
 long-run-harness
 remotion
