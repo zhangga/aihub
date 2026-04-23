@@ -1,4 +1,0 @@
-interface:
-  display_name: "Women AI Topic Radar"
-  short_description: "Turn hot AI buzz into topic briefs for women creators"
-  default_prompt: "整理最近 3 天小红书、微博、微信公众号和 X/Twitter 上最热的 AI 讨论，筛出最适合泛女性成长类创作者的内容机会，并按 skill 模板写成选题会材料。优先看社交热度，同时判断受众匹配度、内容延展性、平台适配度和风险。"
