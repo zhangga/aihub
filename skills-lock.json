@@ -97,6 +97,12 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
+    "writing-plans": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/obra/superpowers --skill writing-plans",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
     "china-stock-analysis": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/sugarforever/01coder-agent-skills --skill china-stock-analysis",
