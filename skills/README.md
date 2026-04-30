@@ -1,129 +1,150 @@
-﻿# Agent Skills 库
+# Agent Skills 库
 
-这个目录用于统一分发各类 Agent 扩展技能（Skills）。通过安装这里的技能产物，你可以显著增强 AI Agent（如 Cline, Trae, Cursor 等工作流中的 Agent）在特定领域的专业分析、网页浏览或代码执行能力。
+这个目录是 `aihub` 的 Agent Skills 分发目录。下游用户通过这里的安装脚本安装 skill；维护者通过 registry 和同步脚本生成这里的分发产物。
 
-为了保持技能的最新状态并避免手动复制带来的代码陈旧问题，我们通过 Git Submodule 管理外部依赖，并使用 `local-skills/` 管理自研源码，再通过一键同步脚本统一生成当前目录下的分发产物。对于少量更新频繁、无需镜像进仓库的上游技能，也支持通过 `skills/proxy_registry.tsv` 走“代理安装”模式，保留统一入口但直接执行上游安装命令。
+`skills/` 下的具体 skill 目录通常不是手写源码，而是由 `bash skills/update.sh` 从以下来源生成：
 
-`skills/registry.tsv` 和 `skills/proxy_registry.tsv` 共同定义对外分发的技能清单。`skills/skills_list.txt` 和根目录的 `skills-lock.json` 都由 `bash skills/update.sh` 自动生成。
+- `submodule`：从 `external/` 下的第三方仓库镜像
+- `local`：从 `local-skills/` 下的一方源码复制
+- `proxy`：不保留源码目录，只在安装时执行 `skills/proxy_registry.tsv` 中登记的上游安装命令
 
-## 🚀 一键安装指南
+事实来源：
 
-如果你想直接将本仓库中提供的**全部精选技能**安装到你的 Agent 运行环境中，只需在你的终端（需已安装 Node.js 和 npm）中执行以下命令：
+- `skills/registry.tsv`：镜像 skill 的来源清单
+- `skills/proxy_registry.tsv`：proxy skill 的安装命令清单
+- `skills/bundles.tsv`：预设包定义
+- `skills/skills_list.txt`：自动生成的全量安装列表
+- `../skills-lock.json`：自动生成的来源锁文件
 
-**Mac / Linux / Windows WSL**:
+## 一键安装
+
+安装全部已登记 skill：
+
+**Mac / Linux / Windows WSL**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash
 ```
 
-**Windows (PowerShell)**:
+**Windows PowerShell**
+
 ```powershell
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-> **注意**：上述脚本会读取 `skills_list.txt`，自动从云端下载并静默安装（`-y`）所有支持的核心技能。
+安装预设包：
 
-推荐优先使用预设包。
-
-支持的预设包如下：
-
-- `core`
-- `finance`
-- `creative`
-- `productivity`
-
-预设包安装示例：
-
-**Mac / Linux / Windows WSL**:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle core
 ```
+
+安装到全局范围：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --bundle creative --global
 ```
 
-查看可用预设包：
+PowerShell 远程安装时可用环境变量指定 bundle 和 scope：
 
-**Mac / Linux / Windows WSL**:
-```bash
-curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --list-bundles
-```
-
-**Windows (PowerShell)**:
 ```powershell
 $env:AIHUB_BUNDLE="creative"
 $env:AIHUB_SCOPE="global"
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
-也支持零参数直接安装：
+查看可用预设包：
 
-```powershell
-irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --list-bundles
 ```
 
-## 📦 现有技能列表
+## 预设包
 
-当前已登记并支持一键安装的技能包括：
+当前 `skills/bundles.tsv` 定义了以下 bundle：
 
-### 📈 投资与金融分析
-- **`china-stock-analysis`**: A股价值投资分析工具，基于价值投资理论，提供股票筛选、个股深度分析和估值计算功能。
-- **`finviz-screener`**: 基于 FinViz 的强大股票筛选工具技能。
-- **`institutional-flow-tracker`**: 机构资金流向跟踪分析技能。
-- **`news-sentiment`**: 市场新闻与情绪分析技能。
-- **`stock-analyst`**: 专业的股票数据技术面与基本面分析辅助工具。
-- **`stock-metrics`**: 核心股票指标与财报数据抓取、计算技能。
-- **`xai-stock-sentiment`**: 结合 xAI 模型的股票市场情绪追踪工具。
-- **`yahoo-data-fetcher`**: 雅虎财经（Yahoo Finance）实时数据获取与分析工具。
+- `core`：日常 Agent 工作流基础包
+- `finance`：市场研究与投资分析包
+- `creative`：创意、视觉和演示工作流包
+- `productivity`：研究、写作和交付工作流包
 
-### 💻 研发与生产力
-- **`agent-browser`**: 能够让 Agent 自主浏览、检索和阅读网页内容的强大技能。
-- **`brainstorming`**: 头脑风暴辅助工具，扩展 Agent 的创意构思与发散能力。
-- **`codex-review`**: 提供智能代码审查（Code Review）与架构分析能力。
-- **`doc-coauthoring`**: 文档共创与协作写作技能，适合需求文档、提案、技术规格和决策文档整理。
-- **`excalidraw-diagram-generator`**: 根据自然语言描述生成 Excalidraw 图表，可用于流程图、关系图、脑图和架构图。
-- **`frontend-design`**: 前端设计与 UI 组件生成辅助技能。
-- **`humanizer-zh`**: 中文写作润色与去 AI 痕迹技能，适合编辑、审阅和自然化改写中文文本。
-- **`long-run-harness`**: 面向超长复杂任务的自主执行 harness，要求 Agent 通过结构化状态文件持续规划、增量推进、验证结果，并默认工作到最终目标完成才停止。
-- **`remotion`**: 基于 JSON 渲染，支持自动化生成视频/动画的整合技能。
-- **`sensight`**: 社媒热点、AI 行业资讯与语义检索技能，适合做舆情观察、热门话题追踪和作者动态检索。
-- **`skill-hub-builder`**: 个人 skill hub 搭建与维护工作流技能，适合初始化聚合仓、接入外部与本地 skills、维护分发清单和 bundle。
-- **`ui-ux-pro-max`**: 面向 Web 和移动端的 UI/UX 设计智能技能，提供设计风格、配色、字体、交互与组件建议。
+## 当前技能列表
 
----
+以下列表应与 `skills/skills_list.txt` 保持一致。
 
-## ⚙️ 仓库维护指南 (仅限开发者)
+### 研发与 Agent 工作流
 
-本目录下的具体技能代码是分发产物，不建议直接在这里手写维护。当前仓库同时支持三种 skill 来源：
+- **`agent-browser`**：浏览器自动化与网页调试技能。
+- **`brainstorming`**：需求澄清、发散构思和方案探索技能。
+- **`codex-review`**：代码审查和架构风险识别技能。
+- **`doc-coauthoring`**：文档共创与协作写作技能，适合需求文档、提案、技术规格和决策文档。
+- **`excalidraw-diagram-generator`**：根据自然语言生成 Excalidraw 图表。
+- **`frontend-design`**：前端设计和 UI 组件生成辅助技能。
+- **`long-run-harness`**：长周期任务执行 harness，使用持久化状态、验证和恢复流程持续推进任务。
+- **`playwright-cli`**：基于 Playwright 的浏览器测试和自动化技能。
+- **`remotion`**：基于 JSON 渲染的视频和动画生成技能。
+- **`remotion-best-practices`**：Remotion 视频项目的最佳实践规则集。
+- **`skill-hub-builder`**：个人 skill hub 搭建、同步和分发维护技能。
+- **`ui-ux-pro-max`**：Web 与移动端 UI/UX 设计建议技能。
 
-- 镜像外部 skill：来自 `/external/` 中的第三方开源仓库子模块
-- 镜像本地 skill：来自 `/local-skills/`
-- proxy skill：只在安装时代理执行上游命令，不在仓库中保留镜像副本
+### 投资与金融分析
 
-**如何添加新技能或更新现有技能代码：**
-1. **配置依赖**:
-   编辑 `skills/registry.tsv` 或 `skills/proxy_registry.tsv`。
-   `skills/registry.tsv` 的每一行格式为 `name<TAB>source_type<TAB>source_path`。其中：
-   - `submodule` 表示来源于 `external/` 下的子模块路径，例如 `01coder-agent-skills/skills/china-stock-analysis`
-- `local` 表示来源于当前仓库的自研源码目录，例如 `local-skills/xai-stock-sentiment`
-   `skills/proxy_registry.tsv` 的格式为 `name<TAB>command`。如果某个上游 skill 不想镜像到仓库中，而是希望安装时直接代理到上游安装命令，就把它写在这里。例如：`baoyu-post-to-wechat<TAB>npx skills add https://github.com/JimLiu/baoyu-skills --skill baoyu-post-to-wechat`。
-2. **执行同步脚本**: 在根目录运行更新脚本。
+- **`china-stock-analysis`**：A 股价值投资分析工具。
+- **`finviz-screener`**：基于 FinViz 的股票筛选技能。
+- **`institutional-flow-tracker`**：机构持仓与资金流向分析技能。
+- **`news-sentiment`**：市场新闻和情绪分析技能。
+- **`stock-analyst`**：股票技术面和指标分析技能。
+- **`stock-metrics`**：核心股票指标与财报数据抓取技能。
+- **`xai-stock-sentiment`**：基于 X/Twitter 数据的股票情绪分析技能。
+- **`yahoo-data-fetcher`**：Yahoo Finance 实时行情数据获取技能。
+
+### 写作、研究与内容整理
+
+- **`ai-wechat-hotspot-writer`**：AI 热点收集、筛选和微信公众号文章写作技能。
+- **`humanizer-zh`**：中文写作润色和去 AI 痕迹技能。
+- **`sensight`**：社媒热点、AI 行业资讯、作者动态和语义检索技能。
+
+### 视觉、图片与发布
+
+- **`baoyu-article-illustrator`**：为文章结构生成插图建议和图像提示词。
+- **`baoyu-cover-image`**：生成文章封面图提示词和视觉方案。
+- **`baoyu-imagine`**：多模型图片生成工作流技能。
+- **`baoyu-infographic`**：信息图生成技能。
+- **`baoyu-post-to-wechat`**：微信公众号文章或图文发布技能。
+- **`baoyu-xhs-images`**：小红书图文卡片生成技能。
+- **`chatgpt-images-fallback`**：主图像 API 失败时回退到 ChatGPT Images 的图片生成技能。
+- **`nano-banana-2`**：基于 Gemini 3.1 Flash Image Preview 的图片生成和编辑技能。
+
+## 维护流程
+
+不要直接维护 `skills/<name>/` 下的镜像产物。修改来源后重新同步。
+
+1. 修改来源清单：
+   - 镜像 skill：编辑 `skills/registry.tsv`
+   - proxy skill：编辑 `skills/proxy_registry.tsv`
+   - bundle：编辑 `skills/bundles.tsv`
+2. 运行本地校验：
+
+   ```bash
+   bash skills/check-registry.sh
+   ```
+
+3. 重新生成分发产物：
+
    ```bash
    bash skills/update.sh
    ```
-> 脚本会自动：更新仍在使用的 Git Submodule -> 将 `registry.tsv` 中配置好的镜像 skill 同步到 `skills/` 下 -> 将 `proxy_registry.tsv` 中的代理 skill 纳入安装清单 -> 生成 `skills_list.txt` 和 `skills-lock.json`。
 
-3. **离线校验或仅重建产物**: 如果你已经手动更新过 submodule，或当前环境不方便联网，可以执行：
+   如果已经手动更新过 submodule，或当前环境不方便联网：
+
    ```bash
    bash skills/update.sh --skip-submodule-update
    ```
 
-4. **运行本地校验**: 在提交前可以执行：
+4. 在仓库根目录检查生成结果：
+
    ```bash
-   bash skills/check-registry.sh
+   python -m json.tool skills-lock.json > /dev/null
+   git diff -- skills skills-lock.json
    ```
-   这会检查 `registry.tsv` 的列格式、重复名称和来源路径是否存在。GitHub Actions 也会执行同样的检查。
 
-
-
-
+GitHub Actions 会执行 registry 校验、重新生成产物并检查 drift。

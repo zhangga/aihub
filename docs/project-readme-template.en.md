@@ -35,5 +35,5 @@ irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | ie
 
 - `project` scope is the default and is recommended for project-specific workflows.
 - `global` scope is useful if you want the same skills available across multiple projects.
-- Do not commit installed skill artifacts into this repository unless you explicitly want vendored, offline-managed copies.
+- Do not commit installed skill artifacts into your project repository unless you explicitly want vendored, offline-managed copies.
 ````

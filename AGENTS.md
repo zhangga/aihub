@@ -1,74 +1,108 @@
 # Codebase Architecture Overview
 
-This document provides a high-level architecture overview of the `aihub` repository. It is designed to help AI agents, code editors, and developers quickly understand the project's purpose, structure, and synchronization mechanics.
+This document gives AI agents, code editors, and developers a concise map of the `aihub` repository: what it stores, which files are authoritative, and how generated distribution assets are refreshed.
 
 ## 1. Project Overview
 
-The `aihub` project is not a traditional software application but a centralized knowledge and asset repository. Its primary purpose is to store, manage, and facilitate the reuse of AI tools, Prompts, and Agent Skills across different LLMs and Agent workflows.
+`aihub` is a centralized knowledge and asset repository. It is not a traditional runtime application. Its purpose is to collect, manage, and redistribute AI tools, prompts, MCP installers, and agent skills for reuse across LLM and agent workflows.
 
-The architecture is organized around five asset domains:
-*   **External Submodules (`/external/`)**: Third-party Git repositories managed via `git submodule`, used for the smaller set of upstream skills that are still mirrored into this repo.
-*   **Local Skills (`/local-skills/`)**: First-party skills authored in this repository.
-*   **Skills (`/skills/`)**: The core distribution folder. It contains generated mirrored skill packages, proxy install registries, bundles, and the remote install scripts used by downstream users.
-*   **MCP (`/mcp/`)**: Cross-client MCP server distribution assets, including registries, installers, and docs for Codex, Claude Code, Claude Desktop, and VS Code.
-*   **Prompts (`/prompts/`)**: Pure Markdown-based templates, system prompts, and dialog structures meant for direct LLM ingestion.
+The repository is organized around these main domains:
 
-## 2. Dependency Management & Syncing
+* **External Submodules (`/external/`)**: Third-party Git repositories managed with `git submodule`. These are only used for the smaller set of upstream skills that still need to be mirrored into this repository.
+* **Local Skills (`/local-skills/`)**: First-party skills authored and maintained in this repository.
+* **Skills (`/skills/`)**: The generated skill distribution folder. It contains mirrored skill packages, proxy install registries, bundles, and the remote installers consumed by downstream users.
+* **MCP (`/mcp/`)**: Registry-driven MCP server installers and docs for Codex, Claude Code, Claude Desktop, and VS Code.
+* **Prompts (`/prompts/`)**: Markdown prompt templates and agent instruction templates intended for direct LLM ingestion.
+* **Docs (`/docs/`)**: Supporting design notes, reusable project templates, and drafts.
 
-Instead of manually copying code, the repository uses a manifest-driven approach that supports three skill source types:
-*   **`submodule`**: mirror a skill out of `/external/`
-*   **`local`**: mirror a skill out of `/local-skills/`
-*   **`proxy`**: keep only an install command and delegate installation directly to the upstream repo
+## 2. Skill Source Model and Syncing
 
-**Developer Workflow (Syncing)**:
-1.  **Configure Sources**: Add or update entries in `skills/registry.tsv` for mirrored skills, or in `skills/proxy_registry.tsv` for proxy-installed skills.
-2.  **Run Sync Script**: Execute `bash skills/update.sh`. This script will:
-    *   Update all `git submodules` to their latest remote commits.
-    *   Iterate through `skills/registry.tsv`.
-    *   Copy mirrored skill directories from `/external/` or `/local-skills/` into `/skills/`.
-    *   Iterate through `skills/proxy_registry.tsv` and include those skills in generated install metadata.
-    *   Automatically generate `skills/skills_list.txt` and `skills-lock.json`.
+The skill distribution flow is manifest-driven. Do not manually copy skill code into `/skills/` unless you are intentionally changing generated output.
 
-## 3. Remote Installation Mechanics
+Supported skill source types:
 
-To facilitate easy distribution to end-users, the repository provides one-click remote installation scripts for multiple platforms.
+* **`submodule`**: mirror a skill from a repository under `/external/`
+* **`local`**: mirror a skill from `/local-skills/`
+* **`proxy`**: keep only an install command and delegate installation directly to the upstream repository
 
-*   **Linux/Mac/WSL**: `skills/install.sh`
-*   **Windows**: `skills/install.ps1`
+Authoritative files:
 
-**How it works**:
-These scripts are designed to be executed via `curl` or `Invoke-RestMethod` directly from raw GitHub URLs.
-*   **Full install**: Fetches `skills/skills_list.txt` from the `main` branch and installs each skill in order.
-*   **Bundle install**: Fetches `skills/bundles.tsv`, resolves the requested bundle into a concrete skill list, and installs only that filtered set.
-*   **Install scope**: Supports both project-local installs (default) and global installs.
-*   **npm compatibility**: The install scripts sanitize user npm config at runtime to avoid `prefix` conflicts that can otherwise break `npx`.
-*   **Proxy-aware install**: If a skill appears in `skills/proxy_registry.tsv`, the installer executes the upstream proxy command instead of installing from `zhangga/aihub`.
+* `skills/registry.tsv`: mirrored `submodule` and `local` skills
+* `skills/proxy_registry.tsv`: proxy-installed skills
+* `skills/bundles.tsv`: user-facing skill bundles
+* `skills/skills_list.txt`: generated full install list
+* `skills-lock.json`: generated lock metadata for all skills
 
-## 4. Code Style & Standards
+Developer workflow:
 
-*   **Bash Scripts (`.sh`)**: 
-    *   Must include `set -e` to exit immediately on error.
-    *   Must be compatible with standard UNIX environments and Windows WSL.
-*   **PowerShell Scripts (`.ps1`)**:
-    *   Use `$ErrorActionPreference = "Stop"`.
-    *   Must be compatible with default Windows PowerShell execution policies via `iex`.
-*   **Prompts**:
-    *   Written in standard Markdown (`.md`).
-    *   Must remain modular and self-contained.
+1. Add or update mirrored skills in `skills/registry.tsv`, or proxy skills in `skills/proxy_registry.tsv`.
+2. Run `bash skills/check-registry.sh` to validate registry shape, duplicate names, source paths, and bundle references.
+3. Run `bash skills/update.sh` to update submodules, mirror skills, remove stale proxy copies, and regenerate `skills/skills_list.txt` plus `skills-lock.json`.
+4. If submodules have already been updated, or the environment should avoid network access, run `bash skills/update.sh --skip-submodule-update`.
 
-## 5. Security Considerations
+## 3. Skill Remote Installation
 
-*   **Upstream Code Execution**: Mirrored skills copy code from external submodules, and proxy skills execute upstream install commands directly. Maintainers MUST verify the trustworthiness of any third-party repositories or commands added to `.gitmodules`, `skills/registry.tsv`, or `skills/proxy_registry.tsv`.
-*   **Data Protection**: Ensure no sensitive data, API keys, or personally identifiable information (PII) are accidentally committed in any prompt templates or local skill configurations.
+The skill installers are designed for one-command use from raw GitHub URLs.
 
-## 6. Configuration & Environment
+* **Linux / macOS / WSL**: `skills/install.sh`
+* **Windows PowerShell**: `skills/install.ps1`
 
-*   **Prerequisites for Users**: Users only need `Node.js` (`npx`) to consume the agent skills.
-*   **Prerequisites for Devs**: A Unix-like shell (macOS/Linux terminal, WSL, or Git Bash) is required to execute the synchronization script `update.sh`.
-*   **Sources of Truth**:
-    *   `skills/registry.tsv`: Source of truth for mirrored `submodule` and `local` skills.
-    *   `skills/proxy_registry.tsv`: Source of truth for proxy-installed skills.
-    *   `skills/bundles.tsv`: User-facing preset bundles for simpler installation choices.
-    *   `local-skills/`: The source directory for first-party, locally-authored skills.
-    *   `skills/skills_list.txt`: Auto-generated install list for full installs consumed by remote installers.
-    *   `skills-lock.json`: Auto-generated lock metadata with source type, path, and commit information.
+Install modes:
+
+* **Full install**: fetches `skills/skills_list.txt` from `main` and installs every listed skill.
+* **Bundle install**: fetches `skills/bundles.tsv`, resolves one or more bundle names, and installs the resulting skill set.
+* **Project or global scope**: defaults to project-local installation; `--global` or `AIHUB_SCOPE=global` switches to global installation.
+* **Proxy-aware install**: if a skill exists in `skills/proxy_registry.tsv`, the installer executes the registered upstream command instead of installing from `zhangga/aihub`.
+* **npm compatibility**: installers sanitize the user npm config at runtime to avoid `prefix` conflicts that can break `npx`.
+
+Useful installer flags and environment overrides are documented in `skills/README.md`.
+
+## 4. MCP Distribution
+
+The `mcp/` directory distributes runnable MCP servers and writes client configuration.
+
+Authoritative files:
+
+* `mcp/registry.tsv`: server runtime, package source, default args/env, and supported clients
+* `mcp/bundles.tsv`: server bundle presets
+* `mcp/install.sh`: Bash installer
+* `mcp/install.ps1`: PowerShell installer
+
+Current installers support:
+
+* `--client <codex|claude-code|claude-desktop|vscode>`
+* `--server <name>` or `--bundle <name>`
+* `--arg <value>` for server arguments
+* `--env KEY=VALUE` for server environment variables
+* `--dry-run`, `--list-servers`, and `--list-bundles`
+
+MCP install scope is currently user-global configuration only. See `mcp/README.md` for examples and client-specific notes.
+
+## 5. Code Style and Standards
+
+* **Bash scripts (`.sh`)**
+  * Must include `set -e`.
+  * Must remain compatible with standard UNIX environments and Windows WSL.
+* **PowerShell scripts (`.ps1`)**
+  * Must use `$ErrorActionPreference = "Stop"`.
+  * Must support default Windows execution-policy workflows through `iex` or `pwsh -File`.
+* **Markdown prompts and docs**
+  * Must remain modular and self-contained.
+  * Avoid embedding secrets, local-only paths, or assumptions that downstream users cannot reproduce.
+
+## 6. Security Considerations
+
+* **Upstream code execution**: mirrored skills copy code from external submodules, and proxy skills execute upstream install commands directly. Maintainers must verify third-party repositories or commands before adding them to `.gitmodules`, `skills/registry.tsv`, or `skills/proxy_registry.tsv`.
+* **MCP server execution**: MCP installers configure local clients to run server commands. Treat every MCP server entry as executable code and review `mcp/registry.tsv` before broad rollout.
+* **Data protection**: do not commit API keys, tokens, personal data, or private project context in prompts, skills, docs, registries, or generated lock files.
+
+## 7. Validation
+
+Before submitting changes that touch skills, registries, installers, or generated artifacts:
+
+1. Run `bash skills/check-registry.sh`.
+2. Run `bash skills/update.sh --skip-submodule-update` unless you intentionally need to refresh submodules.
+3. Run `python -m json.tool skills-lock.json` if Python is available.
+4. Confirm `git diff -- skills skills-lock.json` only contains intentional generated changes.
+
+GitHub Actions runs the same registry validation and generated-file drift checks for skill distribution changes.

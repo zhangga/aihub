@@ -2,7 +2,7 @@
 
 This directory distributes MCP servers with one-command installers, similar to the repository's `skills/` flow.
 
-The first release ships `chrome-devtools` and `filesystem` and targets these clients:
+The current registry ships `chrome-devtools` and `filesystem` and targets these clients:
 
 - Codex
 - Claude Code
@@ -51,6 +51,13 @@ Install-AihubMcp -Client vscode -Server chrome-devtools -DryRun
 |------|---------|--------|---------|
 | `chrome-devtools` | `npx` | `chrome-devtools-mcp@latest` | `codex`, `claude-code`, `claude-desktop`, `vscode` |
 | `filesystem` | `npx` | `@modelcontextprotocol/server-filesystem` | `codex`, `claude-code`, `claude-desktop`, `vscode` |
+
+## Bundles
+
+| Name | Servers | Description |
+|------|---------|-------------|
+| `browser-dev` | `chrome-devtools` | Browser debugging with Chrome DevTools MCP |
+| `local-dev` | `chrome-devtools`, `filesystem` | Local browser and filesystem MCP tools |
 
 ## Flags
 

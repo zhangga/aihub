@@ -12,6 +12,7 @@ AI Hub 是一个用于沉淀、管理和复用各种 AI 工具、提示词（Pro
 - **[`/local-skills`](./local-skills/)**: 自研技能源码目录。用于存放你自己编写并希望纳入统一分发流程的本地 skills。
 - **[`/prompts`](./prompts/)**: 高质量提示词模板库。沉淀了经过实际验证的、适用于不同场景的系统提示词，可直接应用于大模型的上下文。
 - **[`/external`](./external/)**: 存放通过 Git Submodule 引入、仍需镜像分发的第三方技能仓库源。
+- **[`/docs`](./docs/)**: 项目模板、设计说明和维护草稿。
 
 当前 skills 分发同时支持三种来源：
 - `submodule`：从 `/external` 镜像
@@ -71,6 +72,12 @@ PowerShell 也支持零参数直接安装：
 irm https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.ps1 | iex
 ```
 
+查看当前可用预设包：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.sh | bash -s -- --list-bundles
+```
+
 ### 2. 使用 Prompts
 直接浏览 `prompts` 目录，寻找符合你需求的 Markdown 文件，复制其中的内容作为大模型的 System Prompt 或直接输入。
 
@@ -117,11 +124,19 @@ Install-AihubMcp -Client claude-code -Server filesystem -Arg "C:\work\github"
    - 代理 skill 写入 `skills/proxy_registry.tsv`
    - 外部镜像 skill 指向 `external/`
    - 自研镜像 skill 指向 `local-skills/`
-2. 在根目录执行脚本：
+2. 先运行 registry 校验：
+   ```bash
+   bash skills/check-registry.sh
+   ```
+3. 在根目录执行同步脚本：
    ```bash
    bash skills/update.sh
    ```
    这会自动更新仍在使用的 submodule、同步镜像 skill，并重新生成 `skills/skills_list.txt` 和 `skills-lock.json`。
+4. 如果当前环境不方便联网，或你已经手动更新过 submodule，可跳过 submodule 更新：
+   ```bash
+   bash skills/update.sh --skip-submodule-update
+   ```
 
 ## 📄 许可证
 

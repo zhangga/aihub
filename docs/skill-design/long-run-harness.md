@@ -1,43 +1,62 @@
-目标：设计一个Skill，让Agent可以在无人值守的情况下自主达成最终目标。
-主要功能：
-- 分析需求，验证可行性，并生成报告
-- 充分理解需求，拆解成可独立实现的任务，定义任务边界条件、规划任务执行过程、约束产出格式
-- 每个任务完成后，更新进度，commit到git仓库，通过commit hook触发，任务的review工作，确保代码质量和功能实现
-- 一个任务通过review后，再开始下一个任务，任务间可通过git log或任务进度文件进行协调
-- 自动处理错误和异常情况
+# Long Run Harness 设计说明
 
+`long-run-harness` 是一个用于长周期任务的半自动执行协议。它的目标不是替代 coding agent，也不是把任务完全交给 shell runner，而是让 Agent 在多轮会话、上下文压缩或中断后，仍能通过持久化状态继续朝最终目标推进。
 
-参考文章：https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents
-参考skill1：https://github.com/affaan-m/everything-claude-code/blob/main/skills/autonomous-loops/SKILL.md
-参考skill2：
-```
-#AutonomousExecutor(自主执行器)
-让Claude Code在无人值守的情况下自主实现整个项目。你睡觉,它干活。
-##设计理念
-基于 Anthropic工程博客【Effective Harnesses for Long-Running Agentsឬ (https://www.anthropic.com/engineering/effective-harnesses-for-loong-running-agents)的核心思路
-**状态外化**-所有进度写入文件(task_list.json'+ 'progress.md`+gi),不依赖Agent记忆
-**单任务聚焦**-Worker-次只做一个任务,做完 commit,再做下一个
-**Git作为记忆层**-每个任务一个commit,新session通过 'git log'恢复上下文
-**结构化启动协议**-每次session开始执行固定4步,快速恢复工作状态
-##架构
-run.sh(外层安全网,bash循环)
--claude-p
---settingshooks.json(Worker Agent,直接写代码)
-一Stop Hook → 还有 pending任务? block,继续干
-CompactHook→上下文压缩了?注入状态,恢复记忆
-只有两层。没有Subagent嵌套,Worker自己动手实现代码、运行验证E、git commit
-###为什么是两层?
-Anthropic博客验证了bashharness+coding agent的两层架林为足够且最高效
-Worker直接干活,上下文利用率最高,不浪费 token在调度层
-没有Subagent嵌套,Worker能完整感知代码实现细节
-bash只做安全网(循环+错误处理),不参与业务逻辑)
-##前置条件
-[Claude Code CLI] (https://docs.anthropic.com/en/docs/claude-code/overviewclaude'命令可用
-[jq](https://jqlang.github.io/jq/) (`brew install jq` / `apt iinstall jq`)
-- Git(项目必须是git仓库)
-##使用教程
-## 方式一:通过技能触发(推荐)
-在项目目录中对Claude Code说:
-帮我自动实现这个项目
-或者直接用斜杠命令:
-```
+更完整的英文设计文档见：
+
+- `docs/superpowers/specs/2026-04-01-long-run-harness-design.md`
+
+当前实现位置：
+
+- 源码：`local-skills/long-run-harness/`
+- 分发产物：`skills/long-run-harness/`
+- bundle：`skills/bundles.tsv` 中的 `core` 和 `productivity`
+
+## 目标
+
+- 支持 Codex 或类似 Agent 在长任务中持续推进，而不是完成一个局部步骤后停止。
+- 将进度、任务状态和恢复信息写入持久文件，减少对对话上下文的依赖。
+- 一次只推进一个明确任务，避免并发修改导致状态混乱。
+- 在任务完成前要求验证和复盘，降低误判完成的风险。
+- 支持代码、文档、研究等需要多轮推进的任务。
+
+## 非目标
+
+- 不实现完整的无人值守 shell runner。
+- 不绑定某一家模型、CLI 或 hook 系统。
+- 不在 skill 内编码业务领域逻辑。
+- 不默认使用多 subagent 并发实现同一个任务。
+
+## 推荐工作方式
+
+`long-run-harness` 采用两层模型：
+
+1. **Harness 协议层**：由 `SKILL.md` 和 `references/` 定义触发条件、初始化、恢复、任务选择、验证和停止规则。
+2. **任务执行层**：由 Agent 在目标仓库中完成实际分析、修改、验证和状态更新。
+
+协议层负责“怎么持续工作”，执行层负责“当前任务具体怎么做”。
+
+## 状态文件
+
+默认使用两个持久化文件：
+
+- `task_list.json`：机器可读的任务列表、当前任务、状态、验收标准、验证结果和阻塞信息。
+- `progress.md`：面向人和新会话的简明叙述，记录当前目标、已完成工作、阻塞、风险和下一步。
+
+状态文件应保持简洁。`task_list.json` 提供结构化事实，`progress.md` 提供恢复上下文，两者不要重复堆砌。
+
+## 生命周期
+
+1. **初始化**：明确最终目标和验收标准，拆解任务，创建状态文件，选择第一个任务。
+2. **恢复**：新会话开始时先读状态文件和近期 git 历史，再判断当前任务。
+3. **执行**：只处理当前任务，完成必要的代码或文档变更。
+4. **验证**：运行与风险匹配的测试、构建、脚本校验或人工检查。
+5. **复盘**：确认结果是否满足验收标准；高风险任务需要更严格的 review。
+6. **更新状态**：记录结果、证据、下一步和阻塞。
+7. **继续或停止**：所有验收标准完成则停止；存在硬阻塞则说明原因；否则继续下一个任务。
+
+## 维护约定
+
+- 修改 skill 源码时，应先改 `local-skills/long-run-harness/`，再运行 `bash skills/update.sh --skip-submodule-update` 同步到 `skills/`。
+- 如果调整触发条件、状态字段或恢复流程，应同步更新 `references/` 中的说明。
+- 如果 bundle 中移除或新增该 skill，应同时更新 `skills/README.md` 和相关项目模板。

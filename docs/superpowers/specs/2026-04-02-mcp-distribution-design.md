@@ -1,14 +1,14 @@
 # MCP Distribution Design
 
 Date: 2026-04-02
-Status: Proposed
+Status: Implemented
 Owner: Codex
 
 ## Summary
 
-This document proposes a new `mcp/` distribution system for the `aihub` repository. The goal is to make MCP servers installable across machines with a one-command experience similar to the current `skills/` distribution flow, while preserving the important difference that MCP distribution must also configure client applications.
+This document records the `mcp/` distribution system for the `aihub` repository. The goal is to make MCP servers installable across machines with a one-command experience similar to the current `skills/` distribution flow, while preserving the important difference that MCP distribution must also configure client applications.
 
-The first release targets four clients:
+The current implementation targets four clients:
 
 - Codex
 - Claude Code
@@ -17,7 +17,7 @@ The first release targets four clients:
 
 The default install scope is user-global configuration.
 
-The first MCP server shipped through this system will be `chrome-devtools`, backed by `chrome-devtools-mcp@latest`.
+The current registry ships `chrome-devtools`, backed by `chrome-devtools-mcp@latest`, and `filesystem`, backed by `@modelcontextprotocol/server-filesystem`.
 
 ## Goals
 
@@ -31,7 +31,7 @@ The first MCP server shipped through this system will be `chrome-devtools`, back
 ## Non-Goals
 
 - Building a generic hosted remote MCP platform
-- Supporting every MCP client in the first release
+- Supporting every MCP client in the initial implementation
 - Solving credential lifecycle management for third-party remote MCP servers
 - Auto-enabling Chrome remote debugging or bypassing Chrome permission prompts
 - Replacing the existing `skills/` system
@@ -47,7 +47,7 @@ A dedicated `mcp/` directory keeps the model clean:
 
 This mirrors the existing repository pattern of keeping different deliverables in separate top-level domains.
 
-## Proposed Directory Structure
+## Implemented Directory Structure
 
 ```text
 mcp/
@@ -56,31 +56,23 @@ mcp/
   bundles.tsv
   install.sh
   install.ps1
-  lib/
-    common.sh
-    common.ps1
-  templates/
-    claude-desktop.json
-    claude-code.json
-    codex.json
-    vscode.json
 ```
 
 Notes:
 
-- `lib/` contains shared install logic so the top-level scripts stay readable
-- `templates/` contains minimal configuration fragments or examples for each client
-- Unlike `skills/`, the first release does not need an `update.sh` flow because MCP entries are metadata-driven rather than synced from source folders
+- The first implemented version keeps the shared install logic inside the top-level scripts because the current registry is small.
+- Unlike `skills/`, the current MCP flow does not need an `update.sh` script because MCP entries are metadata-driven rather than synced from source folders.
 
 ## Registry Format
 
 `mcp/registry.tsv` is the source of truth for distributable MCP servers.
 
-Initial schema:
+Current schema:
 
 ```tsv
 # name	runtime	source	args	env	supports
 chrome-devtools	npx	chrome-devtools-mcp@latest	[]	{}	codex,claude-code,claude-desktop,vscode
+filesystem	npx	@modelcontextprotocol/server-filesystem	[]	{}	codex,claude-code,claude-desktop,vscode
 ```
 
 Field definitions:
@@ -94,7 +86,7 @@ Field definitions:
 
 Design constraints:
 
-- Registry values must be installable without custom code per server in the first release
+- Registry values must be installable without custom code per server in the current implementation.
 - `args` and `env` are stored as JSON to avoid inventing a new escaping format
 - Unsupported clients must fail early with a clear message
 
@@ -102,14 +94,15 @@ Design constraints:
 
 `mcp/bundles.tsv` groups MCP servers into user-facing install presets.
 
-Example future schema:
+Current schema:
 
 ```tsv
-# bundle	servers	description
-browser-dev	chrome-devtools	Browser debugging with Chrome DevTools MCP
+# bundle	description	servers
+browser-dev	Browser debugging with Chrome DevTools MCP	chrome-devtools
+local-dev	Local browser and filesystem MCP tools	chrome-devtools,filesystem
 ```
 
-The first release can ship with either one bundle or none. The installer should support the bundle mechanism from day one so the repository can expand without redesigning CLI flags.
+The installer supports bundles so the repository can expand server presets without redesigning CLI flags.
 
 ## Installer Interface
 
@@ -119,7 +112,11 @@ Both `install.sh` and `install.ps1` expose a similar surface:
 - `--server <name>`
 - `--bundle <name>`
 - `--scope user`
+- `--arg <value>`
+- `--env KEY=VALUE`
 - `--dry-run`
+- `--list-servers`
+- `--list-bundles`
 
 Behavior:
 
@@ -239,7 +236,7 @@ Default behavior:
 Rationale:
 
 - `--autoConnect` depends on browser-side remote debugging setup and user permission prompts
-- Safe defaults are more important than aggressive convenience for the first release
+- Safe defaults are more important than aggressive convenience for MCP installers
 
 Documentation for this server should explain:
 
@@ -293,7 +290,7 @@ Error messages should state:
 
 Testing is mostly script-level validation plus config rendering checks.
 
-Minimum coverage for the first release:
+Minimum coverage:
 
 - Registry parser accepts valid rows
 - Registry parser rejects malformed JSON in `args` and `env`
@@ -318,29 +315,27 @@ Security requirements:
 - Print exactly what command definition is being installed
 - Avoid enabling privileged or invasive defaults such as `--autoConnect` without opt-in
 
-## Migration and Rollout
+## Implementation Status
 
-Phase 1:
+Implemented:
 
-- Add `mcp/` skeleton
-- Implement `chrome-devtools`
-- Support `Claude Code` and `Claude Desktop`
+- `mcp/` skeleton with README, registry, bundles, Bash installer, and PowerShell installer
+- `chrome-devtools` and `filesystem` server entries
+- `browser-dev` and `local-dev` bundles
+- Codex, Claude Code, Claude Desktop, and VS Code client support
+- `--arg`, `--env`, `--dry-run`, `--list-servers`, and `--list-bundles`
 
-Phase 2:
-
-- Add verified support for `Codex` and `VS Code`
-- Add first bundle entry
-
-Phase 3:
+Future expansion:
 
 - Add more MCP servers using the same registry format
+- Add installer smoke tests for additional client-specific edge cases as those clients evolve
 
 ## Open Decisions Already Resolved
 
 - Use a separate `mcp/` domain instead of overloading `skills/`
 - Default install scope is global user config
-- First supported clients are Codex, Claude Code, Claude Desktop, and VS Code
-- First server is `chrome-devtools`
+- Supported clients are Codex, Claude Code, Claude Desktop, and VS Code
+- Current servers are `chrome-devtools` and `filesystem`
 - Preferred architecture is registry-driven installers with client-specific adapters
 
 ## Residual Risks
@@ -349,6 +344,6 @@ Phase 3:
 - Codex and VS Code CLI support must be verified before claiming first-class automation
 - Cross-platform config file discovery can be fragile if upstream clients change paths
 
-These are acceptable for the first release if the implementation prefers verified CLI paths and uses conservative fallbacks.
+These are acceptable while the implementation prefers verified CLI paths and conservative fallbacks.
 
 
