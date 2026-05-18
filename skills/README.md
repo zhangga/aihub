@@ -66,6 +66,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 - `finance`：市场研究与投资分析包
 - `creative`：创意、视觉和演示工作流包
 - `productivity`：研究、写作和交付工作流包
+- `engineering`：软件工程规划、诊断、测试、架构和交付工作流包
 
 ## 当前技能列表
 
@@ -85,6 +86,24 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 - **`remotion-best-practices`**：Remotion 视频项目的最佳实践规则集。
 - **`skill-hub-builder`**：个人 skill hub 搭建、同步和分发维护技能。
 - **`ui-ux-pro-max`**：Web 与移动端 UI/UX 设计建议技能。
+- **`writing-plans`**：面向多步骤实现任务的计划写作和执行拆解技能。
+
+### 软件工程规划、诊断与交付
+
+- **`setup-matt-pocock-skills`**：为 Matt Pocock 工程类技能写入项目级 agent 配置和上下文约定。
+- **`grill-me`**：通过连续追问压力测试计划、设计或需求理解。
+- **`grill-with-docs`**：结合项目领域语言和文档决策来压力测试方案。
+- **`zoom-out`**：在不熟悉代码区域时拉高视角，理解上下文和系统位置。
+- **`to-prd`**：把当前需求上下文整理成 PRD 并发布到项目议题系统。
+- **`to-issues`**：把计划、规格或 PRD 拆成可独立领取的实现议题。
+- **`triage`**：按状态机和标签规则梳理 bug、需求和待处理议题。
+- **`diagnose`**：用复现、最小化、假设、观测、修复和回归测试流程诊断问题。
+- **`tdd`**：按 red-green-refactor 循环做测试先行开发。
+- **`improve-codebase-architecture`**：发现架构摩擦和模块加深机会，提出可测试性重构方向。
+- **`prototype`**：构建一次性原型来验证状态模型、交互或 UI 方向。
+- **`handoff`**：把当前上下文压缩成交接文档，方便另一个 agent 接手。
+- **`write-a-skill`**：创建结构化、可复用的 agent skill。
+- **`caveman`**：启用极简表达模式，减少 token 消耗。
 
 ### 投资与金融分析
 

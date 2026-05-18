@@ -103,6 +103,90 @@
       "sourceRepo": "proxy-registry",
       "sourceCommit": "proxy"
     },
+    "setup-matt-pocock-skills": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill setup-matt-pocock-skills",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "grill-me": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill grill-me",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "grill-with-docs": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill grill-with-docs",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "zoom-out": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill zoom-out",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "to-prd": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill to-prd",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "to-issues": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill to-issues",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "triage": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill triage",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "diagnose": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill diagnose",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "tdd": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill tdd",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "improve-codebase-architecture": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill improve-codebase-architecture",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "prototype": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill prototype",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "handoff": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill handoff",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "write-a-skill": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill write-a-skill",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
+    "caveman": {
+      "sourceType": "proxy",
+      "sourcePath": "npx skills add https://github.com/mattpocock/skills --skill caveman",
+      "sourceRepo": "proxy-registry",
+      "sourceCommit": "proxy"
+    },
     "china-stock-analysis": {
       "sourceType": "proxy",
       "sourcePath": "npx skills add https://github.com/sugarforever/01coder-agent-skills --skill china-stock-analysis",
