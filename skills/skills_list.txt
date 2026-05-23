@@ -7,6 +7,7 @@ skill-hub-builder
 xai-stock-sentiment
 yahoo-data-fetcher
 baoyu-post-to-wechat
+baoyu-post-to-x
 baoyu-article-illustrator
 baoyu-cover-image
 baoyu-infographic

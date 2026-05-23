@@ -129,6 +129,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 - **`baoyu-imagine`**：多模型图片生成工作流技能。
 - **`baoyu-infographic`**：信息图生成技能。
 - **`baoyu-post-to-wechat`**：微信公众号文章或图文发布技能。
+- **`baoyu-post-to-x`**：X/Twitter 内容发布技能。
 - **`baoyu-xhs-images`**：小红书图文卡片生成技能。
 - **`chatgpt-images-fallback`**：主图像 API 失败时回退到 ChatGPT Images 的图片生成技能。
 - **`nano-banana-2`**：基于 Gemini 3.1 Flash Image Preview 的图片生成和编辑技能。
