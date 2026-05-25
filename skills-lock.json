@@ -17,7 +17,7 @@
       "sourceType": "local",
       "sourcePath": "local-skills/long-run-harness",
       "sourceRepo": "local",
-      "sourceCommit": "51043641c3e74b40c24c97feac271b445f00e20796e61aa62a6d94acd41c0815"
+      "sourceCommit": "d9977e5f69eb14e3085e516a692fc8e4601ce2235f4190a71c43c84b603789c4"
     },
     "remotion": {
       "sourceType": "submodule",

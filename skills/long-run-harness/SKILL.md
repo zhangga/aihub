@@ -1,15 +1,17 @@
 ---
 name: long-run-harness
-description: Use for long-running, multi-step work where the agent should keep driving toward the true final outcome across many cycles instead of stopping after one pass. Trigger when the user wants autonomous progress, durable state, session recovery, single-task execution, validation, and review gates in an existing git repository or a similarly structured workspace.
+description: Use when a long-running project needs repo-local durable task state, auditable progress, or recovery across Codex goals, sessions, context compaction, or agent handoffs.
 ---
 
 # Long Run Harness
 
-Use this skill when the user wants the agent to keep advancing a complex task until it is actually done, not merely improved.
+Use this skill when Codex goal mode or ordinary conversation memory is not enough because the project itself needs durable task state, auditable progress, and recovery across sessions or agent handoffs.
+
+Treat this as a repository-local execution harness that complements goal mode. Goal mode tracks the active objective; this harness records the task plan, validation evidence, blockers, and review gates in files that survive context loss.
 
 Default to git-repository work. You may also apply the same operating model to documentation, research, or mixed projects when durable state and autonomous continuation matter.
 
-Do not use this skill for one-shot edits, lightweight planning, or requests where the user wants synchronous oversight at each milestone.
+Do not use this skill for one-shot edits, lightweight planning, requests where Codex goal mode plus normal updates are enough, or requests where the user wants synchronous oversight at each milestone.
 
 ## Core Operating Rules
 

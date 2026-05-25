@@ -80,7 +80,7 @@ curl -fsSL https://raw.githubusercontent.com/zhangga/aihub/main/skills/install.s
 - **`doc-coauthoring`**：文档共创与协作写作技能，适合需求文档、提案、技术规格和决策文档。
 - **`excalidraw-diagram-generator`**：根据自然语言生成 Excalidraw 图表。
 - **`frontend-design`**：前端设计和 UI 组件生成辅助技能。
-- **`long-run-harness`**：长周期任务执行 harness，使用持久化状态、验证和恢复流程持续推进任务。
+- **`long-run-harness`**：仓库级长周期任务执行 harness，用持久化状态、验证和恢复流程补充 Codex goal 模式。
 - **`playwright-cli`**：基于 Playwright 的浏览器测试和自动化技能。
 - **`remotion`**：基于 JSON 渲染的视频和动画生成技能。
 - **`remotion-best-practices`**：Remotion 视频项目的最佳实践规则集。
