@@ -1,6 +1,7 @@
 ai-wechat-hotspot-writer
 chatgpt-images-fallback
 long-run-harness
+pathetic-ms-paint
 remotion
 sensight
 skill-hub-builder

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pathetic MS Paint"
+  short_description: "将主题或附件重绘成故意笨拙、比例失调的白底 MS Paint 鼠标涂鸦"
+  default_prompt: "Use $pathetic-ms-paint to turn my subject or attached image into a charmingly terrible MS Paint mouse doodle."

@@ -19,6 +19,12 @@
       "sourceRepo": "local",
       "sourceCommit": "d9977e5f69eb14e3085e516a692fc8e4601ce2235f4190a71c43c84b603789c4"
     },
+    "pathetic-ms-paint": {
+      "sourceType": "local",
+      "sourcePath": "local-skills/pathetic-ms-paint",
+      "sourceRepo": "local",
+      "sourceCommit": "6ceb7e8b24f911ab765503ba2df0451c09fd477efd9650fc41cd81fed4750b2d"
+    },
     "remotion": {
       "sourceType": "submodule",
       "sourcePath": "json-render/skills/remotion",
